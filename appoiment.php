@@ -570,7 +570,7 @@
             </div>
             <div class="brand_cetegory">
                 <div class="gift">
-                    <p class="card_text"> WEDING GIFT</p>
+                    <p class="card_text"> WEDING GIF</p>
                 </div>
                 <div class="wedding_cloth">
                     <p class="card_text wed"> WEDING CLOTHS</p>
