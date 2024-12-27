@@ -1,0 +1,101 @@
+body{
+
+                margin:0px;
+                padding:0px;
+
+
+        }
+        .main_img{
+
+        background-image:url("p4.jpg");
+        height:95vh;
+        width:100%;
+        background-repeat:no-repeat;
+        background-size:cover;
+        display:flex;
+        
+    
+        }
+    .main_sub{
+
+        height:95vh;
+        width:100%;
+        z-index:0px;
+        background-color:black;
+        opacity:0.2;
+        position:absolute;
+    }
+
+        
+        .main_sub_h3{
+
+            font-size:60px;
+            color:white;
+            position:absolute;
+            top:30%;
+            left:5%;
+        }
+        .main_sub_h1{
+
+            position: absolute;
+             color:white;
+             z-index:20;
+             font-size:40px;
+             top:45%;
+             left:7%;
+             
+        }   
+        .pre_wed{
+
+            background-color:#f0f0f0;
+            align-items:center;
+            justify-content:center;
+            display:flex;   
+            margin-top:5px;
+        }
+     .photography_studeo_container{
+
+        height:250vh;
+        width:100%;
+        background-color:#f0f0f0;
+        display: flex;
+        justify-content:left;
+        flex-wrap: wrap;
+     }   
+     .photography_studio_card{
+
+        height:77vh;
+        width:30%;
+        background-color:#f0f0f0;
+        margin:25px; 
+               
+     }
+     .img{
+
+        width:100%;
+        height:60vh;
+        border-radius:15px;
+     }
+     .photography_studio_card_h1{
+
+        position: relative;
+        top:-20px;
+     }
+     .photography_studio_card_p{
+
+        position: relative;
+        top:-30px;
+        font-size:17px;
+     }
+     .photography_studio_card_p1{
+
+        position: relative;
+        top:-45px;
+        font-size:17px;
+     }
+     .photography_studio_card_p2{
+
+        position: relative;
+        top:-57px;
+        font-size:17px;
+     }
