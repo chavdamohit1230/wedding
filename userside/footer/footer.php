@@ -183,7 +183,7 @@
             <img src="logo.png" alt="">
             <p>Terms & Conditions.</p>
             <p>Privacy & Policy</p>
-            <p class="copyright">copyright 2025 saptapadi services pvt ltd. All rights reserved.</p>
+            <p class="copyright">copyright 2025 saptapadi services pvt ltd. All rights .</p>
         </div>
     </footer>
 </body>
