@@ -68,6 +68,13 @@
             font-size: 19px;
             color: white;
         }
+
+        .navbar {
+
+            height: 6vh;
+            width: 100%;
+            background-color: pink;
+        }
     </style>
 </head>
 
@@ -92,6 +99,11 @@
                 </div>
             </div>
         </div>
+    </section>
+    <section>
+        <nav>
+            <div class="navbar"></div>
+        </nav>
     </section>
 </body>
 
