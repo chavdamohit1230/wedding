@@ -12,7 +12,7 @@
             padding: 0px;
         }
 
-        .container {
+        .booking_container {
 
             height: 550px;
             width: 100%;
@@ -406,14 +406,14 @@
             height: 40vh;
             width: 100%;
             position: relative;
-            top: -30px;
+
         }
 
         .store_container_h1 {
 
             color: #9B2172;
             font-size: 2.5rem;
-            margin-top: 25px;
+            margin-top: 30px;
             text-align: center;
             font-family: 'Montserrat', sans-serif;
             font-weight: 600;
@@ -438,7 +438,7 @@
 <body>
 
     <section>
-        <div class="container">
+        <div class="booking_container">
 
             <div class="booking_Deatail">
                 <p class="booking_p1">BOOK YOUR APPOINTMENT AND</p>
@@ -592,12 +592,13 @@
                     <img src="kolkata.svg" alt="">
                     <img src="hyderabad.svg" alt="">
 
-
-
                 </div>
             </div>
         </div>
     </section>
+    <?php
+    include '../footer/footer.php';
+    ?>
 </body>
 
 </html>
