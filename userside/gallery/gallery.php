@@ -3,6 +3,8 @@
 include("connection.php");
 
 
+
+
 ?>
 
 
@@ -36,8 +38,6 @@ include("connection.php");
             width: 100%;
             background-repeat: no-repeat;
             background-size: cover;
-            display: flex;
-
 
         }
 
@@ -47,7 +47,7 @@ include("connection.php");
             width: 100%;
             z-index: 0px;
             background-color: black;
-            opacity: 0.2;
+            opacity: 0.4;
             position: absolute;
         }
 
@@ -55,8 +55,13 @@ include("connection.php");
             font-size: 60px;
             color: white;
             position: absolute;
-            top: 30%;
-            left: 5%;
+            top: 35%;
+            left: 8%;
+        }
+
+        .main_sub_h3_sp {
+            color: rgb(281, 17, 119);
+            ;
         }
 
         .main_sub_h1 {
@@ -66,134 +71,198 @@ include("connection.php");
             z-index: 20;
             font-size: 40px;
             top: 45%;
-            left: 7%;
+            left: 10%;
+
 
         }
 
-        .pre_wed {
+        .photography_card_container {
+            width: 100%;
+            max-height: 2250px;
+            min-height: 120px;
 
-            background-color: #f9f8f8;
+            display: flex;
             align-items: center;
-            justify-content: center;
-            display: flex;
-            margin-top: 5px;
-        }
-
-        .photography_studeo_container {
-
-            height: 250vh;
-            width: 100%;
-            background-color: ;
-            display: flex;
-            justify-content: left;
             flex-wrap: wrap;
+            justify-content: center;
         }
 
-        .photography_studio_card {
-
-            height: 77vh;
-            width: 30%;
-            background-color: #;
-            margin: 25px;
+        .photography_card {
+            margin: 20px;
+            height: 70vh;
+            width: 27%;
 
         }
 
-        .img {
-
+        .photography_img {
             width: 100%;
-            height: 60vh;
-            border-radius: 15px;
+            height: 75%;
+            border-radius: 5%;
+            background-size: cover;
+            background-repeat: no-repeat;
+            object-fit: cover;
         }
 
-        .photography_studio_card_h1 {
-
+        .studio_name {
+            font-size: 20px;
             position: relative;
-            top: -20px;
+            margin-left: 2px;
+            top: 12px;
+
         }
 
-        .photography_studio_card_p {
+        .card_travel {
 
+            font-size: 18px;
+            color: #6a6a6a;
             position: relative;
-            top: -30px;
-            font-size: 17px;
+            top: 12px;
         }
 
-        .photography_studio_card_p1 {
+        .card_team {
 
+            font-size: 18px;
+            color: #6a6a6a;
             position: relative;
-            top: -45px;
-            font-size: 17px;
+            top: 12px;
         }
 
-        .photography_studio_card_p2 {
-
+        .card_price {
+            font-size: 18px;
+            color: #6a6a6a;
             position: relative;
-            top: -57px;
-            font-size: 17px;
+            top: 12px;
         }
     </style>
-
+    <link rel="stylesheet" href="aos.css">
 
 
 </head>
 
-<body>
+
+<div class="main_sub"></div>
+
+<div class="main_img">
+
+    <h3 class="main_sub_h3"> <span class="main_sub_h3_sp">Our</span> Exclusive</h3>
+    <h1 class="main_sub_h1">Photography</h1>
+
+</div>
 
 
-    <div class="main_sub"></div>
+<div class="photography_card_container">
+    <div class="photography_card">
+        <img src="p2.jpg" alt="" class="photography_img">
 
-    <div class="main_img">
-
-        <h3 class="main_sub_h3"> Our Exclusive Wedding</h3>
-        <h1 class="main_sub_h1">Photography</h1>
-
+        <div>
+            <p class="studio_name">PR SHOOT</p>
+            <p class="card_travel">can travel outside </p>
+            <p class="card_team">team size</p>
+            <p class="card_price">Rs 1700 lakhs domestic wedding price</p>
+        </div>
+    </div>
+    <div class="photography_card">
+        <img src="wed3.png" alt="" class="photography_img">
+        <div>
+            <p class="studio_name">PR SHOOT</p>
+            <p class="card_travel">can travel outside </p>
+            <p class="card_team">team size</p>
+            <p class="card_price">Rs 1700 lakhs domestic wedding price</p>
+        </div>
     </div>
 
-    <div class="pre_wed">
+    <div class="photography_card">
+        <img src="p15.webp" alt="" class="photography_img">
 
-        <h1>Pre-Wedding Gallery </h1>
-
+        <div>
+            <p class="studio_name">PR SHOOT</p>
+            <p class="card_travel">can travel outside </p>
+            <p class="card_team">team size</p>
+            <p class="card_price">Rs 1700 lakhs domestic wedding price</p>
+        </div>
     </div>
 
+    <div class="photography_card">
+        <img src="p12.jpg" alt="" class="photography_img">
 
-    <div class="photography_studeo_container">
-
-        <?php
-
-        $rr = "select * from gallarytable ";
-
-        $res1 = mysqli_query($con, $rr);
-
-
-        while ($row = mysqli_fetch_assoc($res1)) {
-
-
-
-            ?>
-
-
-
-            <div class="photography_studio_card">
-                <img src="../../../project/admine side/images/<?php echo $row['image']; ?>" alt="" class="img">
-                <h2 class="photography_studio_card_h1">wedgrapher studio</h2>
-                <p class="photography_studio_card_p">can not travel outside</p>
-                <p class="photography_studio_card_p1">team size</p>
-                <p class="photography_studio_card_p2">RS 1300lakhs for domestic weedding</p>
-
-            </div>
-
-        <?php } ?>
-
+        <div>
+            <p class="studio_name">PR SHOOT</p>
+            <p class="card_travel">can travel outside </p>
+            <p class="card_team">team size</p>
+            <p class="card_price">Rs 1700 lakhs domestic wedding price</p>
+        </div>
     </div>
 
-    <!-- -->
+    <div class="photography_card">
+        <img src="wed1.png" alt="" class="photography_img">
 
+        <div>
+            <p class="studio_name">PR SHOOT</p>
+            <p class="card_travel">can travel outside </p>
+            <p class="card_team">team size</p>
+            <p class="card_price">Rs 1700 lakhs domestic wedding price</p>
+        </div>
+    </div>
 
+    <div class="photography_card">
+        <img src="p22.webp" alt="" class="photography_img">
 
+        <div>
+            <p class="studio_name">PR SHOOT</p>
+            <p class="card_travel">can travel outside </p>
+            <p class="card_team">team size</p>
+            <p class="card_price">Rs 1700 lakhs domestic wedding price</p>
+        </div>
+    </div>
 
+    <div class="photography_card">
+        <img src="wed5.png" alt="" class="photography_img">
 
+        <div>
+            <p class="studio_name">PR SHOOT</p>
+            <p class="card_travel">can travel outside </p>
+            <p class="card_team">team size</p>
+            <p class="card_price">Rs 1700 lakhs domestic wedding price</p>
+        </div>
+    </div>
+
+    <div class="photography_card">
+        <img src="wed6.png" alt="" class="photography_img">
+
+        <div>
+            <p class="studio_name">PR SHOOT</p>
+            <p class="card_travel">can travel outside </p>
+            <p class="card_team">team size</p>
+            <p class="card_price">Rs 1700 lakhs domestic wedding price</p>
+        </div>
+    </div>
+
+    <div class="photography_card">
+        <img src="wed9.jpg" alt="" class="photography_img">
+
+        <div>
+            <p class="studio_name">PR SHOOT</p>
+            <p class="card_travel">can travel outside </p>
+            <p class="card_team">team size</p>
+            <p class="card_price">Rs 1700 lakhs domestic wedding price</p>
+        </div>
+    </div>
+
+</div>
+
+</section>
+<script src="aos.js">
+</script>
+<script>
+
+    AOS.init();
+
+</script>
+<?php
+include '../footer/footer.php';
+?>
 
 </body>
-</body>
+
 
 </html>
