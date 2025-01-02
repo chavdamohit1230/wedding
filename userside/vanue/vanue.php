@@ -36,15 +36,16 @@ if (!$db) {
  */
     }
 
+    /* 
     img {
       width: 100%;
-    }
+    } */
 
     .main-container {
       background-color: black;
       height: 650px;
       position: absolute;
-      opacity: 0.3;
+      opacity: 0.6;
       width: 100%;
       z-index: ;
     }
@@ -53,40 +54,119 @@ if (!$db) {
 
       height: 650px;
       align-items: center;
-      background-image: url(main2.jpeg);
+      background-image: url("bg.webp");
       display: flex;
       justify-content: center;
       background-repeat: no-repeat;
       background-size: cover;
+      object-fit: cover;
 
     }
 
     .main_p {
 
-      font-size: 45px;
+      font-size: 65px;
       color: white;
       position: absolute;
       /* <!-- margin-bottom:190px;-> */
     }
 
-    .main_p {
-      background: linear-gradient(pink, white);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+    .main_p_sp {
+
+      color: rgb(281, 17, 119);
     }
+
+    .main_p1 {
+
+      font-size: 45px;
+      color: white;
+      position: absolute;
+      margin-top: 7%;
+    }
+
+    .why_bookvanue_container {
+
+      height: 70vh;
+      width: 100%;
+      margin-top: 1%;
+      background: #f0f0f0;
+    }
+
+    .why_bookvanue {
+
+      height: 40vh;
+      width: 100%;
+    }
+
+    .why_bookvanue_Calass {
+
+      height: 15vh;
+      width: 60%;
+
+      margin-left: 21%;
+      align-items: center;
+      display: flex;
+      justify-content: center;
+    }
+
+    .why_bookvanue_Calass_h1 {
+      color: #9b2172;
+    }
+
+    .description_whybook_vanue {
+
+      height: 25vh;
+      width: 80%;
+      margin-left: 11%;
+    }
+
+    .description_whybook_vanue_P {
+      letter-spacing: .7px;
+      font-size: 18px;
+      justify-items: center;
+      line-height: 24px;
+      text-align: center;
+    }
+
+    .top_city_vanue {
+
+      height: 25vh;
+      width: 57%;
+      margin-left: 22%;
+      position: relative;
+      bottom: 30px;
+    }
+
+    .top_city_vanue_h3 {
+      color: #9b2172;
+      font: normal normal 300 38px / 73px Montserrat;
+      font-size: 30px;
+      font-weight: 600;
+      margin-bottom: 15px;
+      text-align: center;
+      text-transform: uppercase;
+    }
+
+    .top_city_vanue_p {
+      font: 700 20px Montserrat;
+      text-align: center;
+      letter-spacing: .1px;
+      line-height: 30px;
+
+    }
+
 
     .wave {
 
       height: 100%;
       width: 100%;
-      background: #f0f0f0;
+      background: ;
       position: relative;
-      margin-top: 12px;
+      margin-top: 10px;
       justify-content: left;
       align-items: left;
       display: flex;
       flex-wrap: wrap;
-
     }
 
     svg {
@@ -96,19 +176,17 @@ if (!$db) {
     }
 
     /* card css */
-
-
     .card_container {
-
       height: 600px;
       width: 440px;
       background-color: white;
       margin: 18px;
       left: 45px;
       top: 12px;
-      box-shadow: 1px 1px 8px 1px;
-      border-radius:
-        position: relative;
+      box-shadow: 1px 1px 6px 1px;
+      border-radius: ;
+      position: relative;
+      border-radius: 20px;
 
 
     }
@@ -123,7 +201,7 @@ if (!$db) {
 
     }
 
-    img {
+    .card_img1 {
       width: 90%;
       height: 360px;
       object-fit: cover;
@@ -135,7 +213,8 @@ if (!$db) {
 
       width: 86%;
       height: 50px;
-      background-color: #123;
+      background-color: #6B1D4F;
+
       color: white;
       padding: 10px;
       border-bottom: 1px solid #ddd;
@@ -181,13 +260,14 @@ if (!$db) {
     }
 
     .massage {
-      margin-top: 12px;
+      margin-top: 20px;
       height: 40px;
       width: 160px;
       font-size: 15px;
       color: white;
-      background-color: rgb(281, 17, 119);
+      background-color: #A6206A;
       border: none;
+      margin-left: 12px;
       white: space 1px;
     }
 
@@ -211,10 +291,16 @@ if (!$db) {
     .contect {
       height: 40px;
       width: 160px;
-      background-color: rgb(0, 154, 9);
+      background-color: #A6206A;
       border: none;
       color: whitesmoke;
       font-size: 17px;
+      margin-left: 17px;
+    }
+
+    .space {
+      height: 40px;
+      width: 100%;
     }
   </style>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
@@ -222,15 +308,39 @@ if (!$db) {
     crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 
-<body>
+<>
 
   <div class="container">
     <div class="main-container"></div>
     <div class="sub_container">
 
-      <p class="main_p">welcome to incredible india's destination wedding vanue.. </p>
+      <p class="main_p"><span class="main_p_sp">welcome</span> to incredible india's</p>
+      <p class="main_p1">destination <span class="main_p_sp">wedding</span> vanue </p>
 
 
+    </div>
+  </div>
+  <div class="why_bookvanue_container">
+    <div class="why_bookvanue">
+      <div class="why_bookvanue_Calass">
+        <h1 class="why_bookvanue_Calass_h1">WHY BOOK DESTINATION VANUE ?</h1>
+      </div>
+      <div class="description_whybook_vanue">
+        <p class="description_whybook_vanue_P">
+          Booking a destination wedding venue offers a unique and memorable experience by combining the beauty of a
+          special location with the joy of your big day. These venues often provide stunning backdrops, whether it's a
+          sandy beach, a charming countryside, or an elegant historic site, enhancing the atmosphere and photographs.
+          Many destination venues offer all-inclusive packages, simplifying planning by covering accommodations,
+          catering, and event coordination. Additionally, destination weddings typically lead to a smaller, more
+          intimate guest list, allowing you to celebrate with close family and
+          friends.
+        </p>
+      </div>
+    </div>
+    <div class="top_city_vanue">
+      <h3 class="top_city_vanue_h3">TOP DESTINATION WEDDING CITIES</h3>
+      <p class="top_city_vanue_p">Select a city and see whats in store for you. 7Vachan brings to you a wide range of
+        venue options for your big day.</p>
     </div>
   </div>
   <div class="wave">
@@ -259,7 +369,7 @@ if (!$db) {
       <a href="../../../../<?php echo $row['vanueimage']; ?>" ;>
         <div class="card_container">
           <div class="card_img">
-            <img src="../../admine side/vanueimage/<?php echo $row['vanueimage']; ?>" alt="">
+            <img src="../../admine side/vanueimage/<?php echo $row['vanueimage']; ?>" alt="" class="card_img1">
           </div>
           <div class="card_header">
             <h2><?php echo $row['vanuename']; ?></h2>
@@ -278,14 +388,19 @@ if (!$db) {
                   view contect</button></span></p>
           </div>
       </a>
+
     </div>
 
 
   <?php } ?>
+  <div class="space"></div>
+  </div>
 
+  <?php
+  include '../footer/footer.php';
+  ?>
+  </body>
 
-
-</body>
 
 </html>
 
