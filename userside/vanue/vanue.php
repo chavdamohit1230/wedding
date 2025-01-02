@@ -152,7 +152,7 @@ if (!$db) {
       text-align: center;
       letter-spacing: .1px;
       line-height: 30px;
-
+      ;
     }
 
 
