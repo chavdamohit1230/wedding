@@ -1,10 +1,6 @@
 <?php
 
 include("connection.php");
-
-
-
-
 ?>
 
 
@@ -100,6 +96,7 @@ include("connection.php");
             border-radius: 5%;
             background-size: cover;
             background-repeat: no-repeat;
+
             object-fit: cover;
         }
 
@@ -149,104 +146,29 @@ include("connection.php");
 
 </div>
 
-
 <div class="photography_card_container">
-    <div class="photography_card">
-        <img src="p2.jpg" alt="" class="photography_img">
 
-        <div>
-            <p class="studio_name">PR SHOOT</p>
-            <p class="card_travel">can travel outside </p>
-            <p class="card_team">team size</p>
-            <p class="card_price">Rs 1700 lakhs domestic wedding price</p>
+    <?php
+    $query = "select * from gallarytable";
+
+    $result = mysqli_query($con, $query);
+    while ($row = mysqli_fetch_array($result)) {
+
+        ?>
+
+        <div class="photography_card">
+            <img src="../../admine side/images/<?php echo $row['studioimage']; ?>" alt="" class="photography_img">
+            <div>
+                <p class="studio_name"><?php echo $row['studioname']; ?></p>
+                <p class="card_travel"><?php echo $row['travel']; ?></p>
+                <p class="card_team"> team size <?php echo $row['teamsize']; ?></p>
+                <p class="card_price">Rs <?php echo $row['price']; ?> lakhs domestic wedding price</p>
+            </div>
         </div>
-    </div>
-    <div class="photography_card">
-        <img src="wed3.png" alt="" class="photography_img">
-        <div>
-            <p class="studio_name">PR SHOOT</p>
-            <p class="card_travel">can travel outside </p>
-            <p class="card_team">team size</p>
-            <p class="card_price">Rs 1700 lakhs domestic wedding price</p>
-        </div>
-    </div>
 
-    <div class="photography_card">
-        <img src="p15.webp" alt="" class="photography_img">
 
-        <div>
-            <p class="studio_name">PR SHOOT</p>
-            <p class="card_travel">can travel outside </p>
-            <p class="card_team">team size</p>
-            <p class="card_price">Rs 1700 lakhs domestic wedding price</p>
-        </div>
-    </div>
+    <?php } ?>
 
-    <div class="photography_card">
-        <img src="p12.jpg" alt="" class="photography_img">
-
-        <div>
-            <p class="studio_name">PR SHOOT</p>
-            <p class="card_travel">can travel outside </p>
-            <p class="card_team">team size</p>
-            <p class="card_price">Rs 1700 lakhs domestic wedding price</p>
-        </div>
-    </div>
-
-    <div class="photography_card">
-        <img src="wed1.png" alt="" class="photography_img">
-
-        <div>
-            <p class="studio_name">PR SHOOT</p>
-            <p class="card_travel">can travel outside </p>
-            <p class="card_team">team size</p>
-            <p class="card_price">Rs 1700 lakhs domestic wedding price</p>
-        </div>
-    </div>
-
-    <div class="photography_card">
-        <img src="p22.webp" alt="" class="photography_img">
-
-        <div>
-            <p class="studio_name">PR SHOOT</p>
-            <p class="card_travel">can travel outside </p>
-            <p class="card_team">team size</p>
-            <p class="card_price">Rs 1700 lakhs domestic wedding price</p>
-        </div>
-    </div>
-
-    <div class="photography_card">
-        <img src="wed5.png" alt="" class="photography_img">
-
-        <div>
-            <p class="studio_name">PR SHOOT</p>
-            <p class="card_travel">can travel outside </p>
-            <p class="card_team">team size</p>
-            <p class="card_price">Rs 1700 lakhs domestic wedding price</p>
-        </div>
-    </div>
-
-    <div class="photography_card">
-        <img src="wed6.png" alt="" class="photography_img">
-
-        <div>
-            <p class="studio_name">PR SHOOT</p>
-            <p class="card_travel">can travel outside </p>
-            <p class="card_team">team size</p>
-            <p class="card_price">Rs 1700 lakhs domestic wedding price</p>
-        </div>
-    </div>
-
-    <div class="photography_card">
-        <img src="wed9.jpg" alt="" class="photography_img">
-
-        <div>
-            <p class="studio_name">PR SHOOT</p>
-            <p class="card_travel">can travel outside </p>
-            <p class="card_team">team size</p>
-            <p class="card_price">Rs 1700 lakhs domestic wedding price</p>
-        </div>
-    </div>
 
 </div>
 
