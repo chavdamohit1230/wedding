@@ -21,13 +21,6 @@ if (isset($_POST["submit"])) {
 
     $res = mysqli_query($con, $result);
 
-    if (!$res) {
-
-        echo "not connect";
-    } else {
-
-        echo "connect";
-    }
 
     move_uploaded_file($tmp_name, $dst);
 
