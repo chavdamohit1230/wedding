@@ -1,51 +1,5 @@
 <?php
 
-//include("connection.php");
-
-// if (isset($_POST["submit"])) {
-
-
-//         $file_name = $_FILES['file']['name'];
-
-//         $tmp_name = $_FILES['file']['tmp_name'];
-
-
-//         $size = $_FILES["file"]["size"];
-
-
-
-//         $ext = explode(".", $file_name);
-
-//         $ss = end($ext);
-
-//         $dst = "C:\wamp\www\project\admine side\images/" . $_FILES["file"]["name"];
-
-
-//         $result = "insert into  gallrytable value('$file_name','$size','$ss,''','','','')";
-
-//         $res = mysqli_query($con, $result);
-
-
-//         move_uploaded_file($tmp_name, $dst);
-
-
-//         if (!$res) {
-
-//                 $result = "insert into  gallrytable value('$file_name','$size','$ss')";
-
-//                 move_uploaded_file($tmp_name, $dst);
-
-//                 $res = mysqli_query($con, $result);
-
-//                 if (!$res) {
-
-//                         echo "not";
-//                 }
-
-//         }
-
-// }
-
 
 $conn = mysqli_connect("localhost", "root", "");
 
@@ -66,14 +20,24 @@ if (isset($_POST["submit"])) {
 
         //  echo "mohit";
 
-        $name = $_POST["name"];
-        // echo $name;
+        $studioname = $_POST["studioname"];
+        $travel = $_POST['travel'];
+        $teamsize = $_POST['teamsize'];
+        $price = $_POST['price'];
+
+
+
+        echo $studioname;
+        echo $travel;
+        echo $teamsize;
+        echo $price;
+
 
         $file_name = $_FILES['file']['name'];
-        $dst = "C:\wamp\www\project\admine side\images/" . $_FILES["file"]["name"];
+        $dst = "C:\wamp64\www\wedding\admine side\images/" . $_FILES["file"]["name"];
         $tmp_name = $_FILES['file']['tmp_name'];
 
-        $result = "insert into gallarytable value('$file_name','','','','')";
+        $result = "insert into gallarytable value('$studioname','$travel','$teamsize','$price','$file_name')";
 
         $res = mysqli_query($conn, $result);
 
@@ -105,8 +69,11 @@ if (isset($_POST["submit"])) {
 
         <form action="" method="POST" enctype="multipart/form-data">
 
-                <input type="file" name="file" id="name"><br>
-                <input type="text" name="name">
+                <input type="file" name="file" id="studioname"><br>
+                <input type="text" name="studioname">
+                <input type="text" name="travel">
+                <input type="text" name="teamsize">
+                <input type="text" name="price">
                 <input type="submit" name="submit" value="submit">
 
 
@@ -126,13 +93,13 @@ if (isset($_POST["submit"])) {
 
                                 <table border="2px" align="center" height="120px" width="600px">
                                         <tr align="center">
-                                                <td width="150px"><?php echo $row['name'] ?></td>
-                                                <td width="150px"><?php echo $row['type'] ?></td>
-                                                <td><img height='100px' width="150px" src="images/<?php echo $row['image'] ?>">
+                                                <td width="150px"><?php echo $row['studioname'] ?></td>
+                                                <td><img height='100px' width="150px"
+                                                                src="images/<?php echo $row['studioimage'] ?>">
                                                 </td>
-                                                <td width="150px"><a
-                                                                href="servicedelete.php?name=<?php echo $row['name']; ?>">delete</a>
-                                                </td>
+                                                <td width="150px"><?php echo $row['travel'] ?></td>
+                                                <td width="150px"><?php echo $row['teamsize'] ?></td>
+                                                <td width="150px"><?php echo $row['price'] ?></td>
                                         </tr>
                                 </table>
                         </form>

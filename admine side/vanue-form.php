@@ -23,11 +23,12 @@ if (isset($_POST["submit"])) {
     $n2 = $_POST["rating"];
     $n3 = $_POST["price"];
     $vanuephoto = $_FILES["file"]["name"];
+    echo $vanuephoto;
     $tmpname = $_FILES["file"]["tmp_name"];
 
 
 
-    $dest = "C:\wamp\www\project\admine side\vanueimage/" . $_FILES["file"]["name"];
+    $dest = 'C:\wamp64\www\wedding\admine side\vanueimage/' . $_FILES["file"]["name"];
 
     $result = "insert into vanue value('$n','$n1',$n2,$n3,'$vanuephoto')";
 
