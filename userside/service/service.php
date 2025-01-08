@@ -1,3 +1,6 @@
+<?php
+include("connection.php");
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -13,6 +16,11 @@
 
       margin: 0px;
       padding: 0px;
+    }
+
+    body {
+
+      overflow-x: hidden;
     }
 
     .container {
@@ -32,7 +40,7 @@
       width: 100%;
       z-index: 0;
       position: absolute;
-      top: 0;
+      top: 2;
       background-color: black;
       opacity: 0.4;
     }
@@ -65,8 +73,8 @@
 
     .second {
       background-color: white;
-      min-height: 120vh;
-      height: 310vh;
+      min-height: 10vh;
+      max-height: 310vh;
       width: 100%;
     }
 
@@ -91,7 +99,8 @@
 
     .card_container {
 
-      height: 220vh;
+      min-height: auto;
+      max-height: 200vh;
       width: 100%;
       background-color: ;
       position: relative;
@@ -99,6 +108,7 @@
       justify-content: center;
       align-items: center;
       flex-wrap: wrap;
+
     }
 
     .card {
@@ -112,11 +122,13 @@
 
     .img {
 
-      height: 37vh;
+      height: 45vh;
       width: 90%;
       object-fit: cover;
       position: relative;
       left: 24px;
+      object-fit: fill;
+
 
     }
 
@@ -124,13 +136,14 @@
 
       font-size: 35px;
       position: relative;
-      margin: 10px;
-      left: 21%;
+      /* margin: 10px; */
+
       top: 10px;
       font-family: "Playfair Display", serif;
       font-weight: 200;
       color: #6B1D4F;
-      font-weight: 200
+      font-weight: 200;
+      text-align: center;
     }
 
     .card_line {
@@ -145,8 +158,9 @@
     .card_summury {
 
       font-size: 17px;
-      margin-left: 20px;
+      /* margin-left: 20px; */
       line-height: 25px;
+      text-align: center;
     }
 
 
@@ -165,12 +179,9 @@
       border-bottom-right-radius: 30px;
     }
 
-    top: 6%;
-    background-color: white;
-    border: 2px solid black;
-    }
 
-    >>>>>>>988d374 (first commit) .btn:hover {
+
+    .btn:hover {
 
       color: white;
       background-color: black;
@@ -179,7 +190,7 @@
 
     .chavda {
 
-      height: 120vh;
+      height: 110vh;
       width: 100%;
       background-color: rgb(240, 240, 240);
 
@@ -236,7 +247,7 @@
 
     .white_color {
 
-      height: 320px;
+      height: 0px;
       width: 83.1%;
       background-color: rgb(234, 234, 234);
       margin-top: 170px;
@@ -325,6 +336,7 @@
 </head>
 
 <body>
+  <!-- <?php include '../navbar/navbar.php' ?> -->
   <div class="main-container">
     <div class="container-sub"></div>
     <div class="container">
@@ -347,86 +359,36 @@
     </div>
     <div class="card_container">
 
-      <div class="card" data-aos="fade-up-right" data-aos-duration="1000" data-aos-offset="100"
-        data-aos-anchor-placement="center-bottom">
-        <img src="p1.jpg" alt="" class="img">
-        <h1 class="card_header">Wedding Ceremony</h1>
-        <img src="menu-line.png" alt="" class="card_line">
-        <p class="card_summury">
-          Our wedding agency offers a full range of ceremonies to choose from,<br><span card="card_summry_sp">regardless
-            of your design</span>
-          preferences
-          and religious background</p>
+      <?php
+      $query = "select * from servicetable ";
 
-        <button class="btn"> LERN MORE </button>
-      </div>
+      $res = mysqli_query($con, $query);
+
+      while ($row = mysqli_fetch_assoc($res)) {
 
 
-      <div class="card" data-aos="fade-up-left" data-aos-duration="1000" data-aos-offset="100"
-        data-aos-anchor-placement="center-bottom">
-        <img src="p1.jpg" alt="" class="img">
-        <h1 class="card_header">Wedding Ceremony</h1>
-        <img src="menu-line.png" alt="" class="card_line">
-        <p class="card_summury">
-          Our wedding agency offers a full range of ceremonies to choose from,<br>regardless of your design preferences
-          and religious background</p>
-
-        <button class="btn"> LERN MORE </button>
-      </div>
+        ?>
 
 
-      <div class="card" data-aos="fade-up-right" data-aos-duration="1000" data-aos-offset="100"
-        data-aos-anchor-placement="center-bottom">
-        <img src="p1.jpg" alt="" class="img">
-        <h1 class="card_header">Wedding Ceremony</h1>
-        <img src="menu-line.png" alt="" class="card_line">
-        <p class="card_summury">
-          Our wedding agency offers a full range of ceremonies to choose from,<br>regardless of your design preferences
-          and religious background</p>
+        <div class="card" data-aos="fade-up" data-aos-duration="1000" data-aos-offset="100"
+          data-aos-anchor-placement="center-bottom">
+          <img src="../../admine side/serviceimage/<?php echo $row['serviceimage']; ?>" alt="" class="img">
+          <h1 class="card_header"><?php echo $row['servicename']; ?></h1>
+          <img src="menu-line.png" alt="" class="card_line">
+          <p class="card_summury">
+            Our wedding agency offers a full range of ceremonies to choose from,<br><span card="card_summry_sp">regardless
+              of your design</span>
+            preferences
+            and religious background</p>
 
-        <button class="btn"> LERN MORE </button>
-      </div>
-
-
-      <div class="card" data-aos="fade-up-left" data-aos-duration="1000" data-aos-offset="100"
-        data-aos-anchor-placement="center-bottom">
-        <img src="p1.jpg" alt="" class="img">
-        <h1 class="card_header">Wedding Ceremony</h1>
-        <img src="menu-line.png" alt="" class="card_line">
-        <p class="card_summury">
-          Our wedding agency offers a full range of ceremonies to choose from,<br>regardless of your design preferences
-          and religious background</p>
-
-        <button class="btn"> LERN MORE </button>
-      </div>
+          <button class="btn"> LERN MORE </button>
+        </div>
 
 
 
-      <div class="card" data-aos="fade-up-right" data-aos-duration="1000" data-aos-offset="100"
-        data-aos-anchor-placement="center-bottom">
-        <img src="p1.jpg" alt="" class="img">
-        <h1 class="card_header">Wedding Ceremony</h1>
-        <img src="menu-line.png" alt="" class="card_line">
-        <p class="card_summury">
-          Our wedding agency offers a full range of ceremonies to choose from,<br>regardless of your design preferences
-          and religious background</p>
-
-        <button class="btn"> LERN MORE </button>
-      </div>
+      <?php } ?>
 
 
-
-      <div class="card" data-aos="fade-up-left" data-aos-duration="1000" data-aos-offset="100"
-        data-aos-anchor-placement="center-bottom">
-        <img src="p1.jpg" alt="" class="img">
-        <h1 class="card_header">Wedding Ceremony</h1>
-        <img src="menu-line.png" alt="" class="card_line">
-        <p class="card_summury">
-          Our wedding agency offers a full range of ceremonies to choose from,<br>regardless of your design preferences
-          and religious background</p>
-
-        <button class="btn"> LERN MORE </button>
-      </div>
     </div>
   </section>
 
@@ -494,8 +456,7 @@
 
 
   </section>
-
-
+  <?php include("../footer/footer.php") ?>
   <script src="aos.js">
   </script>
   <script>
