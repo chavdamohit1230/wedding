@@ -141,8 +141,10 @@ include("connection.php");
 
 <div class="main_img">
 
-    <h3 class="main_sub_h3"> <span class="main_sub_h3_sp">Our</span> Exclusive</h3>
-    <h1 class="main_sub_h1">Photography</h1>
+    <h3 class="main_sub_h3" data-aos="fade-right" data-aos-offset="200" data-aos-delay="300" data-aos-duration="1200"
+        data-aos-mirror="true"> <span class=" main_sub_h3_sp">Our</span> Exclusive</h3>
+    <h1 class="main_sub_h1" data-aos="fade-right" data-aos-delay="300" data-aos-duration="1200" data-aos-mirror="true">
+        Photography</h1>
 
 </div>
 
@@ -156,7 +158,8 @@ include("connection.php");
 
         ?>
 
-        <div class="photography_card">
+        <div class="photography_card" data-aos="fade-up" data-aos-offset="200" data-aos-delay="300"
+            data-aos-duration="1100">
             <img src="../../admine side/images/<?php echo $row['studioimage']; ?>" alt="" class="photography_img">
             <div>
                 <p class="studio_name"><?php echo $row['studioname']; ?></p>
