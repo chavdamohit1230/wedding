@@ -1,3 +1,93 @@
+<?php
+
+session_start();
+include('Email/smtp/PHPMailerAutoload.php');
+
+// Initialize variables
+$to = "";
+$emailBody = "";
+$otp = "";
+$inputOtp = "";
+$showButtons = false;
+$verifyOtpButton = false;
+
+
+
+if (isset($_POST['send'])) {
+
+    // Get the email from the form
+    $to = $_POST['to'];
+    // $inputOtp = $_POST['otp-input'];
+    $otp = rand(1000, 9999);
+    // Generate a username from the email (before @ symbol)
+    $_SESSION['otp'] = $otp;
+    $ml = explode("@", $to);
+
+    // Generate OTP
+
+
+    // Read the HTML template file
+    $template = file_get_contents('Email/email_template.html');
+
+    // Replace placeholders with dynamic values
+    $template = str_replace('[USERNAME]', $ml[0], $template);
+    $template = str_replace('[OTP]', $otp, $template);
+
+    // Assign the email body
+    $emailBody = $template;
+}
+
+if ($to && $emailBody) {
+    // Proceed with sending the email
+    $mail = new PHPMailer();
+    $mail->IsSMTP();
+    $mail->SMTPAuth = true;
+    $mail->SMTPSecure = 'tls';
+    $mail->Host = "smtp.gmail.com";
+    $mail->Port = 587;
+    $mail->IsHTML(true);
+    $mail->CharSet = 'UTF-8';
+    $mail->Username = "mohitchavda1230@gmail.com";  // Your email
+    $mail->Password = "phdmzusinslcpfws"; // Your email password (you should consider using environment variables for this)
+    $mail->SetFrom('mohitchavda1230@gmail.com', 'mohit');
+    $mail->Subject = "Your account info.";
+    $mail->Body = $emailBody;
+    $mail->AddAddress($to);
+
+    // Disable SSL verification for self-signed certificates
+    $mail->SMTPOptions = array(
+        'ssl' => array(
+            'verify_peer' => false,
+            'verify_peer_name' => false,
+            'allow_self_signed' => false
+        )
+    );
+
+    // Send the email
+    if (!$mail->Send()) {
+        echo $mail->ErrorInfo;
+    } else {
+        $showButtons = true;
+        $verifyOtpButton = true;
+
+    }
+
+
+}
+if (isset($_POST["verify"])) {
+
+    $inputOtp = $_POST["otp-input"];
+
+    // echo $inputOtp;
+    if ($_SESSION['otp'] == $inputOtp) {
+        echo "verification is successfully";
+
+    } else {
+        echo "not succsess";
+
+    }
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -149,9 +239,6 @@
             margin-left: 55px;
             border-radius: 3px;
 
-
-
-
         }
 
         #btn {
@@ -159,9 +246,32 @@
             width: 100%;
             height: 50px;
             margin-bottom: 20px;
-            display: none;
+            display:
+                <?php echo $showButtons ? 'flex' : 'none'; ?>
+            ;
 
 
+        }
+
+        #otp,
+        #lableotp {
+            display:
+                <?php echo $showButtons ? 'block' : 'none'; ?>
+            ;
+        }
+
+        #otp-verify-btn {
+            display:
+                <?php echo $verifyOtpButton ? 'flex' : 'none'; ?>
+            ;
+            /* Show OTP Verify button if OTP is sent */
+        }
+
+        #send-otp-btn {
+            display:
+                <?php echo !$verifyOtpButton ? 'flex' : 'none'; ?>
+            ;
+            /* Show Get OTP button if OTP isn't sent */
         }
     </style>
 </head>
@@ -182,13 +292,13 @@
             <li>Dedicated wedding coordinator for your wedding</li>
             <li>Custom wedding planner for your wedding event</li>
         </ul>
-        <form>
+        <form method="POST" id="form">
             <div class="form-group">
                 <input type="text" name="name" id="name" placeholder=" ">
                 <label for="name">Name</label>
             </div>
             <div class="form-group">
-                <input type="email" name="email" id="email" placeholder=" ">
+                <input type="email" name="to" id="email" placeholder="" value="<?php echo $to; ?>">
                 <label for="email">Email</label>
             </div>
             <div id="btn">
@@ -201,32 +311,22 @@
 
             </div>
             <div class="form-group">
-                <input type="tel" name="phone" id="phone" placeholder=" ">
+                <input type="tel" name="phone" id="phone" placeholder=" " <?php echo $showButtons ? "hidden" : '' ?>>
                 <label for="phone">Phone Number</label>
             </div>
             <div class="form-group">
-                <input type="tel" name="phone" id="otp" placeholder=" " hidden>
-                <label for="otp" id="lableotp" hidden>Enter Otp</label>
+                <input type="tel" name="otp-input" id="otp" placeholder=" ">
+                <label for="otp" id="lableotp">Enter Otp</label>
             </div>
-            <button type="button" onclick="ok()">Get OTP</button>
+            <button type="submit" name="send" id="send-otp-btn">Get OTP</button>
+            <button type="submit" name="verify" id="otp-verify-btn">Verify OTP</button>
+
+
         </form>
     </div>
 </div>
-<script>
-    function ok() {
-        let no = document.getElementById("otp").value
-        let no1 = document.getElementById("otp");
-        let no2 = document.getElementById("lableotp");
-        let phone = document.getElementById("phone");
-        let btn = document.getElementById("btn");
-        no1.style.display = "block";
-        no2.style.display = "block";
-        phone.style.display = "none";
-        btn.style.display = "flex";
 
-    }
-</script>
-<!-- <script src="register.js"></script> -->
+
 </body>
 
 </html>
