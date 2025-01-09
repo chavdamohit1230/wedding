@@ -129,7 +129,7 @@ if (isset($_POST["verify"])) {
 
         .image-container img {
             max-width: 100%;
-            max-height: 100%;
+            height: 85%;
         }
 
         .form-container {
@@ -280,7 +280,7 @@ if (isset($_POST["verify"])) {
     <!-- Left Image Placeholder -->
     <div class="image-container">
         <!-- Replace this with your actual image -->
-        <img src="https://via.placeholder.com/400x400" alt="Image Placeholder">
+        <img src='../gallery/background.webp' alt="Image Placeholder">
     </div>
 
     <!-- Right Form Section -->
