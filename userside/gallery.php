@@ -130,6 +130,8 @@ include("connection/connection.php");
             position: relative;
             top: 12px;
         }
+
+        a {}
     </style>
     <link rel="stylesheet" href="aos/aos.css">
 
@@ -156,21 +158,23 @@ include("connection/connection.php");
     $query = "select * from gallarytable";
 
     $result = mysqli_query($con, $query);
+
     while ($row = mysqli_fetch_array($result)) {
 
         ?>
 
         <div class="photography_card" data-aos="fade-up" data-aos-offset="200" data-aos-delay="300"
             data-aos-duration="1100">
-            <img src="../admine side/images/<?php echo $row['studioimage']; ?>" alt="" class="photography_img">
-            <div>
-                <p class="studio_name"><?php echo $row['studioname']; ?></p>
-                <p class="card_travel"><?php echo $row['travel']; ?></p>
-                <p class="card_team"> team size <?php echo $row['teamsize']; ?></p>
-                <p class="card_price">Rs <?php echo $row['price']; ?> lakhs domestic wedding price</p>
-            </div>
+            <a href="gallery-subpage.php">
+                <img src="../admine side/images/<?php echo $row['studioimage']; ?>" alt="" class="photography_img">
+                <div>
+                    <p class="studio_name"><?php echo $row['studioname']; ?></p>
+                    <p class="card_travel"><?php echo $row['travel']; ?></p>
+                    <p class="card_team"> team size <?php echo $row['teamsize']; ?></p>
+                    <p class="card_price">Rs <?php echo $row['price']; ?> lakhs domestic wedding price</p>
+                </div>
         </div>
-
+        </a>
 
     <?php } ?>
 

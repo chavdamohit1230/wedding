@@ -119,22 +119,20 @@ if (isset($_POST["verify"])) {
 
         .image-container {
             flex: 1;
-            /* Takes 50% of the width */
             background-color: #f3f3f3;
-            /* Placeholder background */
             display: flex;
             justify-content: center;
             align-items: center;
         }
 
         .image-container img {
-            max-width: 100%;
-            height: 85%;
+            max-width: 44%;
+            height: 90%;
+            position: fixed;
         }
 
         .form-container {
             flex: 1;
-            /* Takes 50% of the width */
             padding: 40px;
         }
 
@@ -165,7 +163,6 @@ if (isset($_POST["verify"])) {
         .form-group input {
             width: 100%;
             padding: 16px 12px 12px;
-            /* Adjusted padding for better alignment */
             border: 1px solid #d2d2d2;
             border-radius: 4px;
             font-size: 14px;
@@ -175,17 +172,14 @@ if (isset($_POST["verify"])) {
 
         .form-group input:focus {
             border: 2px solid #8c007e;
-            /* Thicker purple border */
             outline: none;
             background-color: #fef9ff;
-            /* Light purple background */
         }
 
         .form-group label {
             position: absolute;
             left: 12px;
             top: 16px;
-            /* Matches the padding of the input */
             font-size: 14px;
             color: #aaa;
             transition: all 0.3s ease;
@@ -280,7 +274,7 @@ if (isset($_POST["verify"])) {
     <!-- Left Image Placeholder -->
     <div class="image-container">
         <!-- Replace this with your actual image -->
-        <img src='../gallery/background.webp' alt="Image Placeholder">
+        <img src='../images/gallery/background.webp' alt="Image Placeholder">
     </div>
 
     <!-- Right Form Section -->
