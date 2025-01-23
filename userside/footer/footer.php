@@ -53,7 +53,7 @@
 
         }
 
-        .container {
+        .footer_container {
             position: relative;
             height: 45vh;
             top: 18%;
@@ -93,7 +93,7 @@
 
         }
 
-        img {
+        .web_logo {
 
             height: 250px;
             position: relative;
@@ -102,7 +102,7 @@
             opacity: 0.9;
         }
 
-        P {
+        .footerp {
             margin: 5%;
             color: white;
             position: relative;
@@ -140,7 +140,7 @@
 <body>
     <footer>
 
-        <div class="container">
+        <div class="footer_container">
             <div class="over_company">
                 <h2 class="over_company_h2">OUR COMPANY</h2>
                 <ul class="ul">
@@ -180,10 +180,10 @@
         </div>
         <div class="logo_copiyright">
 
-            <img src="logo.png" alt="">
-            <p>Terms & Conditions.</p>
-            <p>Privacy & Policy</p>
-            <p class="copyright">copyright 2025 saptapadi services pvt ltd. All rights .</p>
+            <img src="footer/logo.png" class="web_logo" alt="">
+            <p class="footerp">Terms & Conditions.</p>
+            <p class="footerp">Privacy & Policy</p>
+            <p class="copyright footerp">copyright 2025 saptapadi services pvt ltd. All rights .</p>
         </div>
     </footer>
 </body>

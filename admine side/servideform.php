@@ -53,15 +53,13 @@ if (isset($_POST["submit"])) {
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             padding: 20px;
-            /* Reduced padding */
+
         }
 
         .form-container h2 {
             text-align: center;
             margin-bottom: 15px;
-            /* Reduced spacing */
             font-size: 20px;
-            /* Smaller font size */
             color: #333;
         }
 
@@ -69,7 +67,6 @@ if (isset($_POST["submit"])) {
             display: block;
             margin-bottom: 5px;
             font-size: 14px;
-            /* Smaller label text */
             font-weight: bold;
             color: #555;
         }
@@ -79,11 +76,8 @@ if (isset($_POST["submit"])) {
         .form-container button {
             width: 100%;
             padding: 8px;
-            /* Reduced padding for input fields */
             margin-bottom: 10px;
-            /* Reduced spacing between elements */
             font-size: 14px;
-            /* Smaller font size */
             border: 1px solid #ccc;
             border-radius: 5px;
             box-sizing: border-box;
@@ -92,14 +86,13 @@ if (isset($_POST["submit"])) {
         .form-container textarea {
             resize: none;
             height: 80px;
-            /* Reduced height for the text area */
+
         }
 
         .form-container button {
             background-color: #007bff;
             color: white;
             font-size: 14px;
-            /* Smaller font size */
             border: none;
             cursor: pointer;
             transition: background-color 0.3s;
