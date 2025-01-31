@@ -155,7 +155,7 @@
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
                 <circle cx="50" cy="50" r="50" fill="#fff" />
                 <text x="50%" y="55%" text-anchor="middle" font-size="30" fill="#ff3d00" font-family="Arial"
-                    dy=".3em">WPMS</text>
+                    dy=".3em">DB</text>
             </svg>
         </div>
 

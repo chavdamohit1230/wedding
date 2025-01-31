@@ -1,5 +1,7 @@
 <?php
-
+include("../connection/connection.php");
+?>
+<?php
 session_start();
 include('Email/smtp/PHPMailerAutoload.php');
 
@@ -10,8 +12,6 @@ $otp = "";
 $inputOtp = "";
 $showButtons = false;
 $verifyOtpButton = false;
-
-
 
 if (isset($_POST['send'])) {
 
@@ -35,6 +35,11 @@ if (isset($_POST['send'])) {
 
     // Assign the email body
     $emailBody = $template;
+    $_SESSION["name"] = $name = $_POST["name"];
+    $_SESSION["email"] = $email = $_POST["to"];
+    $_SESSION["city"] = $_POST["city"];
+    $_SESSION["phone"] = $_POST["phone"];
+
 }
 
 if ($to && $emailBody) {
@@ -71,22 +76,39 @@ if ($to && $emailBody) {
         $verifyOtpButton = true;
 
     }
-
-
 }
+
 if (isset($_POST["verify"])) {
 
     $inputOtp = $_POST["otp-input"];
+    $name = $_SESSION['name'];
+    $email = $_SESSION['email'];
+    $city = $_SESSION['city'];
+    $phone = $_SESSION['phone'];
 
-    // echo $inputOtp;
     if ($_SESSION['otp'] == $inputOtp) {
-        echo "verification is successfully";
+        $res = "INSERT INTO userregistration VALUES('$name','$email','$city','$phone')";
+        $result = mysqli_query($con, $res);
 
-    } else {
-        echo "not succsess";
 
+        if (!$result) {
+            echo "<script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops!',
+                        text: 'Something went wrong!'
+                    });
+                });
+            </script>";
+        } else {
+
+            header("Location: index.php");
+        }
     }
+
 }
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -104,7 +126,7 @@ if (isset($_POST["verify"])) {
             justify-content: center;
             align-items: center;
             height: 100vh;
-            background-color: #f8f9fa;
+            background-color: white;
         }
 
         .container {
@@ -119,16 +141,20 @@ if (isset($_POST["verify"])) {
 
         .image-container {
             flex: 1;
-            background-color: #f3f3f3;
+            background-color: white;
             display: flex;
             justify-content: center;
             align-items: center;
         }
 
         .image-container img {
-            max-width: 44%;
-            height: 90%;
+            width: 50%;
+            height: 85%;
             position: fixed;
+            margin-left: ;
+            border-radius: 5px;
+            background-color: blue;
+            /* box-shadow: 1px 2px 1px 0px; */
         }
 
         .form-container {
@@ -243,8 +269,6 @@ if (isset($_POST["verify"])) {
             display:
                 <?php echo $showButtons ? 'flex' : 'none'; ?>
             ;
-
-
         }
 
         #otp,
@@ -274,7 +298,7 @@ if (isset($_POST["verify"])) {
     <!-- Left Image Placeholder -->
     <div class="image-container">
         <!-- Replace this with your actual image -->
-        <img src='../images/gallery/background.webp' alt="Image Placeholder">
+        <!-- <img src='../images/gallery/background.webp' alt="Image Placeholder"> -->
     </div>
 
     <!-- Right Form Section -->
@@ -288,12 +312,16 @@ if (isset($_POST["verify"])) {
         </ul>
         <form method="POST" id="form">
             <div class="form-group">
-                <input type="text" name="name" id="name" placeholder=" ">
+                <input type="text" name="name" id="name" placeholder=" " value="<?php echo $_SESSION['name'] ?? ''; ?>">
                 <label for="name">Name</label>
             </div>
             <div class="form-group">
-                <input type="email" name="to" id="email" placeholder="" value="<?php echo $to; ?>">
+                <input type="email" name="to" id="email" placeholder="" value="<?php echo $_SESSION['email'] ?? ''; ?>">
                 <label for="email">Email</label>
+            </div>
+            <div class="form-group">
+                <input type="text" name="city" id="city" placeholder=" " value="<?php echo $_SESSION['city'] ?? ''; ?>">
+                <label for="city">City</label>
             </div>
             <div id="btn">
                 <div class="resend">
@@ -302,7 +330,6 @@ if (isset($_POST["verify"])) {
                 <div class="resend">
                     Edit
                 </div>
-
             </div>
             <div class="form-group">
                 <input type="tel" name="phone" id="phone" placeholder=" " <?php echo $showButtons ? "hidden" : '' ?>>
@@ -314,13 +341,13 @@ if (isset($_POST["verify"])) {
             </div>
             <button type="submit" name="send" id="send-otp-btn">Get OTP</button>
             <button type="submit" name="verify" id="otp-verify-btn">Verify OTP</button>
-
-
         </form>
     </div>
 </div>
+<script>
 
-
+</script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
 
 </html>

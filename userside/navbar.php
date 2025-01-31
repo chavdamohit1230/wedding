@@ -12,7 +12,7 @@
             box-sizing: border-box;
         }
 
-        .header {
+        .nav_header {
             height: 12vh;
             width: 100%;
             background-color: rgb(99, 21, 73);
@@ -24,13 +24,13 @@
         }
 
         .header_logo {
-            height: 12vh;
+            height: 18vh;
             width: 20%;
         }
 
         .logo_img {
             height: 70%;
-            width: auto;
+            width: 50%;
             margin-left: 38%;
         }
 
@@ -129,8 +129,9 @@
             z-index: 1001;
             left: 0;
             top: 0;
+            right: 20%;
             width: 100%;
-            height: 100%;
+            height: 107%;
             background-color: rgba(0, 0, 0, 0.5);
             justify-content: center;
             align-items: center;
@@ -147,33 +148,35 @@
 
         .close {
             position: absolute;
-            top: 0.2px;
-            height: 30px;
-            right: 0.2px;
+            top: 5px;
+            right: 10px;
             font-size: 25px;
-            width: 40px;
+            width: 30px;
+            height: 30px;
+            text-align: center;
+            line-height: 30px;
             cursor: pointer;
             color: white;
-            border-top-right-radius: 7px;
+            border-radius: 20%;
             background: rgb(155, 33, 114);
-
         }
     </style>
 </head>
 
 <body>
     <section>
-        <div class="header">
+        <div class="nav_header">
             <div class="header_logo">
-                <img src="images/navbar/logo.png" alt="Logo" class="logo_img">
+                <img src="images/navbar/l1.png" alt="Logo" class="logo_img">
             </div>
             <div class="login_register_container">
-                <a href="javascript:void(0);" id="openRegister">
-                    <p class="header_p">Are You Vendor?</p>
-                </a>
+                <p class="header_p">Are You Vendor?</p>
                 <div class="login_register">
+                    <a href="javascript:void(0);" onclick="openLoginModal(event)">
+                        <p class="login_register_p">Login</p>
+                    </a>
                     <a href="javascript:void(0);" id="openRegisterBtn">
-                        <p class="login_register_p">Login &nbsp| Register</p>
+                        <p class="login_register_p"> | Register</p>
                     </a>
                 </div>
             </div>
@@ -208,36 +211,54 @@
         </nav>
     </section>
 
-    <!-- Popup Modal -->
+    <!-- Register Modal -->
     <div id="registerModal" class="modal">
         <div class="modal-content">
-            <span class="close" id="closeModal"> &nbsp &times;</span>
+            <span class="close" id="closeRegisterModal">&times;</span>
             <iframe id="modalFrame" src="login/register.php" width="100%" height="100%" frameborder="0"></iframe>
         </div>
     </div>
 
+    <!-- Login Modal -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="closeLoginModal">&times;</span>
+            <?php require("login/error.php"); ?>
+        </div>
+    </div>
+
     <script>
-        // Function to open modal
-        function openModal(event) {
-            event.preventDefault(); // Prevent default link action
+        // Open Login Modal
+        function openLoginModal(event) {
+            event.preventDefault(); // Prevent default action
+            document.getElementById('loginModal').style.display = 'flex';
+        }
+
+        // Close Login Modal
+        function closeLoginModal() {
+            document.getElementById('loginModal').style.display = 'none';
+        }
+
+        // Open Register Modal
+        function openRegisterModal(event) {
+            event.preventDefault();
             document.getElementById('registerModal').style.display = 'flex';
         }
 
-        // Function to close modal
-        function closeModal() {
+        // Close Register Modal
+        function closeRegisterModal() {
             document.getElementById('registerModal').style.display = 'none';
         }
 
-        // Attach click event to login/register links
-        document.getElementById('openRegister').addEventListener('click', openModal);
-        document.getElementById('openRegisterBtn').addEventListener('click', openModal);
+        // Attach event listeners
+        document.getElementById('openRegisterBtn').addEventListener('click', openRegisterModal);
+        document.getElementById('closeRegisterModal').addEventListener('click', closeRegisterModal);
+        document.getElementById('closeLoginModal').addEventListener('click', closeLoginModal);
 
-        // Close modal when clicking the close button
-        document.getElementById('closeModal').addEventListener('click', closeModal);
-
-        // Ensure modal is hidden on page load
+        // Ensure modals are hidden on page load
         window.onload = function () {
             document.getElementById('registerModal').style.display = 'none';
+            document.getElementById('loginModal').style.display = 'none';
         };
     </script>
 </body>

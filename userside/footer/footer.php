@@ -12,7 +12,7 @@
         }
 
         footer {
-            height: 37em;
+            height: 34em;
             width: 100%;
             background-color: rgb(99, 21, 73);
             position: absolute;
@@ -95,10 +95,10 @@
 
         .web_logo {
 
-            height: 250px;
+            height: 200px;
             position: relative;
             right: 2%;
-            top: -55%;
+            top: -70%;
             opacity: 0.9;
         }
 
@@ -180,7 +180,7 @@
         </div>
         <div class="logo_copiyright">
 
-            <img src="footer/logo.png" class="web_logo" alt="">
+            <img src="footer/l1.png" class="web_logo" alt="">
             <p class="footerp">Terms & Conditions.</p>
             <p class="footerp">Privacy & Policy</p>
             <p class="copyright footerp">copyright 2025 saptapadi services pvt ltd. All rights .</p>

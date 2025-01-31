@@ -114,7 +114,7 @@
             position: relative;
             top: 30px;
             letter-spacing: 0.05rem;
-            font-family: Montserrat;
+            /* font-family: Montserrat; */
             line-height: 1.2;
             text-align: center;
             color: rgb(155, 33, 114);
@@ -646,6 +646,13 @@
         .save-time {
             margin-left: 32%;
         }
+
+        @font-face {
+            font-family: 'myfont';
+            src: url('Parisienne-Regular');
+            font-weight: normal;
+            font-style: normal;
+        }
     </style>
 
 </head>
@@ -901,7 +908,7 @@
         <img src="images/advertice.png" class="adverticement_img" alt="">
     </div>
     <?php include 'footer/footer.php'; ?>
-    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-element-bundle.min.js"></script>
+    <script src="swiper.js"></script>
 </body>
 
 </html>

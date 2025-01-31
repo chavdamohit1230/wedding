@@ -1,3 +1,24 @@
+<?php
+require('vendor/autoload.php'); // If you're using Composer
+use Razorpay\Api\Api;
+
+$keyId = 'rzp_live_8tKlXBqiwVoirn'; // Replace with your Razorpay Key ID
+$keySecret = '0QgvmxcPL82yKGLsr1GnggZL'; // Replace with your Razorpay Key Secret
+
+// Razorpay API object creation
+$api = new Api($keyId, $keySecret);
+
+// Order Data (Updated receipt as string)
+$orderData = [
+    'receipt' => strval(rand(1000, 9999)), // Convert receipt to string
+    'amount' => '100', // Amount in paise (500 INR)
+    'currency' => 'INR',
+    'payment_capture' => 1, // Automatic capture
+];
+
+// Razorpay order creation
+$order = $api->order->create($orderData);
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -13,7 +34,7 @@
         }
 
         body {
-            font-family: Arial, sans-serif;
+            /* font-family: Arial, sans-serif; */
             background-color: #fff;
             color: #333;
         }
@@ -22,11 +43,13 @@
             width: 100%;
             max-width: 1200px;
             margin: 0 auto;
+            margin-top: 25px;
             /* padding: 20px; */
         }
 
         .main-content {
-            padding: 20px 0;
+            padding: px 0;
+
 
         }
 
@@ -137,7 +160,7 @@
 </head>
 
 <body>
-
+    <?php include("navbar.php"); ?>
     <!-- Header -->
     <header class="header">
         <div class="container header-container">
@@ -182,7 +205,10 @@
                 <div>
                     <h1>Swiping Stories Photography</h1>
                 </div>
-                <button class="button">Create Package</button>
+
+
+                <button class="button" id="pay-button">Pay now Conform Booking</button>
+
             </div>
 
             <div class="section">
@@ -267,7 +293,36 @@
             </div>
         </div>
     </section>
-
+    <?php include("footer/footer.php"); ?>
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <script>
+        document.getElementById('pay-button').onclick = function (e) {
+            var options = {
+                "key": "<?= $keyId; ?>", // Replace with your Razorpay Key ID
+                "amount": "100", // Amount in paise
+                "currency": "INR",
+                "name": "saptapadi",
+                "description": "Payment for order",
+                "image": "https://example.com/logo.png", // Your logo URL
+                "order_id": "<?= $order->id; ?>", // Dynamic Order ID
+                "handler": function (response) {
+                    alert("Payment successful. Razorpay Payment ID: " + response.razorpay_payment_id);
+                    // You can further process the response here
+                },
+                "prefill": {
+                    "name": "hiren",
+                    "email": "hiren@example.com",
+                    "contact": "9999999999"
+                },
+                "theme": {
+                    "color": "#631549"
+                }
+            };
+            var rzp1 = new Razorpay(options);
+            rzp1.open();
+            e.preventDefault();
+        }
+    </script>
 </body>
 
 </html>

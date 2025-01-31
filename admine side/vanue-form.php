@@ -30,7 +30,7 @@ if (isset($_POST["submit"])) {
 
     $dest = 'C:\wamp64\www\wedding\admine side\vanueimage/' . $_FILES["file"]["name"];
 
-    $result = "insert into vanue value('$n','$n1',$n2,$n3,'$vanuephoto')";
+    $result = "insert into vanue value('','$n','$n1',$n2,$n3,'$vanuephoto')";
 
     move_uploaded_file($tmpname, $dest);
 

@@ -358,7 +358,7 @@ include("connection/connection.php");
 
 
 
-      <?php echo "<a href='ananta.php?vid=$row[vanueid]'>"; ?>
+      <!-- <?php echo "<a href='ananta.php?vid=$row[vanueid]'>"; ?> -->
       <div class="card_container" data-aos="fade-up" data-aos-duration="1000" data-aos-mirror="true">
         <div class="card_img">
           <img src="../admine side/vanueimage/<?php echo $row['vanueimage']; ?>" alt="" class="card_img1">
@@ -372,9 +372,9 @@ include("connection/connection.php");
             <?php echo $row['location']; ?>
             <span class="c1-star"> <i class="fa-regular fa-star fa-shake star"></i>
               <?php echo $row['rating']; ?>
-              (7reviws)</span>
+              (reviws)</span>
             <i class="fa-solid fa-indian-rupee-sign fa-beat ruppi"></i>
-            <?php echo $row['price']; ?>
+            <?php echo $row['price']; ?> Lakhs
           </p>
           <p><button class="massage"><i class="fa-solid fa-envelope mail"></i>Send Massage</button><span
               class="sp-contect"><button class="contect"><i class="fa-solid fa-phone phone-i"></i>
