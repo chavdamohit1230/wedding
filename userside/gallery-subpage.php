@@ -1,4 +1,25 @@
 <?php
+include("connection/connection.php");
+
+$gt = $_GET['gid'];
+
+$select = "select * from  gallarytable where studioname='$gt'";
+
+$result = mysqli_query($con, $select);
+
+$row = mysqli_fetch_array($result);
+
+$image = explode(",", $row['studioimage']);
+
+$mmm = $image[0];
+
+
+
+
+?>
+
+
+<?php
 require('vendor/autoload.php'); // If you're using Composer
 use Razorpay\Api\Api;
 
@@ -183,16 +204,24 @@ $order = $api->order->create($orderData);
                 <!-- Grid of Smaller Images -->
                 <div class="small-images">
                     <div class="small-image">
-                        <img src="https://images.unsplash.com/photo-1604017011826-d3b4c23f8914" alt="Gallery image 1" />
+                        <?php $index = 0; ?>
+
+                        <img src="../admine side/images/<?php echo !empty($image[0]) ? $image[0] : 'default.jpg'; ?>"
+                            alt="Gallery image 1" />
                     </div>
                     <div class="small-image">
-                        <img src="https://images.unsplash.com/photo-1604017011826-d3b4c23f8914" alt="Gallery image 2" />
+                        <?php $index = 1; ?>
+
+                        <img src="../admine side/images/<?php echo !empty($image[1]) ? $image[1] : 'default.jpg'; ?>"
+                            alt="Gallery image 2" />
                     </div>
                     <div class="small-image">
-                        <img src="https://images.unsplash.com/photo-1604017011826-d3b4c23f8914" alt="Gallery image 3" />
+                        <img src="../admine side/images/<?php echo !empty($image[2]) ? $image[2] : 'default.jpg'; ?>"
+                            alt="Gallery image 3" />
                     </div>
                     <div class="small-image">
-                        <img src="https://images.unsplash.com/photo-1604017011826-d3b4c23f8914" alt="Gallery image 4" />
+                        <img src="../admine side/images/<?php echo !empty($image[2]) ? $image[3] : 'default.jpg'; ?>"
+                            alt="Gallery image 4" />
                     </div>
                 </div>
             </div>

@@ -1,9 +1,6 @@
 <?php
-
 include("connection/connection.php");
 ?>
-
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -15,33 +12,22 @@ include("connection/connection.php");
 
     <style>
         body {
-
-            margin: 0px;
-            padding: 0px;
-
-
+            margin: 0;
+            padding: 0;
         }
 
         .main_img {
-
             background-image: url("images/gallery/background.webp");
             height: 95vh;
             width: 100%;
             background-repeat: no-repeat;
             background-size: cover;
             display: flex;
-            height: 95vh;
-            width: 100%;
-            background-repeat: no-repeat;
-            background-size: cover;
-
         }
 
         .main_sub {
-
             height: 95vh;
             width: 100%;
-            z-index: 0px;
             background-color: black;
             opacity: 0.4;
             position: absolute;
@@ -57,26 +43,18 @@ include("connection/connection.php");
 
         .main_sub_h3_sp {
             color: rgb(281, 17, 119);
-            ;
         }
 
         .main_sub_h1 {
-
             position: absolute;
             color: white;
-            z-index: 20;
             font-size: 40px;
             top: 60%;
             left: 10%;
-
-
         }
 
         .photography_card_container {
             width: 100%;
-            max-height: 2250px;
-            min-height: 120px;
-
             display: flex;
             align-items: center;
             flex-wrap: wrap;
@@ -87,7 +65,7 @@ include("connection/connection.php");
             margin: 20px;
             height: 70vh;
             width: 27%;
-
+            text-decoration: none;
         }
 
         .photography_img {
@@ -96,104 +74,69 @@ include("connection/connection.php");
             border-radius: 5%;
             background-size: cover;
             background-repeat: no-repeat;
-
             object-fit: cover;
         }
 
         .studio_name {
             font-size: 20px;
-            position: relative;
             margin-left: 2px;
-            top: 12px;
-
+            margin-top: 12px;
+            color: black;
         }
 
-        .card_travel {
-
-            font-size: 18px;
-            color: #6a6a6a;
-            position: relative;
-            top: 12px;
-        }
-
-        .card_team {
-
-            font-size: 18px;
-            color: #6a6a6a;
-            position: relative;
-            top: 12px;
-        }
-
+        .card_travel,
+        .card_team,
         .card_price {
             font-size: 18px;
             color: #6a6a6a;
-            position: relative;
-            top: 12px;
+            margin-top: 8px;
         }
-
-        a {}
     </style>
+
     <link rel="stylesheet" href="aos/aos.css">
-
-
 </head>
 
+<body>
 
-<?php include 'navbar.php' ?>
+    <?php include 'navbar.php'; ?>
 
-<div class="main_sub"></div>
+    <div class="main_sub"></div>
 
-<div class="main_img">
+    <div class="main_img">
+        <h3 class="main_sub_h3" data-aos="fade-right" data-aos-offset="200" data-aos-delay="300"
+            data-aos-duration="1200" data-aos-mirror="true"> <span class="main_sub_h3_sp">Our</span> Exclusive</h3>
+        <h1 class="main_sub_h1" data-aos="fade-right" data-aos-delay="300" data-aos-duration="1200"
+            data-aos-mirror="true">
+            Photography</h1>
+    </div>
 
-    <h3 class="main_sub_h3" data-aos="fade-right" data-aos-offset="200" data-aos-delay="300" data-aos-duration="1200"
-        data-aos-mirror="true"> <span class=" main_sub_h3_sp">Our</span> Exclusive</h3>
-    <h1 class="main_sub_h1" data-aos="fade-right" data-aos-delay="300" data-aos-duration="1200" data-aos-mirror="true">
-        Photography</h1>
+    <div class="photography_card_container">
+        <?php
+        $query = "SELECT * FROM gallarytable";
+        $result = mysqli_query($con, $query);
 
-</div>
-
-<div class="photography_card_container">
-
-    <?php
-    $query = "select * from gallarytable";
-
-    $result = mysqli_query($con, $query);
-
-    while ($row = mysqli_fetch_array($result)) {
-
-        ?>
-
-        <div class="photography_card" data-aos="fade-up" data-aos-offset="200" data-aos-delay="300"
-            data-aos-duration="1100">
-            <a href="gallery-subpage.php">
+        while ($row = mysqli_fetch_array($result)) {
+            ?>
+            <a href="gallery-subpage.php?gid=<?php echo $row['studioname']; ?>" class="photography_card" data-aos="fade-up"
+                data-aos-offset="200" data-aos-delay="300" data-aos-duration="1100">
                 <img src="../admine side/images/<?php echo $row['studioimage']; ?>" alt="" class="photography_img">
                 <div>
-                    <p class="studio_name"><?php echo $row['studioname']; ?></p>
-                    <p class="card_travel"><?php echo $row['travel']; ?></p>
-                    <p class="card_team"> team size <?php echo $row['teamsize']; ?></p>
-                    <p class="card_price">Rs <?php echo $row['price']; ?> lakhs domestic wedding price</p>
+                    <p class="studio_name"><?php echo htmlspecialchars($row['studioname']); ?></p>
+                    <p class="card_travel"><?php echo htmlspecialchars($row['travel']); ?></p>
+                    <p class="card_team">Team size <?php echo htmlspecialchars($row['teamsize']); ?></p>
+                    <p class="card_price">Rs <?php echo htmlspecialchars($row['price']); ?> lakhs domestic wedding price</p>
                 </div>
-        </div>
-        </a>
+            </a>
+        <?php } ?>
+    </div>
 
-    <?php } ?>
+    <script src="aos/aos.js"></script>
+    <script>
+        AOS.init();
+    </script>
 
-
-</div>
-
-</section>
-<script src="aos/aos.js">
-</script>
-<script>
-
-    AOS.init();
-
-</script>
-<?php
-include 'footer/footer.php';
-?>
+    <?php include 'footer/footer.php'; ?>
 
 </body>
-
 
 </html>
