@@ -13,11 +13,12 @@ if (isset($_POST["submit"])) {
     $massage = $_POST["message"];
     $file_name = $_FILES['file']['name'];
 
+
     $dst = "C:\wamp64\www\wedding\admine side\serviceimage/" . $_FILES["file"]["name"];
     $tmp_name = $_FILES['file']['tmp_name'];
 
 
-    $result = "insert into servicetable value('$servicename','$massage','$file_name')";
+    $result = "insert into servicetable values('$servicename','$massage','$file_name')";
 
     $res = mysqli_query($con, $result);
 

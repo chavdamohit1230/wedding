@@ -21,12 +21,18 @@ include("connection/connection.php");
     body {
 
       overflow-x: hidden;
+
+    }
+
+    @font-face {
+      font-family: 'dancing';
+      src: url('font/DancingScript-Bold');
     }
 
     .container {
 
       background-image: url("images/service/sc3.webp");
-      height: 95vh;
+      height: 90vh;
       width: 100%;
       background-repeat: no-repeat;
       background-size: cover;
@@ -36,7 +42,7 @@ include("connection/connection.php");
     }
 
     .container-sub {
-      height: 95vh;
+      height: 90vh;
       width: 100%;
       z-index: 0;
       position: absolute;
@@ -49,20 +55,22 @@ include("connection/connection.php");
       position: relative;
       color: white;
       z-index: 20;
-      font-size: 50px;
+      font-size: 70px;
       margin-top: 40px;
-      font-family: "Playfair Display", serif;
+      /* font-family: "Playfair Display", serif; */
+      font-family: 'dancing';
       font-weight: 200;
       font-weight: 200;
     }
 
     .container_h3 {
 
-      font-size: 55px;
+      font-size: 67px;
       color: white;
       margin-bottom: 100px;
       position: absolute;
-      font-family: "Playfair Display", serif;
+      /* font-family: "Playfair Display", serif; */
+      font-family: 'dancing';
       font-weight: 200;
       font-weight: 200;
     }
@@ -91,8 +99,9 @@ include("connection/connection.php");
 
     .contain_h1 {
 
-      font-size: 35px;
-      font-family: "Playfair Display", serif;
+      font-size: 55px;
+      /* font-family: "Playfair Display", serif; */
+      font-family: 'dancing';
       color: #6B1D4F;
       font-weight: 200;
     }
@@ -134,12 +143,13 @@ include("connection/connection.php");
 
     .card_header {
 
-      font-size: 35px;
+      font-size: 40px;
       position: relative;
       /* margin: 10px; */
 
       top: 10px;
-      font-family: "Playfair Display", serif;
+      /* font-family: "Playfair Display", serif; */
+      font-family: 'dancing';
       font-weight: 200;
       color: #6B1D4F;
       font-weight: 200;
@@ -213,6 +223,7 @@ include("connection/connection.php");
       margin-left: 31%;
       top: 50px;
       font-family: "Playfair Display", serif;
+      /* font-family: 'dancing'; */
       font-weight: 200;
       color: #6B1D4F;
       font-weight: 200;
@@ -286,9 +297,10 @@ include("connection/connection.php");
 
       font-size: 35px;
       position: relative;
-      left: 17%;
       top: 14%;
       color: #6B1D4F;
+      /* font-family: 'dancing'; */
+      text-align: center;
     }
 
     .special_Card1_p {
@@ -314,6 +326,7 @@ include("connection/connection.php");
       font-size: 16px;
       background-color: #6B1D4F;
       color: white;
+      font-family: 'dancing';
       margin-top: 30px;
       margin-left: 25%;
       font-weight: 550;
@@ -403,9 +416,9 @@ include("connection/connection.php");
 
       <div class="special_card_design" data-aos="flip-up" data-aos-duration="1100" data-aos-offset="100">
 
-        <img src="images/service/p8.jpg" alt="" class="img2">
-        <img src="images/service/p8.jpg" alt="" class="img2">
-        <img src="images/service/p8.jpg" alt="" class="img2">
+        <img src="images/service/coctail.jpg" alt="" class="img2">
+        <img src="images/service/coctail.jpg" alt="" class="img2">
+        <img src="images/service/coctail.jpg" alt="" class="img2">
 
       </div>
 

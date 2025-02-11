@@ -25,6 +25,11 @@ include("connection/connection.php");
             display: flex;
         }
 
+        @font-face {
+            font-family: 'dancing';
+            src: url('font/DancingScript-Bold');
+        }
+
         .main_sub {
             height: 95vh;
             width: 100%;
@@ -34,10 +39,11 @@ include("connection/connection.php");
         }
 
         .main_sub_h3 {
-            font-size: 60px;
+            font-size: 70px;
             color: white;
             position: absolute;
             top: 50%;
+            font-family: 'dancing';
             left: 8%;
         }
 
@@ -48,9 +54,10 @@ include("connection/connection.php");
         .main_sub_h1 {
             position: absolute;
             color: white;
-            font-size: 40px;
-            top: 60%;
+            font-size: 50px;
+            top: 61%;
             left: 10%;
+            font-family: 'dancing';
         }
 
         .photography_card_container {
@@ -111,15 +118,25 @@ include("connection/connection.php");
     </div>
 
     <div class="photography_card_container">
+
         <?php
         $query = "SELECT * FROM gallarytable";
         $result = mysqli_query($con, $query);
 
+        // $row = mysqli_fetch_array($result);
+        
+
         while ($row = mysqli_fetch_array($result)) {
+
+            $image = explode(",", string: $row['studioimage']);
+
+
             ?>
-            <a href="gallery-subpage.php?gid=<?php echo $row['studioname']; ?>" class="photography_card" data-aos="fade-up"
+
+
+            <a href="gallery-subpage.php?gid=<?php echo $row['studiono']; ?>" class="photography_card" data-aos="fade-up"
                 data-aos-offset="200" data-aos-delay="300" data-aos-duration="1100">
-                <img src="../admine side/images/<?php echo $row['studioimage']; ?>" alt="" class="photography_img">
+                <img src="../admine side/images/<?php echo $image[1] ?>" alt="" class="photography_img">
                 <div>
                     <p class="studio_name"><?php echo htmlspecialchars($row['studioname']); ?></p>
                     <p class="card_travel"><?php echo htmlspecialchars($row['travel']); ?></p>

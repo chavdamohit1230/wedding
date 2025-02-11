@@ -3,51 +3,79 @@ ob_start();
 include("connection.php");
 
 if (isset($_POST["add"])) {
+    $uploadDir = "C:/wamp64/www/wedding/admine side/images/";
 
-    $studioname = $_POST["studioname"];
-    $travel = $_POST['travel'];
-    $teamsize = $_POST['teamsize'];
-    $price = $_POST['price'];
-
-
-    $file_name = $_FILES['file']['name'];
-
-    $dst = "C:\wamp64\www\wedding\admine side\images/" . $_FILES["file"]["name"];
-    $tmp_name = $_FILES['file']['tmp_name'];
-
-    $result = "insert into gallarytable value('','$studioname','$travel','$teamsize','$price','$file_name')";
-
-    $res = mysqli_query($con, $result);
-
-    if (!$res) {
-
-        echo "<script>
-        document.addEventListener('DOMContentLoaded', function() {
-            Swal.fire({
-                title: 'Error!',
-                text: 'Failed to Add Package',
-                icon: 'error',
-                confirmButtonText: 'OK'
-            });
-        });
-        </script>";
-    } else {
-
-        echo "<script>
-        document.addEventListener('DOMContentLoaded', function() {
-            Swal.fire({
-                title: 'Success!',
-                text: 'Gallery Package Add Successfully ',
-                icon: 'success',
-            }).then(() => {
-                window.location.href = 'gallerytable.php'; // Redirect to the table page after OK
-            });
-        });
-        </script>";
+    // Ensure the folder exists
+    if (!is_dir($uploadDir)) {
+        mkdir($uploadDir, 0777, true);
     }
 
+    // Gallery images
+    $file_names = $_FILES['file']['name'];
+    $tmp_names = $_FILES['file']['tmp_name'];
+    $file_errors = $_FILES['file']['error'];
 
-    move_uploaded_file($tmp_name, $dst);
+    // Form fields
+    $studioname = mysqli_real_escape_string($con, $_POST['studioname'] ?? '');
+    $travel = mysqli_real_escape_string($con, $_POST['travel'] ?? '');
+    $teamsize = mysqli_real_escape_string($con, $_POST['teamsize'] ?? '0');
+    $price = mysqli_real_escape_string($con, $_POST['price'] ?? '0');
+
+    $uploaded_files = [];
+    $allowedExtensions = ['jpg', 'jpeg', 'png'];
+
+    // Upload multiple files
+    if (!empty($file_names) && is_array($file_names)) {
+        foreach ($file_names as $key => $file) {
+            if ($file_errors[$key] === 0) {
+                $fileExt = strtolower(pathinfo($file, PATHINFO_EXTENSION));
+
+                // Validate file type
+                if (!in_array($fileExt, $allowedExtensions)) {
+                    echo "Invalid file type: $file <br>";
+                    continue;
+                }
+
+                // Ensure unique filename
+                $newFileName = uniqid() . "_" . basename($file);
+                $destination = $uploadDir . $newFileName;
+
+                if (move_uploaded_file($tmp_names[$key], $destination)) {
+                    $uploaded_files[] = $newFileName;
+                } else {
+                    echo "Failed to move: $file <br>";
+                }
+            } else {
+                echo "File error: $file <br>";
+            }
+        }
+    }
+
+    // Convert uploaded files to a string for database
+    $file_paths = implode(",", $uploaded_files);
+
+    // Ensure all required fields are set before inserting into the database
+    if (!empty($studioname) && !empty($file_paths)) {
+        $stmt = $con->prepare("INSERT INTO gallarytable (studioname, travel, teamsize, price, studioimage) VALUES (?, ?, ?, ?, ?)");
+        $stmt->bind_param("sssss", $studioname, $travel, $teamsize, $price, $file_paths);
+
+        if ($stmt->execute()) {
+            echo "<script>
+                    Swal.fire({
+                        title: 'Success!',
+                        text: 'Gallery Images Added Successfully',
+                        icon: 'success'
+                    }).then(() => {
+                        window.location.href = 'gallerytable.php';
+                    });
+                  </script>";
+        } else {
+            echo "Database Insert Error: " . $stmt->error;
+        }
+        $stmt->close();
+    } else {
+        echo "<script>Swal.fire('Error', 'Required fields are missing!', 'error');</script>";
+    }
 }
 ?>
 
@@ -58,7 +86,7 @@ if (isset($_POST["add"])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Label Inside Border on Focus</title>
+    <title>Gallery Package</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -92,21 +120,16 @@ if (isset($_POST["add"])) {
         .form-group input {
             width: 100%;
             padding: 10px;
-            margin: 0;
             border: 1px solid #ccc;
             border-radius: 4px;
             background-color: #f9f9f9;
             font-size: 14px;
             outline: none;
-            position: relative;
-            box-sizing: border-box;
             transition: border-color 0.3s ease;
         }
 
         .form-group input:focus {
             border-color: rgb(57, 17, 44);
-            ;
-
         }
 
         .form-group label {
@@ -126,7 +149,6 @@ if (isset($_POST["add"])) {
             top: -1px;
             font-size: 12px;
             color: rgb(57, 17, 44);
-
         }
 
         input[type="submit"] {
@@ -148,55 +170,44 @@ if (isset($_POST["add"])) {
 
 <body>
 
-
-
-    <?php
-
-    $mm = $_GET['studioname'];
-    echo $mm;
-
-    ?>
-
-
     <div class="form-container">
         <h2>Gallery Package</h2>
         <form action="#" method="POST" enctype="multipart/form-data">
 
             <div class="form-group">
-                <input type="text" id="name" name="studioname" placeholder=" ">
-                <label for="name">Studioname</label>
+                <input type="text" name="studioname" required>
+                <label>Studio Name</label>
             </div>
-
 
             <div class="form-group">
-                <input type="text" id="travel" name="travel" placeholder=" ">
-                <label for="email">Travel</label>
+                <input type="text" name="travel" required>
+                <label>Travel</label>
             </div>
-
 
             <div class="form-group">
-                <input type="text" id="teamsize" name="teamsize" placeholder=" ">
-                <label for="age">Team Size</label>
+                <input type="number" name="teamsize" required>
+                <label>Team Size</label>
             </div>
-
-
 
             <div class="form-group">
-                <input type="text" id="package" name="price" placeholder=" ">
-                <label for="phone">package Price</label>
+                <input type="number" name="price" required>
+                <label>Package Price</label>
             </div>
-
-
+            <!-- 
+            <div class="form-group">
+                <input type="file" name="file1" required>
+                <label>Main Image</label>
+            </div> -->
 
             <div class="form-group">
-                <input type="file" id="file" name="file">
-                <label for="file">Upload File</label>
+                <input type="file" name="file[]" multiple>
+                <label>Gallery Images</label>
             </div>
-
 
             <input type="submit" value="Add Package" name="add">
         </form>
     </div>
+
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.17/dist/sweetalert2.all.min.js"></script>
 
 </body>

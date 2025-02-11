@@ -13,6 +13,10 @@
             padding: 0px;
         }
 
+        @font-face {
+            font-family: 'dancing';
+            src: url('font/DancingScript-Bold');
+        }
 
         .cover_container {
             height: 700px;
@@ -37,12 +41,12 @@
             z-index: 20;
             margin-left: 14%;
             margin-top: 15%;
-            font-size: 80px;
+            font-size: 95px;
             position: relative;
             color: rgb(281, 17, 119);
-            font-family: "Playfair Display", serif;
+            /* font-family: "Playfair Display", serif; */
             font-weight: 200;
-
+            font-family: 'dancing';
         }
 
         .container_p1_sp {
@@ -53,9 +57,10 @@
             color: white;
             z-index: 20;
             margin-left: 14%;
-            margin-top: 1%;
+            margin-top: 0%;
             font-size: 20px;
             position: relative;
+            font-family: 'dancing';
         }
 
         .first_section {
@@ -75,12 +80,13 @@
 
         .first_Section_Detail_h1 {
 
-            font-size: 40px;
+            font-size: 50px;
             margin-left: 9%;
             position: absolute;
             margin-top: 120px;
             line-height: 55px;
-            font-family: "Playfair Display", serif;
+            /* font-family: "Playfair Display", serif; */
+            font-family: 'dancing';
             font-weight: 200;
             color: #6B1D4F;
         }
@@ -142,6 +148,7 @@
             font-size: 32px;
             margin-left: 24%;
             margin-top: 25px;
+            font-family: 'dansing';
             color: #6B1D4F;
 
         }
@@ -192,13 +199,15 @@
 
         .second_Section_h1 {
 
-            font-size: 60px;
+            font-size: 70px;
             position: relative;
             top: 15%;
-            margin-left: 21.5%;
+            /* margin-left: 21.5%; */
             /* color: rgb(281, 17, 119); */
             color: #6B1D4F;
-            font-family: "Playfair Display", serif;
+            /* font-family: "Playfair Display", serif; */
+            font-family: 'dancing';
+            text-align: center;
             font-weight: 200;
 
         }

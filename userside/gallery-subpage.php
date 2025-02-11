@@ -3,13 +3,13 @@ include("connection/connection.php");
 
 $gt = $_GET['gid'];
 
-$select = "select * from  gallarytable where studioname='$gt'";
+$select = "select * from  gallarytable where studiono='$gt'";
 
 $result = mysqli_query($con, $select);
 
 $row = mysqli_fetch_array($result);
 
-$image = explode(",", $row['studioimage']);
+$image = explode(",", string: $row['studioimage']);
 
 $mmm = $image[0];
 
@@ -198,7 +198,8 @@ $order = $api->order->create($orderData);
             <div class="gallery-grid">
                 <!-- Featured Large Image -->
                 <div class="featured-image">
-                    <img src="images/gallery/p2.jpg" alt="Featured photograph" />
+                    <img src="../admine side/images/<?php echo !empty($image[1]) ? $image[1] : 'default.jpg'; ?>"
+                        alt="Gallery image 1" />
                 </div>
 
                 <!-- Grid of Smaller Images -->

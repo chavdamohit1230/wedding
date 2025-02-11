@@ -202,7 +202,10 @@
                     <a href="vanue.php">
                         <li class="navli">BOOK VENUE</li>
                     </a>
-                    <li class="navli">WEDSHOP</li>
+                    <a href="wedshop.php">
+
+                        <li class="navli">WEDSHOP</li>
+                    </a>
                     <a href="appoiment.php">
                         <li class="navli">BOOK APPOINTMENT</li>
                     </a>

@@ -185,7 +185,7 @@ if (isset($_POST["update"])) {
             </div>
 
             <div class="input-group">
-                <input type="file" id="file" name="file" class="file-input" value="<?php echo $imge; ?>">
+                <input type="file" id="file" name="file" class="file-input" multiple value="<?php echo $imge; ?>">
                 <p><?php echo $imge; ?></p>
             </div>
 
