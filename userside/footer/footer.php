@@ -12,18 +12,19 @@
         }
 
         footer {
-            height: 34em;
+            height: 30em;
             width: 100%;
             background-color: rgb(99, 21, 73);
             position: absolute;
             justify-content: center;
+
 
         }
 
 
         .over_company {
 
-            height: 17rem;
+            height: 15rem;
             width: 23%;
             /* margin: 10px; */
             display: flex;
@@ -33,21 +34,21 @@
 
         .plan_your_wedding {
             margin: 10px;
-            height: 17rem;
+            height: 15rem;
             width: 23%;
 
         }
 
         .vendore_signup {
             margin: 10px;
-            height: 17rem;
+            height: 15rem;
             width: 23%;
 
         }
 
         .socialmedia_logo {
             margin: 10px;
-            height: 17rem;
+            height: 15rem;
             width: 23%;
 
 
@@ -55,8 +56,8 @@
 
         .footer_container {
             position: relative;
-            height: 45vh;
-            top: 18%;
+            height: 34vh;
+            top: 20%;
             width: 95%;
             display: flex;
             justify-content: center;
@@ -66,6 +67,7 @@
 
         .over_company_h2 {
             align-items: left;
+            margin-bottom: 12px;
             color: white;
         }
 
@@ -95,10 +97,10 @@
 
         .web_logo {
 
-            height: 200px;
+            height: 160px;
             position: relative;
             right: 2%;
-            top: -70%;
+            top: -40%;
             opacity: 0.9;
         }
 
@@ -106,7 +108,7 @@
             margin: 5%;
             color: white;
             position: relative;
-            top: -45px;
+            top: -35px;
             letter-spacing: 0.3px;
         }
 
@@ -183,7 +185,7 @@
             <img src="footer/l1.png" class="web_logo" alt="">
             <p class="footerp">Terms & Conditions.</p>
             <p class="footerp">Privacy & Policy</p>
-            <p class="copyright footerp">copyright 2025 saptapadi services pvt ltd. All rights .</p>
+            <p class="copyright footerp">copyright &copy;2025 saptapadi services pvt ltd. All rights .</p>
         </div>
     </footer>
 </body>

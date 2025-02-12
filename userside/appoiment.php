@@ -302,13 +302,13 @@
         }
 
         .card_description {
-            margin: 20px 0px 0px;
+            margin: 20px 5px 5px;
             font-size: 0.9rem;
             letter-spacing: 0.1rem;
             font-family: Montserrat, sans-serif;
             font-weight: 400;
             line-height: 1.5;
-            ;
+            text-align: center;
         }
 
         .third_container {

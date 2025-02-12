@@ -21,6 +21,11 @@
             padding: 0;
         }
 
+        @font-face {
+            font-family: 'dancing';
+            src: url('font/DancingScript-Bold');
+        }
+
         swiper-container {
             width: 100%;
             height: 90%;
@@ -75,9 +80,11 @@
         .text-overlay_h1 {
             margin: 0px;
             letter-spacing: 0.1rem;
-            font-family: Montserrat;
+            font-family: 'dancing';
+            /* font-family: Montserrat; */
             line-height: 1.167;
             text-align: center;
+            font-size: 53px;
             color: white;
         }
 
@@ -664,14 +671,14 @@
 
         <swiper-slide><img src="images/gallery/background.webp" alt="">
             <div class="text-overlay">
-                <h1 class="text-overlay_h1">YOUR WEDDING IS OUR WEDDING TOO!</h1>
-                <p class="text-overlay_p">WHEN IN NEED, A WEDORNIATOR IS THERE INDEED.</p>
+                <h1 class="text-overlay_h1">Your Wedding Is Our Wedding Too!</h1>
+                <p class="text-overlay_p">When In Need, A Wedorniator Is There Indeed.</p>
             </div>
         </swiper-slide>
         <swiper-slide><img src="images/about/mm1.jpg" alt="">
             <div class="text-overlay">
-                <h1 class="text-overlay_h1">YOUR WEDDING IS OUR WEDDING TOO!</h1>
-                <p class="text-overlay_p">WHEN IN NEED, A WEDORNIATOR IS THERE INDEED.</p>
+                <h1 class="text-overlay_h1">Your Wedding Is Our Wedding Too!</h1>
+                <p class="text-overlay_p">When In Need, A Wedorniator Is There Indeed.</p>
             </div>
         </swiper-slide>
         </div>

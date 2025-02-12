@@ -27,6 +27,11 @@ include("connection/connection.php");
       width: 100%;
     } */
 
+    @font-face {
+      font-family: 'dancing';
+      src: url('font/DancingScript-Bold');
+    }
+
     .main-container {
       background-color: black;
       height: 650px;
@@ -51,8 +56,9 @@ include("connection/connection.php");
 
     .main_p {
 
-      font-size: 65px;
+      font-size: 73px;
       color: white;
+      font-family: 'dancing';
       position: absolute;
     }
 
@@ -63,10 +69,11 @@ include("connection/connection.php");
 
     .main_p1 {
 
-      font-size: 45px;
+      font-size: 55px;
       color: white;
       position: absolute;
-      margin-top: 7%;
+      font-family: 'dancing';
+      margin-top: 8%;
     }
 
     .why_bookvanue_container {
@@ -96,6 +103,10 @@ include("connection/connection.php");
 
     .why_bookvanue_Calass_h1 {
       color: #9b2172;
+      font-family: 'dancing';
+      font-size: 50px;
+
+
     }
 
     .description_whybook_vanue {
@@ -111,6 +122,7 @@ include("connection/connection.php");
       justify-items: center;
       line-height: 24px;
       text-align: center;
+
     }
 
     .top_city_vanue {
@@ -125,11 +137,13 @@ include("connection/connection.php");
     .top_city_vanue_h3 {
       color: #9b2172;
       font: normal normal 300 38px / 73px Montserrat;
-      font-size: 30px;
+      font-size: 40px;
       font-weight: 600;
       margin-bottom: 15px;
       text-align: center;
-      text-transform: uppercase;
+      /* text-transform: uppercase; */
+      font-family: 'dancing';
+
     }
 
     .top_city_vanue_p {
@@ -311,8 +325,8 @@ include("connection/connection.php");
   <div class="why_bookvanue_container">
     <div class="why_bookvanue">
       <div class="why_bookvanue_Calass">
-        <h1 class="why_bookvanue_Calass_h1" data-aos="fade-up" data-aos-duration="1000" data-aos-mirror="true">WHY BOOK
-          DESTINATION VANUE ?</h1>
+        <h1 class="why_bookvanue_Calass_h1" data-aos="fade-up" data-aos-duration="1000" data-aos-mirror="true">Why Book
+          Destination Vanue ?</h1>
       </div>
       <div class="description_whybook_vanue">
         <p class="description_whybook_vanue_P" data-aos="fade-up" data-aos-duration="1000" data-aos-mirror="true">
@@ -327,8 +341,8 @@ include("connection/connection.php");
       </div>
     </div>
     <div class="top_city_vanue">
-      <h3 class="top_city_vanue_h3" data-aos="fade-up" data-aos-duration="1000" data-aos-mirror="true">TOP DESTINATION
-        WEDDING CITIES</h3>
+      <h3 class="top_city_vanue_h3" data-aos="fade-up" data-aos-duration="1000" data-aos-mirror="true">Top Destination
+        Wedding City's</h3>
       <p class="top_city_vanue_p" data-aos="fade-up" data-aos-duration="1000" data-aos-mirror="true">Select a city and
         see whats in store for you. 7Vachan brings to you a wide range of
         venue options for your big day.</p>

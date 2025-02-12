@@ -18,7 +18,7 @@ include("connection/connection.php");
 
         .main_img {
             background-image: url("images/gallery/background.webp");
-            height: 95vh;
+            height: 85vh;
             width: 100%;
             background-repeat: no-repeat;
             background-size: cover;
@@ -31,7 +31,7 @@ include("connection/connection.php");
         }
 
         .main_sub {
-            height: 95vh;
+            height: 85vh;
             width: 100%;
             background-color: black;
             opacity: 0.4;
