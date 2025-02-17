@@ -39,6 +39,8 @@ if (isset($_POST['send'])) {
     $_SESSION["email"] = $email = $_POST["to"];
     $_SESSION["city"] = $_POST["city"];
     $_SESSION["phone"] = $_POST["phone"];
+    $_SESSION["pass"] = $_POST["password"];
+
 
 }
 
@@ -70,43 +72,81 @@ if ($to && $emailBody) {
 
     // Send the email
     if (!$mail->Send()) {
-        echo $mail->ErrorInfo;
+        echo "<script>
+        document.addEventListener('DOMContentLoaded', function() {
+            Swal.fire({
+                title: 'Error!',
+                text: 'Failed to send OTP. Please try again.',
+                icon: 'error',
+                confirmButtonText: 'OK'
+            });
+        });
+        </script>";
     } else {
         $showButtons = true;
         $verifyOtpButton = true;
 
+        echo "<script>
+        document.addEventListener('DOMContentLoaded', function() {
+            Swal.fire({
+                title: 'OTP Sent!',
+                text: 'Please check your email for the OTP.',
+                icon: 'success'
+            });
+        });
+        </script>";
     }
+
 }
-
 if (isset($_POST["verify"])) {
-
     $inputOtp = $_POST["otp-input"];
     $name = $_SESSION['name'];
     $email = $_SESSION['email'];
+    $password = $_SESSION["pass"];
     $city = $_SESSION['city'];
     $phone = $_SESSION['phone'];
 
     if ($_SESSION['otp'] == $inputOtp) {
-        $res = "INSERT INTO userregistration VALUES('$name','$email','$city','$phone')";
+
+        $res = "INSERT INTO userregistration VALUES ('$name','$email','$password','$city','$phone')";
         $result = mysqli_query($con, $res);
-
-
         if (!$result) {
             echo "<script>
-                document.addEventListener('DOMContentLoaded', function() {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Oops!',
-                        text: 'Something went wrong!'
-                    });
+            document.addEventListener('DOMContentLoaded', function() {
+                Swal.fire({
+                    title: 'Error!',
+                    text: 'Database Insertion Failed',
+                    icon: 'error',
+                    confirmButtonText: 'OK'
                 });
+            });
             </script>";
         } else {
 
-            header("Location: index.php");
+            echo "<script>
+            document.addEventListener('DOMContentLoaded', function() {
+                Swal.fire({
+                    title: 'Success!',
+                    text: 'Registration Completed Successfully',
+                    icon: 'success'
+                }).then(() => {
+                    window.location.href = '../index.php';
+                });
+            });
+          </script>";
         }
+    } else {
+        echo "<script>
+        document.addEventListener('DOMContentLoaded', function() {
+            Swal.fire({
+                title: 'Invalid OTP!',
+                text: 'Please enter the correct OTP.',
+                icon: 'error',
+                confirmButtonText: 'OK'
+            });
+        });
+        </script>";
     }
-
 }
 
 ?>
@@ -119,14 +159,19 @@ if (isset($_POST["verify"])) {
     <title>Floating Label Form with Image</title>
     <style>
         body {
+            background: url("../images/loginbackground.jpg");
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
             display: flex;
             justify-content: center;
             align-items: center;
+            width: 100%;
+
             height: 100vh;
-            background-color: white;
+            background-size: cover;
+            background-repeat: no-repeat;
+
         }
 
         .container {
@@ -135,26 +180,8 @@ if (isset($_POST["verify"])) {
             border-radius: 8px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
             overflow: hidden;
-            width: 800px;
+            width: 450px;
             /* Total width for form + image */
-        }
-
-        .image-container {
-            flex: 1;
-            background-color: white;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .image-container img {
-            width: 50%;
-            height: 85%;
-            position: fixed;
-            margin-left: ;
-            border-radius: 5px;
-            background-color: blue;
-            /* box-shadow: 1px 2px 1px 0px; */
         }
 
         .form-container {
@@ -320,6 +347,10 @@ if (isset($_POST["verify"])) {
                 <label for="email">Email</label>
             </div>
             <div class="form-group">
+                <input type="password" name="password" id="password" placeholder="" value="">
+                <label for="email">Password</label>
+            </div>
+            <div class="form-group">
                 <input type="text" name="city" id="city" placeholder=" " value="<?php echo $_SESSION['city'] ?? ''; ?>">
                 <label for="city">City</label>
             </div>
@@ -344,9 +375,8 @@ if (isset($_POST["verify"])) {
         </form>
     </div>
 </div>
-<script>
 
-</script>
+
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
 

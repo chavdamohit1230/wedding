@@ -172,10 +172,10 @@
             <div class="login_register_container">
                 <p class="header_p">Are You Vendor?</p>
                 <div class="login_register">
-                    <a href="javascript:void(0);" onclick="openLoginModal(event)">
+                    <a href="">
                         <p class="login_register_p">Login</p>
                     </a>
-                    <a href="javascript:void(0);" id="openRegisterBtn">
+                    <a href="login/Register.php">
                         <p class="login_register_p"> | Register</p>
                     </a>
                 </div>
@@ -214,56 +214,8 @@
         </nav>
     </section>
 
-    <!-- Register Modal -->
-    <div id="registerModal" class="modal">
-        <div class="modal-content">
-            <span class="close" id="closeRegisterModal">&times;</span>
-            <iframe id="modalFrame" src="login/register.php" width="100%" height="100%" frameborder="0"></iframe>
-        </div>
-    </div>
 
-    <!-- Login Modal -->
-    <div id="loginModal" class="modal">
-        <div class="modal-content">
-            <span class="close" id="closeLoginModal">&times;</span>
-            <?php require("login/error.php"); ?>
-        </div>
-    </div>
 
-    <script>
-        // Open Login Modal
-        function openLoginModal(event) {
-            event.preventDefault(); // Prevent default action
-            document.getElementById('loginModal').style.display = 'flex';
-        }
-
-        // Close Login Modal
-        function closeLoginModal() {
-            document.getElementById('loginModal').style.display = 'none';
-        }
-
-        // Open Register Modal
-        function openRegisterModal(event) {
-            event.preventDefault();
-            document.getElementById('registerModal').style.display = 'flex';
-        }
-
-        // Close Register Modal
-        function closeRegisterModal() {
-            document.getElementById('registerModal').style.display = 'none';
-        }
-
-        // Attach event listeners
-        document.getElementById('openRegisterBtn').addEventListener('click', openRegisterModal);
-        document.getElementById('closeRegisterModal').addEventListener('click', closeRegisterModal);
-        document.getElementById('closeLoginModal').addEventListener('click', closeLoginModal);
-
-        // Ensure modals are hidden on page load
-        window.onload = function () {
-            document.getElementById('registerModal').style.display = 'none';
-            document.getElementById('loginModal').style.display = 'none';
-        };
-    </script>
 </body>
 
 </html>
