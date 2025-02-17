@@ -1,3 +1,14 @@
+<?php
+ob_start();
+//session_start();
+session_start();
+error_reporting(0);
+
+if (isset($_POST['logout'])) {
+
+    session_destroy();
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -169,18 +180,45 @@
             <div class="header_logo">
                 <img src="images/navbar/l1.png" alt="Logo" class="logo_img">
             </div>
-            <div class="login_register_container">
-                <p class="header_p">Are You Vendor?</p>
-                <div class="login_register">
-                    <a href="">
-                        <p class="login_register_p">Login</p>
-                    </a>
-                    <a href="login/Register.php">
-                        <p class="login_register_p"> | Register</p>
-                    </a>
+            <?php
+            $id = $_SESSION["useremail"];
+            if (!$id) {
+                ?>
+                <div class="login_register_container">
+                    <p class="header_p">Are You Vendor?</p>
+                    <div class="login_register">
+                        <a href="login.php">
+                            <p class="login_register_p">Login</p>
+                        </a>
+                        <a href="login/Register.php">
+                            <p class="login_register_p"> | Register</p>
+                        </a>
+                    </div>
                 </div>
             </div>
-        </div>
+            <?php
+            } else {
+                ?>
+
+            <div class="login_register_container">
+                <p class="header_p"></p>
+                <div class="login_register">
+
+                    <p class="login_register_p">Profile</p>
+
+                    <form action="" method="post">
+                        <p class="login_register_p">
+                            <button type="submit" name="logout" value="logout">logout</button>
+
+                        </p>
+                    </form>
+
+                </div>
+            </div>
+            </div>
+
+
+        <?php } ?>
     </section>
 
     <section>

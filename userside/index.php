@@ -1,3 +1,6 @@
+<?php include 'navbar.php'
+
+    ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -665,7 +668,7 @@
 </head>
 
 <body>
-    <?php include 'navbar.php' ?>
+
     <swiper-container class="mySwiper" pagination="true" pagination-clickable="true" space-between="30" loop="true"
         autoplay="true">
 

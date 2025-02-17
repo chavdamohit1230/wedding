@@ -1,7 +1,7 @@
 <?php
-
+ob_start();
 include("connection/connection.php");
-
+include("navbar.php");
 ?>
 
 
@@ -306,9 +306,7 @@ include("connection/connection.php");
 </head>
 
 <body>
-  <?php
-  include("navbar.php");
-  ?>
+
 
   <div class="container">
     <div class="main-container"></div>

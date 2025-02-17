@@ -1,59 +1,63 @@
 <?php
+session_start();
 include("connection/connection.php");
 
-// if (isset($_POST["login"])) {
+if (isset($_POST["login"])) {
 
-//     $email = $_POST["email"];
-//     $pass = $_POST["pass"];
-//     // $pass = $_POST["password"];
+    $email = $_POST["email"];
+    $pass = $_POST["pass"];
+    // $pass = $_POST["password"];
 
-//     $query1 = "select * from userregistration where email='$email' and password='$pass'";
-//     $result = mysqli_query($con, $query1);
+    $query1 = "select * from userregistration where email='$email' and password='$pass'";
+    $result = mysqli_query($con, $query1);
 
-//     echo "<script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>"; // SweetAlert2 CDN
+    echo "<script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>"; // SweetAlert2 CDN
 
-//     if (mysqli_num_rows($result) > 0) {
-//         echo "<script>
-//             document.addEventListener('DOMContentLoaded', function() {
-//                 Swal.fire({
-//                     title: 'Login Successful!',
-//                     text: 'Redirecting to your dashboard...',
-//                     icon: 'success',
-//                     background: 'rgb(99, 21, 73)',
-//                     color:'white',
-//                     timer: 2000,
-//                     showConfirmButton: false
-//                 }).then(() => {
-//                     window.location.href = 'index.php'; // Redirect on success
-//                 });
-//             });
-//         </script>";
-//     } else {
-//         echo "<script>
-//             document.addEventListener('DOMContentLoaded', function() {
-//                 Swal.fire({
-//                     title: 'Login Failed!',
-//                     text: 'Invalid email or password. Please try again.',
-//                     icon: 'error',
-//                     background: 'rgb(99, 21, 73)',
-//                     color:'white',
-//                     confirmButtonText: 'Retry'
-//                 });
-//             });
-//         </script>";
-//     }
-// }
+    if (mysqli_num_rows($result) > 0) {
 
-
-if (isset($_POST["updatepass"])) {
-
-    $email = $_POST["reset_email"];
-    $newpass = $_POST["new_password"];
-
-    echo $email;
-    echo $newpass;
-
+        $_SESSION["useremail"] = $email;
+        echo $_SESSION["useremail"];
+        echo "<script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    Swal.fire({
+                        title: 'Login Successful!',
+                        text: 'Redirecting to your dashboard...',
+                        icon: 'success',
+                        background: 'rgb(99, 21, 73)',
+                        color:'white',
+                        timer: 2000,
+                        showConfirmButton: false
+                    }).then(() => {
+                        window.location.href = 'index.php'; // Redirect on success
+                    });
+                });
+            </script>";
+    } else {
+        echo "<script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    Swal.fire({
+                        title: 'Login Failed!',
+                        text: 'Invalid email or password. Please try again.',
+                        icon: 'error',
+                        background: 'rgb(99, 21, 73)',
+                        color:'white',
+                        confirmButtonText: 'Retry'
+                    });
+                });
+            </script>";
+    }
 }
+
+
+// if (isset($_POST["updatepass"])) {
+
+//     $email = $_POST["reset_email"];
+//     $newpass = $_POST["new_password"];
+
+//     echo $email;
+//     echo $newpass;
+
+// }
 
 ?>
 

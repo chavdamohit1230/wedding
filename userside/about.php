@@ -1,3 +1,16 @@
+<?php
+
+session_start();
+
+$userid = $_SESSION["useremail"];
+
+if (!$userid) {
+    header("location:login.php");
+    exit;
+}
+
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 
