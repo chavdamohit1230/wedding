@@ -1,5 +1,16 @@
 <?php
 include("connection/connection.php");
+include 'navbar.php';
+
+session_start();
+
+$userid = $_SESSION["useremail"];
+
+if (!$userid) {
+  header("location:login.php");
+  exit;
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -349,7 +360,6 @@ include("connection/connection.php");
 </head>
 
 <body>
-  <?php include 'navbar.php' ?>
   <div class="main-container">
     <div class="container-sub"></div>
     <div class="container">
