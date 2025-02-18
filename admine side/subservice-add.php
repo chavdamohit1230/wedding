@@ -3,9 +3,12 @@ include("connection.php");
 
 if (isset($_POST["add"])) {
 
+
     $serviceid = $_POST["serviceid"];
+    $subserviceid = $_POST["subserviceid"];
     $servicename = $_POST["servicename"];
-    $message = $_POST["message"];
+    $location = $_POST["location"];
+    $price = $_POST["price"];
     $file_name = $_FILES['file']['name'];
 
     //print_r($file_name);
@@ -14,7 +17,7 @@ if (isset($_POST["add"])) {
 
     $tmp_name = $_FILES['file']['tmp_name'];
 
-    $result = "insert into servicetable value('$serviceid','$servicename','$message','$file_name')";
+    $result = "insert into subservice value('$serviceid','$subserviceid','$servicename','$location','$price','$file_name')";
 
     $res = mysqli_query($con, $result);
 
@@ -40,7 +43,7 @@ if (isset($_POST["add"])) {
                 text: 'Service  Add Successfully ',
                 icon: 'success',
             }).then(() => {
-                window.location.href = 'servicetable.php'; // Redirect to the table page after OK
+                //window.location.href = 'servicetable.php'; // Redirect to the table page after OK
             });
         });
         </script>";
@@ -166,6 +169,11 @@ if (isset($_POST["add"])) {
         <form action="" method="post" enctype="multipart/form-data">
 
             <div class="input-group">
+                <input type="text" id="textbox" name="subserviceid" placeholder="">
+                <label for="textbox">sub-Service id</label>
+            </div>
+
+            <div class="input-group">
                 <input type="text" id="textbox" name="serviceid" placeholder="">
                 <label for="textbox">Service id</label>
             </div>
@@ -174,10 +182,13 @@ if (isset($_POST["add"])) {
                 <input type="text" id="textbox" name="servicename" placeholder="">
                 <label for="textbox">Service Name</label>
             </div>
-
             <div class="input-group">
-                <textarea id="textarea" name="message" placeholder=" "></textarea>
-                <label for="textarea">Service Description</label>
+                <input type="text" id="textbox" name="location" placeholder="">
+                <label for="textbox">location</label>
+            </div>
+            <div class="input-group">
+                <input type="text" id="textbox" name="price" placeholder="">
+                <label for="textbox">price</label>
             </div>
 
             <div class="input-group">

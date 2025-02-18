@@ -2,14 +2,14 @@
 include("connection/connection.php");
 include 'navbar.php';
 
-session_start();
+// session_start();
 
-$userid = $_SESSION["useremail"];
+// $userid = $_SESSION["useremail"];
 
-if (!$userid) {
-  header("location:login.php");
-  exit;
-}
+// if (!$userid) {
+//   header("location:login.php");
+//   exit;
+// }
 
 ?>
 <!DOCTYPE html>
@@ -391,7 +391,7 @@ if (!$userid) {
         ?>
         <div class="card" data-aos="fade-up" data-aos-duration="1000" data-aos-offset="100"
           data-aos-anchor-placement="center-bottom">
-          <a href="service-entertenment.php">
+          <a href="service-entertenment.php?serviceid=<?php echo $row['serviceid']; ?>">
             <img src="../admine side/serviceimage/<?php echo $row['serviceimage']; ?>" alt="" class="img">
             <h1 class="card_header"><?php echo $row['servicename']; ?></h1>
             <img src="images/service/menu-line.png" alt="" class="card_line">

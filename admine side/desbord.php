@@ -11,6 +11,7 @@
             padding: 0;
             font-family: Arial, sans-serif;
             background-color: #e9eff6;
+            overflow: hidden;
         }
 
         .sidebar {
@@ -50,21 +51,38 @@
             width: 100%;
         }
 
-        .sidebar .menu a {
+        .sidebar .menu a,
+        .dropdown-btn {
             display: block;
             text-decoration: none;
             color: black;
             padding: 15px 20px;
             border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+            background: none;
+            border: none;
+            width: 100%;
+            text-align: left;
+            cursor: pointer;
+            font-size: 16px;
         }
 
-        .sidebar .menu a:hover {
+        .sidebar .menu a:hover,
+        .dropdown-btn:hover {
             background-color: #7a1b56;
             color: white;
         }
 
+        .dropdown-content {
+            display: none;
+            flex-direction: column;
+        }
+
+        .dropdown.open .dropdown-content {
+            display: flex;
+        }
+
         .header {
-            margin-left: 200px;
+            margin-left: 210px;
             padding: 10px 20px;
             background-color: white;
             display: flex;
@@ -73,84 +91,25 @@
             border-bottom: 2px solid #e9eff6;
         }
 
-        .header h1 {
-            font-size: 20px;
-            color: #333;
-        }
-
-        .header .logout {
-            text-decoration: none;
-            color: #333;
-            font-weight: bold;
-        }
-
-        .content {
-            margin-left: 250px;
-            padding: 20px;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
-        }
-
-        .card {
-            flex: 1;
-            min-width: 200px;
-            max-width: 250px;
-            background-color: white;
-            padding: 20px;
-            text-align: center;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-
-        .card.blue {
-            background-color: #007bff;
-            color: white;
-        }
-
-        .card.green {
-            background-color: #28a745;
-            color: white;
-        }
-
-        .card.red {
-            background-color: #dc3545;
-            color: white;
-        }
-
-        .card.teal {
-            background-color: #17a2b8;
-            color: white;
-        }
-
-        .card h2 {
-            font-size: 30px;
-            margin: 10px 0;
-        }
-
-        .card p {
-            font-size: 16px;
-            margin: 0;
-        }
-
         iframe {
             position: fixed;
             top: 60px;
-            /* Adjust this to match the height of your header */
             left: 210px;
-            /* Adjust this to match the width of your sidebar */
             width: calc(100vw - 210px);
-            /* Full width minus sidebar */
             height: calc(100vh - 60px);
-            /* Full height minus header */
             border: none;
+            overflow: hidden;
         }
     </style>
+    <script>
+        function toggleDropdown() {
+            document.getElementById("serviceDropdown").classList.toggle("open");
+        }
+    </script>
 </head>
 
 <body>
     <div class="sidebar">
-        <!-- Logo Section -->
         <div class="logo">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
                 <circle cx="50" cy="50" r="50" fill="#fff" />
@@ -159,16 +118,23 @@
             </svg>
         </div>
 
-        <!-- Profile Section -->
         <div class="profile">
             <h3>Saptapadi</h3>
             <p>Administrator</p>
         </div>
 
-        <!-- Menu Section -->
         <div class="menu">
-            <a href="gallerytable.php" target="content-frame">Gallery Studioi table</a>
-            <a href="servicetable.php" target="content-frame">Service Table</a>
+            <a href="gallerytable.php" target="content-frame">Gallery Studio Table</a>
+
+            <div class="dropdown" id="serviceDropdown">
+                <button class="dropdown-btn" onclick="toggleDropdown()">Service Table ▼</button>
+                <div class="dropdown-content">
+                    <a href="servicetable.php" target="content-frame">Service Table</a>
+                    <a href="subservice-add.php" target="content-frame">subservice-add</a>
+                    <a href="service2.php" target="content-frame">Service 2</a>
+                </div>
+            </div>
+
             <a href="indexpage.php" target="content-frame">Clients</a>
             <a href="services.html" target="content-frame">Services</a>
             <a href="gallery.html" target="content-frame">Gallery</a>
@@ -179,12 +145,11 @@
     </div>
 
     <div class="header">
-        <h1>WELCOME Saptapadi </h1>
+        <h1>WELCOME Saptapadi</h1>
         <a href="#" class="logout">Logout</a>
     </div>
 
-    <iframe src="content.php" name="content-frame" height="100%" width="100%"></iframe>
-
+    <iframe src="content.php" name="content-frame"></iframe>
 </body>
 
 </html>

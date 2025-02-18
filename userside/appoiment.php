@@ -1,3 +1,17 @@
+<?php include 'navbar.php';
+
+
+session_start();
+
+$userid = $_SESSION["useremail"];
+
+if (!$userid) {
+    header("location:login.php");
+    exit;
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -436,7 +450,6 @@
 </head>
 
 <body>
-    <?php include 'navbar.php' ?>
     <section>
         <div class="booking_container">
 

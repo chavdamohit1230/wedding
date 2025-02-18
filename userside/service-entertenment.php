@@ -1,3 +1,9 @@
+<?php
+include("navbar.php");
+include("connection/connection.php");
+$mm = $_GET['serviceid'];
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -151,7 +157,7 @@
 </head>
 
 <body>
-    <?php include("navbar.php"); ?>
+    <?php ?>
     <!-- Hero Section -->
     <div class="body_Class">
         <div class="service-sub_container">
@@ -163,152 +169,27 @@
             <!-- Featured Artists -->
             <h2 class="section-title" style="margin-top:20px;">Featured Artists</h2>
             <div class="artists">
-                <div class="artist-card">
-                    <div class="image-container">
-                        <img src="images/service/resort1.jpg" alt="Raj Kamal Band">
-                        <div class="badge">Band</div>
-                    </div>
-                    <div class="artist-info">
-                        <h3>Raj Kamal Band</h3>
-                        <p class="location">📍 Delhi NCR</p>
-                        <p class="rating">⭐ 4.5 (2625 reviews)</p>
-                        <button class="btn">Get Offers</button>
-                    </div>
-                </div>
+                <?php
+                $query1 = "select * from subservice where serviceid='$mm'";
 
-                <div class="artist-card">
-                    <div class="image-container">
-                        <img src="images/service/resort1.jpg" alt="Perpetual Rodrigues">
-                        <div class="badge">Anchor</div>
-                    </div>
-                    <div class="artist-info">
-                        <h3>Perpetual Rodrigues</h3>
-                        <p class="location">📍 Mumbai</p>
-                        <p class="rating">⭐ 4.5 (2625 reviews)</p>
-                        <button class="btn">Get Offers</button>
-                    </div>
-                </div>
+                $result = mysqli_query($con, $query1);
 
-                <div class="artist-card">
-                    <div class="image-container">
-                        <img src="images/service/resort1.jpg" alt="DJ Chetan">
-                        <div class="badge">DJ</div>
+                while ($row = mysqli_fetch_assoc($result)) {
+                    ?>
+                    <div class="artist-card">
+                        <div class="image-container">
+                            <img src="../admine side/serviceimage/<?php echo $row['subserviceimage']; ?> "
+                                alt="Raj Kamal Band">
+                            <div class="badge"><?php echo $row['subservicename'] ?></div>
+                        </div>
+                        <div class="artist-info">
+                            <h3><?php echo $row['subservicename']; ?></h3>
+                            <p class="location">📍<?php echo $row['location']; ?></p>
+                            <p class="rating">⭐Price: <?php echo $row['price']; ?>Lakhs</p>
+                            <button class="btn">Get Offers</button>
+                        </div>
                     </div>
-                    <div class="artist-info">
-                        <h3>DJ Chetan</h3>
-                        <p class="location">📍 Bengaluru</p>
-                        <p class="rating">⭐ 4.5 (2625 reviews)</p>
-                        <button class="btn">Get Offers</button>
-                    </div>
-                </div>
-                <div class="artist-card">
-                    <div class="image-container">
-                        <img src="images/service/resort1.jpg" alt="DJ Chetan">
-                        <div class="badge">DJ</div>
-                    </div>
-                    <div class="artist-info">
-                        <h3>DJ Chetan</h3>
-                        <p class="location">📍 Bengaluru</p>
-                        <p class="rating">⭐ 4.5 (2625 reviews)</p>
-                        <button class="btn">Get Offers</button>
-                    </div>
-                </div>
-                <div class="artist-card">
-                    <div class="image-container">
-                        <img src="images/service/resort1.jpg" alt="DJ Chetan">
-                        <div class="badge">DJ</div>
-                    </div>
-                    <div class="artist-info">
-                        <h3>DJ Chetan</h3>
-                        <p class="location">📍 Bengaluru</p>
-                        <p class="rating">⭐ 4.5 (2625 reviews)</p>
-                        <button class="btn">Get Offers</button>
-                    </div>
-                </div>
-                <div class="artist-card">
-                    <div class="image-container">
-                        <img src="images/service/resort1.jpg" alt="DJ Chetan">
-                        <div class="badge">DJ</div>
-                    </div>
-                    <div class="artist-info">
-                        <h3>DJ Chetan</h3>
-                        <p class="location">📍 Bengaluru</p>
-                        <p class="rating">⭐ 4.5 (2625 reviews)</p>
-                        <button class="btn">Get Offers</button>
-                    </div>
-                </div>
-                <div class="artist-card">
-                    <div class="image-container">
-                        <img src="images/service/resort1.jpg" alt="DJ Chetan">
-                        <div class="badge">DJ</div>
-                    </div>
-                    <div class="artist-info">
-                        <h3>DJ Chetan</h3>
-                        <p class="location">📍 Bengaluru</p>
-                        <p class="rating">⭐ 4.5 (2625 reviews)</p>
-                        <button class="btn">Get Offers</button>
-                    </div>
-                </div>
-                <div class="artist-card">
-                    <div class="image-container">
-                        <img src="images/service/resort1.jpg" alt="DJ Chetan">
-                        <div class="badge">DJ</div>
-                    </div>
-                    <div class="artist-info">
-                        <h3>DJ Chetan</h3>
-                        <p class="location">📍 Bengaluru</p>
-                        <p class="rating">⭐ 4.5 (2625 reviews)</p>
-                        <button class="btn">Get Offers</button>
-                    </div>
-                </div>
-                <div class="artist-card">
-                    <div class="image-container">
-                        <img src="images/service/resort1.jpg" alt="DJ Chetan">
-                        <div class="badge">DJ</div>
-                    </div>
-                    <div class="artist-info">
-                        <h3>DJ Chetan</h3>
-                        <p class="location">📍 Bengaluru</p>
-                        <p class="rating">⭐ 4.5 (2625 reviews)</p>
-                        <button class="btn">Get Offers</button>
-                    </div>
-                </div>
-                <div class="artist-card">
-                    <div class="image-container">
-                        <img src="images/service/resort1.jpg" alt="DJ Chetan">
-                        <div class="badge">DJ</div>
-                    </div>
-                    <div class="artist-info">
-                        <h3>DJ Chetan</h3>
-                        <p class="location">📍 Bengaluru</p>
-                        <p class="rating">⭐ 4.5 (2625 reviews)</p>
-                        <button class="btn">Get Offers</button>
-                    </div>
-                </div>
-                <div class="artist-card">
-                    <div class="image-container">
-                        <img src="images/service/resort1.jpg" alt="DJ Chetan">
-                        <div class="badge">DJ</div>
-                    </div>
-                    <div class="artist-info">
-                        <h3>DJ Chetan</h3>
-                        <p class="location">📍 Bengaluru</p>
-                        <p class="rating">⭐ 4.5 (2625 reviews)</p>
-                        <button class="btn">Get Offers</button>
-                    </div>
-                </div>
-                <div class="artist-card">
-                    <div class="image-container">
-                        <img src="images/service/resort1.jpg" alt="DJ Chetan">
-                        <div class="badge">DJ</div>
-                    </div>
-                    <div class="artist-info">
-                        <h3>DJ Chetan</h3>
-                        <p class="location">📍 Bengaluru</p>
-                        <p class="rating">⭐ 4.5 (2625 reviews)</p>
-                        <button class="btn">Get Offers</button>
-                    </div>
-                </div>
+                <?php } ?>
             </div>
         </div>
     </div>

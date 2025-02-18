@@ -1,3 +1,16 @@
+<?php include("navbar.php");
+
+
+session_start();
+
+$userid = $_SESSION["useremail"];
+
+if (!$userid) {
+    header("location:login.php");
+    exit;
+}
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -134,7 +147,6 @@
 </head>
 
 <body>
-    <?php include("navbar.php") ?>
     <div class="wedbody">
         <div class="banner">
             <h1>Welcome to Destination Wedding Shop</h1>

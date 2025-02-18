@@ -2,6 +2,14 @@
 ob_start();
 include("connection/connection.php");
 include("navbar.php");
+session_start();
+
+$userid = $_SESSION["useremail"];
+
+if (!$userid) {
+  header("location:login.php");
+  exit;
+}
 ?>
 
 
