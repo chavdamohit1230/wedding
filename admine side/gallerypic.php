@@ -22,7 +22,7 @@ if (isset($_POST["add"])) {
     $price = mysqli_real_escape_string($con, $_POST['price'] ?? '0');
 
     $uploaded_files = [];
-    $allowedExtensions = ['jpg', 'jpeg', 'png'];
+    $allowedExtensions = ['jpg', 'jpeg', 'png', 'webp'];
 
     // Upload multiple files
     if (!empty($file_names) && is_array($file_names)) {

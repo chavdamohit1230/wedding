@@ -171,6 +171,11 @@ if (isset($_POST['logout'])) {
             border-radius: 20%;
             background: rgb(155, 33, 114);
         }
+
+        .profile {
+            margin-left: 200px;
+
+        }
     </style>
 </head>
 
@@ -202,16 +207,16 @@ if (isset($_POST['logout'])) {
 
             <div class="login_register_container">
                 <p class="header_p"></p>
-                <div class="login_register">
-
-                    <p class="login_register_p">Profile</p>
-
-                    <form action="" method="post">
+                <div class="login_register profile">
+                    <a href="profile.php">
+                        <p class="login_register_p">Profile</p>
+                    </a>
+                    <!-- <form action="" method="post">
                         <p class="login_register_p">
                             <button type="submit" name="logout" value="logout">logout</button>
 
                         </p>
-                    </form>
+                    </form> -->
 
                 </div>
             </div>

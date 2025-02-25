@@ -1,9 +1,14 @@
 <?php
 include("navbar.php");
 include("connection/connection.php");
+
 $mm = $_GET['serviceid'];
 
+// Correct Query: Fetch only relevant subservices
+$query1 = "SELECT * FROM subservice WHERE serviceid='$mm'";
+$result = mysqli_query($con, $query1);
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -38,52 +43,12 @@ $mm = $_GET['serviceid'];
             margin-top: 20px;
         }
 
-        .categories {
-            margin-top: 60px;
+        .artists {
             display: flex;
             justify-content: center;
             gap: 20px;
-            margin-bottom: 50px;
-        }
-
-        .category {
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease;
-            cursor: pointer;
-            width: 150px;
-            height: 170px;
-            text-align: center;
-
-        }
-
-        .category:hover {
-            transform: scale(1.05);
-        }
-
-        .icon {
-            font-size: 30px;
-            margin-bottom: 10px;
-            margin-left: 2%;
-        }
-
-        .section-title {
-            font-size: 28px;
-            color: #A6206A;
-
-            margin-bottom: 10px;
-        }
-
-        .artists {
-            display: flex;
-            /* background-color: black; */
-            justify-content: center;
-            gap: 50px;
-            position: relative;
-            top: 10px;
             flex-wrap: wrap;
+            margin-top: 20px;
         }
 
         .artist-card {
@@ -92,6 +57,7 @@ $mm = $_GET['serviceid'];
             box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
             overflow: hidden;
             width: 300px;
+            height: 370px;
             transition: transform 0.3s ease;
         }
 
@@ -127,7 +93,6 @@ $mm = $_GET['serviceid'];
         .artist-info h3 {
             font-size: 20px;
             color: #A6206A;
-            ;
             margin-bottom: 5px;
         }
 
@@ -140,61 +105,63 @@ $mm = $_GET['serviceid'];
 
         .btn {
             background: #A6206A;
-            ;
             color: white;
             padding: 10px 15px;
             border: none;
             border-radius: 5px;
             cursor: pointer;
+            position: relative;
+            top: 12px;
             transition: background 0.3s ease;
         }
 
         .btn:hover {
-            background: #A6206A;
-            ;
+            background: #8D1750;
+        }
+
+        a {
+            color: #A6206A;
+            cursor: pointer;
         }
     </style>
 </head>
 
 <body>
-    <?php ?>
-    <!-- Hero Section -->
     <div class="body_Class">
         <div class="service-sub_container">
             <h1 class="title">Book Amazing Artists for Your Event</h1>
             <p class="subtitle">Find and book the perfect entertainment for any occasion</p>
 
-
-
             <!-- Featured Artists -->
             <h2 class="section-title" style="margin-top:20px;">Featured Artists</h2>
             <div class="artists">
                 <?php
-                $query1 = "select * from subservice where serviceid='$mm'";
-
-                $result = mysqli_query($con, $query1);
-
                 while ($row = mysqli_fetch_assoc($result)) {
+                    // Extract first image from comma-separated images
+                    $imageArray = explode(",", $row['subserviceimage']);
+                    $firstImage = trim($imageArray[0]);
                     ?>
                     <div class="artist-card">
-                        <div class="image-container">
-                            <img src="../admine side/serviceimage/<?php echo $row['subserviceimage']; ?> "
-                                alt="Raj Kamal Band">
-                            <div class="badge"><?php echo $row['subservicename'] ?></div>
-                        </div>
-                        <div class="artist-info">
-                            <h3><?php echo $row['subservicename']; ?></h3>
-                            <p class="location">📍<?php echo $row['location']; ?></p>
-                            <p class="rating">⭐Price: <?php echo $row['price']; ?>Lakhs</p>
-                            <button class="btn">Get Offers</button>
-                        </div>
+                        <a href="servicebooking.php?serviceid=<?php echo $row['subserviceid']; ?>">
+                            <div class="image-container">
+                                <img src="../admine side/serviceimage/subserviceimage/<?php echo $firstImage; ?>"
+                                    alt="<?php echo $row['subservicename']; ?>">
+                                <div class="badge"><?php echo $row['subservicename']; ?></div>
+                            </div>
+                            <div class="artist-info">
+                                <h3><?php echo $row['subservicename']; ?></h3>
+                                <p class="location">📍<?php echo $row['location']; ?></p>
+                                <p class="rating">⭐ Price: <?php echo $row['price']; ?> Lakhs</p>
+                                <a class="btn">Get Offers</a>
+                            </div>
+                        </a>
                     </div>
                 <?php } ?>
             </div>
         </div>
     </div>
-    </div>
-    <?php include("footer/footer.php") ?>
+
+    <?php include("footer/footer.php"); ?>
 </body>
 
 </html>

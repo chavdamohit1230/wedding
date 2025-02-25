@@ -2,65 +2,146 @@
 include("connection.php");
 
 if (isset($_POST["add"])) {
+    $uploadDir = "C:/wamp64/www/wedding/admine side/serviceimage/subserviceimage/";
 
+    if (!is_dir($uploadDir)) {
+        mkdir($uploadDir, 0777, true);
+    }
 
     $serviceid = $_POST["serviceid"];
     $subserviceid = $_POST["subserviceid"];
-    $servicename = $_POST["servicename"];
+    $subservicename = $_POST["servicename"];
     $location = $_POST["location"];
     $price = $_POST["price"];
-    $file_name = $_FILES['file']['name'];
 
-    //print_r($file_name);
+    $file_names = $_FILES['file']['name'];
+    $tmp_names = $_FILES['file']['tmp_name'];
+    $errors = $_FILES['file']['error'];
 
-    $dst = "C:\wamp64\www\wedding\admine side\serviceimage/" . $_FILES["file"]["name"];
+    $uploaded_files = [];
+    $allowedExtensions = ['jpg', 'jpeg', 'png', 'webp'];
 
-    $tmp_name = $_FILES['file']['tmp_name'];
+    if (!empty($file_names) && is_array($file_names)) {
+        foreach ($file_names as $key => $file) {
+            if ($errors[$key] === 0) {
+                $fileExt = strtolower(pathinfo($file, PATHINFO_EXTENSION));
 
-    $result = "insert into subservice value('$serviceid','$subserviceid','$servicename','$location','$price','$file_name')";
+                if (!in_array($fileExt, $allowedExtensions)) {
+                    echo "<script>
+                        document.addEventListener('DOMContentLoaded', function() {
+                            Swal.fire({
+                                title: 'Error!',
+                                text: 'Invalid file type: $file',
+                                icon: 'error',
+                                background: '#631549',  
+                                color: 'white',
+                                confirmButtonColor: '#ffcc00'
+                            });
+                        });
+                    </script>";
+                    continue;
+                }
 
-    $res = mysqli_query($con, $result);
+                $newFileName = uniqid() . "_" . basename($file);
+                $destination = $uploadDir . $newFileName;
 
-    if (!$res) {
+                if (move_uploaded_file($tmp_names[$key], $destination)) {
+                    $uploaded_files[] = $newFileName;
+                } else {
+                    echo "<script>
+                        document.addEventListener('DOMContentLoaded', function() {
+                            Swal.fire({
+                                title: 'Error!',
+                                text: 'Failed to move: $file',
+                                icon: 'error',
+                                background: '#631549',
+                                color: 'white'
+                            });
+                        });
+                    </script>";
+                }
 
-        echo "<script>
-        document.addEventListener('DOMContentLoaded', function() {
-            Swal.fire({
-                title: 'Error!',
-                text: 'Failed to Add Service',
-                icon: 'error',
-                confirmButtonText: 'OK'
-            });
-        });
-        </script>";
+            } else {
+                echo "<script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    Swal.fire({
+                        title: 'Error!',
+                        text: 'File error: $file',
+                        icon: 'error',
+                        confirmButtonColor: '#9B2172',
+                        customClass: {
+                            popup: 'custom-swal'
+                        }
+                    });
+                });
+            </script>";
 
-    } else {
+                echo "<style>
+                .custom-swal {
+                    background-color: #631549 !important;
+                    color: white !important;
+                }
+            </style>";
 
-        echo "<script>
-        document.addEventListener('DOMContentLoaded', function() {
-            Swal.fire({
-                title: 'Success!',
-                text: 'Service  Add Successfully ',
-                icon: 'success',
-            }).then(() => {
-                //window.location.href = 'servicetable.php'; // Redirect to the table page after OK
-            });
-        });
-        </script>";
+            }
+        }
     }
 
-    move_uploaded_file($tmp_name, $dst);
+    $file_paths = implode(",", $uploaded_files);
+
+    // Check if subservice ID already exists
+    $checkQuery = "SELECT * FROM subservice WHERE subserviceid = '$subserviceid'";
+    $checkResult = mysqli_query($con, $checkQuery);
+
+    if (mysqli_num_rows($checkResult) > 0) {
+        echo "<script>
+            document.addEventListener('DOMContentLoaded', function() {
+                Swal.fire({
+                    title: 'Error!',
+                    text: 'Sub-service ID already exists!',
+                    icon: 'error',
+                    background: '#631549',
+                    color: 'white'
+                });
+            });
+        </script>";
+    } else {
+        $result = "INSERT INTO subservice (serviceid, subserviceid, subservicename, location, price, subserviceimage) 
+                   VALUES ('$serviceid', '$subserviceid', '$subservicename', '$location', '$price', '$file_paths')";
+        $res = mysqli_query($con, $result);
+
+        if (!$res) {
+            echo "<script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    Swal.fire({
+                        title: 'Error!',
+                        text: 'Failed to Add Service',
+                        icon: 'error',
+                        background: '#631549',
+                        color: 'white'
+                    });
+                });
+            </script>";
+        } else {
+            echo "<script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    Swal.fire({
+                        title: 'Success!',
+                        text: 'Service Added Successfully',
+                        icon: 'success',
+                        background: '#631549',  // Green Background for Success
+                        color: 'white'
+                    }).then(() => {
+                        window.location.href = 'subservice-add.php'; // Redirect after alert
+                    });
+                });
+            </script>";
+        }
+    }
 }
-
-
 ?>
 
-<?php
 
-
-
-
-?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -192,7 +273,7 @@ if (isset($_POST["add"])) {
             </div>
 
             <div class="input-group">
-                <input type="file" id="file" name="file" class="file-input">
+                <input type="file" id="file" name="file[]" multiple class="file-input">
             </div>
 
             <button type="submit" name="add">Submit</button>

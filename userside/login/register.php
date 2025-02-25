@@ -1,11 +1,8 @@
 <?php
 include("../connection/connection.php");
-?>
-<?php
 session_start();
 include('Email/smtp/PHPMailerAutoload.php');
 
-// Initialize variables
 $to = "";
 $emailBody = "";
 $otp = "";
@@ -14,90 +11,96 @@ $showButtons = false;
 $verifyOtpButton = false;
 
 if (isset($_POST['send'])) {
-
-    // Get the email from the form
     $to = $_POST['to'];
-    // $inputOtp = $_POST['otp-input'];
-    $otp = rand(1000, 9999);
-    // Generate a username from the email (before @ symbol)
-    $_SESSION['otp'] = $otp;
-    $ml = explode("@", $to);
-
-    // Generate OTP
-
-
-    // Read the HTML template file
-    $template = file_get_contents('Email/email_template.html');
-
-    // Replace placeholders with dynamic values
-    $template = str_replace('[USERNAME]', $ml[0], $template);
-    $template = str_replace('[OTP]', $otp, $template);
-
-    // Assign the email body
-    $emailBody = $template;
     $_SESSION["name"] = $name = $_POST["name"];
     $_SESSION["email"] = $email = $_POST["to"];
     $_SESSION["city"] = $_POST["city"];
     $_SESSION["phone"] = $_POST["phone"];
     $_SESSION["pass"] = $_POST["password"];
 
+    // **🔹 Check if email already exists in database**
+    $check_query = "SELECT * FROM userregistration WHERE email='$to'";
+    $check_result = mysqli_query($con, $check_query);
 
-}
-
-if ($to && $emailBody) {
-    // Proceed with sending the email
-    $mail = new PHPMailer();
-    $mail->IsSMTP();
-    $mail->SMTPAuth = true;
-    $mail->SMTPSecure = 'tls';
-    $mail->Host = "smtp.gmail.com";
-    $mail->Port = 587;
-    $mail->IsHTML(true);
-    $mail->CharSet = 'UTF-8';
-    $mail->Username = "mohitchavda1230@gmail.com";  // Your email
-    $mail->Password = "phdmzusinslcpfws"; // Your email password (you should consider using environment variables for this)
-    $mail->SetFrom('mohitchavda1230@gmail.com', 'mohit');
-    $mail->Subject = "Your account info.";
-    $mail->Body = $emailBody;
-    $mail->AddAddress($to);
-
-    // Disable SSL verification for self-signed certificates
-    $mail->SMTPOptions = array(
-        'ssl' => array(
-            'verify_peer' => false,
-            'verify_peer_name' => false,
-            'allow_self_signed' => false
-        )
-    );
-
-    // Send the email
-    if (!$mail->Send()) {
+    if (mysqli_num_rows($check_result) > 0) {
         echo "<script>
         document.addEventListener('DOMContentLoaded', function() {
             Swal.fire({
-                title: 'Error!',
-                text: 'Failed to send OTP. Please try again.',
-                icon: 'error',
-                confirmButtonText: 'OK'
+                title: 'Email Exists!',
+                text: 'This email is already registered. Try another one.',
+                icon: 'warning',
+                background: '#631549',
+                color: '#ffffff'
             });
         });
         </script>";
     } else {
-        $showButtons = true;
-        $verifyOtpButton = true;
+        // **Generate OTP**
+        $otp = rand(1000, 9999);
+        $_SESSION['otp'] = $otp;
+        $ml = explode("@", $to);
 
-        echo "<script>
-        document.addEventListener('DOMContentLoaded', function() {
-            Swal.fire({
-                title: 'OTP Sent!',
-                text: 'Please check your email for the OTP.',
-                icon: 'success'
+        // **Read HTML Email Template**
+        $template = file_get_contents('Email/email_template.html');
+        $template = str_replace('[USERNAME]', $ml[0], $template);
+        $template = str_replace('[OTP]', $otp, $template);
+        $emailBody = $template;
+
+        // **Send Email with OTP**
+        $mail = new PHPMailer();
+        $mail->IsSMTP();
+        $mail->SMTPAuth = true;
+        $mail->SMTPSecure = 'tls';
+        $mail->Host = "smtp.gmail.com";
+        $mail->Port = 587;
+        $mail->IsHTML(true);
+        $mail->CharSet = 'UTF-8';
+        $mail->Username = "mohitchavda1230@gmail.com";
+        $mail->Password = "phdmzusinslcpfws";
+        $mail->SetFrom('mohitchavda1230@gmail.com', 'Mohit');
+        $mail->Subject = "Your account info.";
+        $mail->Body = $emailBody;
+        $mail->AddAddress($to);
+
+        $mail->SMTPOptions = array(
+            'ssl' => array(
+                'verify_peer' => false,
+                'verify_peer_name' => false,
+                'allow_self_signed' => false
+            )
+        );
+
+        if (!$mail->Send()) {
+            echo "<script>
+            document.addEventListener('DOMContentLoaded', function() {
+                Swal.fire({
+                    title: 'Error!',
+                    text: 'Failed to send OTP. Please try again.',
+                    icon: 'error',
+                    confirmButtonText: 'OK',
+                    background: '#631549',
+                    color: '#ffffff'
+                });
             });
-        });
-        </script>";
+            </script>";
+        } else {
+            $showButtons = true;
+            $verifyOtpButton = true;
+            echo "<script>
+            document.addEventListener('DOMContentLoaded', function() {
+                Swal.fire({
+                    title: 'OTP Sent!',
+                    text: 'Please check your email for the OTP.',
+                    icon: 'success',
+                    background: '#631549',
+                    color: '#ffffff'
+                });
+            });
+            </script>";
+        }
     }
-
 }
+
 if (isset($_POST["verify"])) {
     $inputOtp = $_POST["otp-input"];
     $name = $_SESSION['name'];
@@ -107,9 +110,9 @@ if (isset($_POST["verify"])) {
     $phone = $_SESSION['phone'];
 
     if ($_SESSION['otp'] == $inputOtp) {
-
-        $res = "INSERT INTO userregistration VALUES ('$name','$email','$password','$city','$phone')";
+        $res = "INSERT INTO userregistration (username, email, password, city, phone) VALUES ('$name','$email','$password','$city','$phone')";
         $result = mysqli_query($con, $res);
+
         if (!$result) {
             echo "<script>
             document.addEventListener('DOMContentLoaded', function() {
@@ -117,23 +120,27 @@ if (isset($_POST["verify"])) {
                     title: 'Error!',
                     text: 'Database Insertion Failed',
                     icon: 'error',
-                    confirmButtonText: 'OK'
+                    confirmButtonText: 'OK',
+                    background: '#631549',
+                    color: '#ffffff'
                 });
             });
             </script>";
         } else {
-
             echo "<script>
             document.addEventListener('DOMContentLoaded', function() {
                 Swal.fire({
                     title: 'Success!',
                     text: 'Registration Completed Successfully',
-                    icon: 'success'
+                    icon: 'success',
+                    background: '#631549',
+                    color: '#ffffff'
                 }).then(() => {
                     window.location.href = '../index.php';
                 });
             });
-          </script>";
+            </script>";
+            $_SESSION["useremail"] = $email;
         }
     } else {
         echo "<script>
@@ -142,14 +149,19 @@ if (isset($_POST["verify"])) {
                 title: 'Invalid OTP!',
                 text: 'Please enter the correct OTP.',
                 icon: 'error',
-                confirmButtonText: 'OK'
+                confirmButtonText: 'OK',
+                background: '#631549',
+                color: '#ffffff'
             });
         });
         </script>";
     }
 }
-
 ?>
+
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 <!DOCTYPE html>
 <html lang="en">
 

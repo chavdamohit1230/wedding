@@ -11,10 +11,6 @@ $row = mysqli_fetch_array($result);
 
 $image = explode(",", string: $row['studioimage']);
 
-$mmm = $image[0];
-
-
-
 
 ?>
 
@@ -198,7 +194,7 @@ $order = $api->order->create($orderData);
             <div class="gallery-grid">
                 <!-- Featured Large Image -->
                 <div class="featured-image">
-                    <img src="../admine side/images/<?php echo !empty($image[1]) ? $image[1] : 'default.jpg'; ?>"
+                    <img src="../admine side/images/<?php echo !empty($image[0]) ? $image[0] : 'default.jpg'; ?>"
                         alt="Gallery image 1" />
                 </div>
 
@@ -211,7 +207,7 @@ $order = $api->order->create($orderData);
                             alt="Gallery image 1" />
                     </div>
                     <div class="small-image">
-                        <?php $index = 1; ?>
+
 
                         <img src="../admine side/images/<?php echo !empty($image[1]) ? $image[1] : 'default.jpg'; ?>"
                             alt="Gallery image 2" />
@@ -221,7 +217,7 @@ $order = $api->order->create($orderData);
                             alt="Gallery image 3" />
                     </div>
                     <div class="small-image">
-                        <img src="../admine side/images/<?php echo !empty($image[2]) ? $image[3] : 'default.jpg'; ?>"
+                        <img src="../admine side/images/<?php echo !empty($image[3]) ? $image[3] : 'default.jpg'; ?>"
                             alt="Gallery image 4" />
                     </div>
                 </div>

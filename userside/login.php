@@ -16,7 +16,7 @@ if (isset($_POST["login"])) {
     if (mysqli_num_rows($result) > 0) {
 
         $_SESSION["useremail"] = $email;
-        echo $_SESSION["useremail"];
+        // echo $_SESSION["useremail"];
         echo "<script>
                 document.addEventListener('DOMContentLoaded', function() {
                     Swal.fire({
@@ -214,7 +214,7 @@ if (isset($_POST["login"])) {
                 <button type="submit" name="login">Login</button>
             </form>
             <p><a href="#" id="forgotPassword">Forgot Password?</a></p>
-            <p>Don't have an account? <a href="#">Sign up</a></p>
+            <p>Don't have an account? <a href="login/register.php">Sign up</a></p>
         </div>
 
         <!-- Reset Password Form (Initially Hidden) -->

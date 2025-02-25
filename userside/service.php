@@ -2,14 +2,14 @@
 include("connection/connection.php");
 include 'navbar.php';
 
-// session_start();
+session_start();
 
-// $userid = $_SESSION["useremail"];
+$userid = $_SESSION["useremail"];
 
-// if (!$userid) {
-//   header("location:login.php");
-//   exit;
-// }
+if (!$userid) {
+  header("location:login.php");
+  exit;
+}
 
 ?>
 <!DOCTYPE html>

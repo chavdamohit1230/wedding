@@ -78,6 +78,8 @@ if (isset($_POST["login"])) {
         .logo {
             width: 100px;
             margin-bottom: 20px;
+            margin-left: 120px;
+            /* height: 120px; */
         }
 
         h2 {
@@ -165,7 +167,7 @@ if (isset($_POST["login"])) {
 <body>
 
     <div class="login-container">
-        <img src="assets/logo.png" alt="Admin Logo" class="logo">
+        <img src="l1.png" alt="Admin Logo" class="logo">
         <h2>Admin Login</h2>
 
         <form action="#" method="POST">

@@ -1,29 +1,23 @@
 <?php
 include("connection.php");
 
-
 if (isset($_POST["delete"])) {
     $studiono = $_POST["delete"];
-
-    echo $studiono;
-
 
     $deleteQuery = "DELETE FROM gallarytable WHERE studiono = '$studiono'";
 
     if (mysqli_query($con, $deleteQuery)) {
-
         echo "<script>
         document.addEventListener('DOMContentLoaded', function() {
             Swal.fire({
                 title: 'Deleted!',
                 text: 'Venue deleted successfully',
                 icon: 'success',
-                
             }).then(() => {
-                window.location.href = 'table.php'; // Refresh page after OK
+                window.location.href = 'table.php';
             });
         });
-    </script>";
+        </script>";
     } else {
         echo "<script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -34,11 +28,9 @@ if (isset($_POST["delete"])) {
                 confirmButtonText: 'OK'
             });
         });
-    </script>";
+        </script>";
     }
 }
-
-
 ?>
 
 <!DOCTYPE html>
@@ -48,14 +40,12 @@ if (isset($_POST["delete"])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Wedding Table</title>
-
-
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-
     <style>
         * {
-            margin: 0px;
-            padding: 0px;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
         body {
@@ -67,6 +57,25 @@ if (isset($_POST["delete"])) {
             flex-direction: column;
         }
 
+        .add_vanue_container {
+            width: 100%;
+            display: flex;
+            justify-content: flex-end;
+            padding: 10px;
+        }
+
+        .add_vanue_button {
+            background-color: rgb(57, 17, 44);
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            text-decoration: none;
+            display: inline-block;
+        }
+
         table {
             width: 100%;
             max-width: 1100px;
@@ -75,44 +84,41 @@ if (isset($_POST["delete"])) {
             background: white;
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
             table-layout: fixed;
-
         }
 
         th,
         td {
             padding: 10px;
-            text-align: left;
+            text-align: center;
             border-bottom: 1px solid #ddd;
             font-size: 14px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-align: center;
-            text-overflow: ellipsis;
         }
 
         th {
             background-color: rgb(57, 17, 44);
             color: white;
             letter-spacing: 1.5px;
-            text-align: center;
-
         }
 
-        .table-img {
-            width: 40px;
-            height: 40px;
+        .image-container {
+            display: flex;
+            overflow-x: auto;
+            white-space: nowrap;
+            gap: 5px;
+            max-width: 200px;
+        }
+
+        .image-container img {
+            width: 50px;
+            height: 50px;
             object-fit: cover;
             border-radius: 5px;
-            display: block;
-            position: relative;
-            left: 40%;
-
-
         }
 
         .tools {
             display: flex;
             gap: 8px;
+            justify-content: center;
         }
 
         button {
@@ -131,8 +137,6 @@ if (isset($_POST["delete"])) {
         .edit {
             background-color: #17a2b8;
             color: white;
-            margin-left: 40px;
-
         }
 
         .delete {
@@ -144,98 +148,69 @@ if (isset($_POST["delete"])) {
             background-color: #ffc107;
             color: white;
         }
-
-        .add_vanue_container {
-
-            height: 60px;
-            width: 100%;
-            align-items: center;
-            display: flex;
-
-        }
-
-
-        .add_vanue_button {
-            height: 40px;
-            width: 10%;
-            background-color: rgb(57, 17, 44);
-            color: white;
-            position: relative;
-            margin-left: 83%;
-        }
-
-        a {
-            height: 10px;
-            width: 100%;
-            */ position: relative;
-            /* left: 85%; */
-
-            text-decoration: none;
-        }
     </style>
-
 </head>
 
 <body>
-
     <div class="add_vanue_container">
-
-        <a href="gallerypic.php">
-            <button type="submit" class="add_vanue_button">
-                <i class="fa-solid fa-plus"></i>&nbsp ADD Venue
-            </button>
+        <a href="gallerypic.php" class="add_vanue_button">
+            <i class="fa-solid fa-plus"></i>&nbsp; ADD Venue
         </a>
     </div>
+
     <table>
         <thead>
             <tr>
-                <th>studiono</th>
-                <th>studio_name</th>
+                <th>Studio No</th>
+                <th>Studio Name</th>
                 <th>Travel</th>
                 <th>Team-size</th>
                 <th>Package</th>
-                <th>Image</th>
+                <th>Images</th>
                 <th>Tools</th>
             </tr>
         </thead>
         <tbody>
             <?php
+            $query = "SELECT * FROM gallarytable";
+            $result = mysqli_query($con, $query);
 
-            $rr = "select * from gallarytable ";
-
-            $res1 = mysqli_query($con, $rr);
-
-
-            while ($row = mysqli_fetch_assoc($res1)) {
-
+            while ($row = mysqli_fetch_assoc($result)) {
                 ?>
                 <tr>
-                    <td><?php echo $row['studiono'] ?></td>
-                    <td><?php echo $row['studioname'] ?></td>
-                    <td><?php echo $row['travel'] ?></td>
-                    <td><?php echo $row['teamsize'] ?></td>
-                    <td><?php echo $row['price'] ?></td>
-                    <td><img src="images/<?php echo $row['studioimage'] ?>" alt="Wedding" class="table-img"></td>
+                    <td><?php echo $row['studiono']; ?></td>
+                    <td><?php echo $row['studioname']; ?></td>
+                    <td><?php echo $row['travel']; ?></td>
+                    <td><?php echo $row['teamsize']; ?></td>
+                    <td><?php echo $row['price']; ?></td>
                     <td>
-                        <form action="" method="POST">
-                            <div class="tools">
-                                <a href="gallerypic.php?studioname=<?php echo $row['studioname']; ?>"><button type="submit"
-                                        class="edit" name="edit"><i class=" fa-solid fa-pen"></i></button></a>
-                                <button type="submit" class="delete" name="delete"
-                                    value="<?php echo $row['studiono']; ?>"><i class="fa-solid fa-trash"></i></button>
-                                <button class="view"><i class="fa-solid fa-eye"></i></button>
-                            </div>
-                        </form>
+                        <div class="image-container">
+                            <?php
+                            $images = !empty($row['studioimage']) ? explode(",", $row['studioimage']) : ['default.jpg'];
+                            foreach ($images as $img) {
+                                echo '<img src="images/' . trim($img) . '" alt="Studio Image">';
+                            }
+                            ?>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="tools">
+                            <a href="gallerypic.php?studioname=<?php echo $row['studioname']; ?>">
+                                <button type="button" class="edit"><i class="fa-solid fa-pen"></i></button>
+                            </a>
+                            <form action="" method="POST" style="display:inline;">
+                                <button type="submit" class="delete" name="delete" value="<?php echo $row['studiono']; ?>">
+                                    <i class="fa-solid fa-trash"></i>
+                                </button>
+                            </form>
+                            <button class="view"><i class="fa-solid fa-eye"></i></button>
+                        </div>
                     </td>
                 </tr>
             <?php } ?>
         </tbody>
     </table>
-
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-
-
 </body>
 
 </html>

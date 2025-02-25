@@ -110,7 +110,7 @@
 
         .why_choose {
 
-            height: 25%;
+            height: 23%;
             width: 100%;
             margin: 0px;
             /* background-color: #f9f9f9; */
@@ -154,7 +154,7 @@
         }
 
         .choose_card1 {
-            height: 85%;
+            height: 75%;
             width: 26%;
             /* background-color: blue; */
             box-shadow: rgba(0, 0, 0, 0.2) 0px 3px 3px -2px, rgba(0, 0, 0, 0.14) 0px 3px 4px 0px, rgba(0, 0, 0, 0.12) 0px 1px 8px 0px;
@@ -163,7 +163,7 @@
         .choose_card1_header {
 
             height: 13%;
-            margin-top: 20px;
+            margin-top: 40px;
             width: 100%;
             /* background-color: yellow; */
         }
@@ -200,7 +200,7 @@
         }
 
         .event_Card {
-            height: 60%;
+            height: 47%;
             width: 100%;
             background-color: white;
             display: flex;
@@ -274,7 +274,7 @@
 
         .wedding_content_container {
 
-            height: 75%;
+            height: 65%;
             margin-top: 2%;
             width: 100%;
             /* background-color: blue; */
@@ -443,7 +443,7 @@
 
         .card {
 
-            height: 80%;
+            height: 70%;
             width: 20%;
             position: relative;
             top: 2%;
@@ -505,7 +505,7 @@
 
         .popular_vanue_Card {
 
-            height: 95%;
+            height: 78%;
             width: 100%;
             /* background-color: pink; */
             display: flex;
@@ -553,7 +553,7 @@
 
         .advertisement {
             height: 50%;
-            margin-top: 4%;
+            margin-top: %;
             width: 100%;
             /* background-color: blue; */
             display: flex;
@@ -577,8 +577,9 @@
         .third_section_h1 {
 
             font-size: 55px;
-            margin-left: 28%;
-            margin-top: 6%;
+            /* margin-left: 28%; */
+            text-align: center;
+            margin-top: 18%;
             font-family: "Playfair Display", serif;
             font-weight: 200;
             color: #6B1D4F;

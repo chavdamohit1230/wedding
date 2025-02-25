@@ -130,7 +130,7 @@
                 <button class="dropdown-btn" onclick="toggleDropdown()">Service Table ▼</button>
                 <div class="dropdown-content">
                     <a href="servicetable.php" target="content-frame">Service Table</a>
-                    <a href="subservice-add.php" target="content-frame">subservice-add</a>
+                    <a href="subservicetable.php" target="content-frame">subservice-add</a>
                     <a href="service2.php" target="content-frame">Service 2</a>
                 </div>
             </div>

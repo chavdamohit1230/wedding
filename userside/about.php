@@ -1,4 +1,5 @@
 <?php
+include 'navbar.php';
 session_start();
 $userid = $_SESSION["useremail"];
 if (!$userid) {
@@ -359,7 +360,7 @@ if (!$userid) {
 </head>
 
 <body>
-    <?php include 'navbar.php' ?>
+
     <div class="conteiner">
         <p class="container_p1" data-aos="fade-right" data-aos-offset="200" data-aos-delay="300"
             data-aos-duration="1200" data-aos-mirror="true">About <span class="container_p1_sp">us</span></p>
