@@ -333,21 +333,14 @@ $image = explode(",", string: $row['subserviceimage']);
                     </div>
 
                     <div class="input-group">
-                        <select id="service" name="service" required>
-                            <option value="" disabled selected></option>
-                            <option value="catering">Catering</option>
-                            <option value="venue">Venue & Decor</option>
-                            <option value="entertainment">Entertainment</option>
-                            <option value="photography">Photography</option>
-                        </select>
-                        <label for="service">Select Service</label>
-                    </div>
 
+                        <input type="text" name="service" id="service">
+                        <label for="service">your Service</label>
+                    </div>
                     <div class="input-group">
                         <input type="date" id="date" name="date" required>
                         <label for="date">Event Date</label>
                     </div>
-
 
                     <div class="input-group">
                         <input type="text" id="name" name="name" required>
@@ -373,6 +366,12 @@ $image = explode(",", string: $row['subserviceimage']);
             function closeForm() {
                 document.getElementById("bookingForm").style.display = "none";
             }
+
+            document.addEventListener("DOMContentLoaded", function () {
+                let today = new Date().toISOString().split("T")[0]; // Get current date in YYYY-MM-DD format
+                document.getElementById("date").setAttribute("min", today);
+            });
+
         </script>
 
         <?php include("footer/footer.php") ?>

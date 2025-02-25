@@ -1,16 +1,73 @@
-<?php include 'navbar.php';
-
-
+<?php
+include 'navbar.php';
+include("connection/connection.php");
 session_start();
 
-$userid = $_SESSION["useremail"];
+$userid = $_SESSION["useremail"] ?? null;
 
 if (!$userid) {
     header("location:login.php");
     exit;
 }
 
+// Include SweetAlert JavaScript Library
+echo '<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>';
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $name = mysqli_real_escape_string($con, $_POST["name"]);
+    $phone = mysqli_real_escape_string($con, $_POST["phone"]);
+    $email = mysqli_real_escape_string($con, $_POST["email"]);
+    $state = mysqli_real_escape_string($con, $_POST["state"]);
+    $city = mysqli_real_escape_string($con, $_POST["city"]);
+    $date = mysqli_real_escape_string($con, $_POST["date"]);
+    $additional_detail = mysqli_real_escape_string($con, $_POST["textarea"]);
+
+    // Check if the date is already booked
+    $check_query = "SELECT * FROM appoinmentrequest WHERE date = '$date'";
+    $result = mysqli_query($con, $check_query);
+
+    if (mysqli_num_rows($result) > 0) {
+        echo "<script>
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Already booked! Please choose another date.',
+                background: 'rgb(99, 21, 73)',
+                color:'white',
+                confirmButtonColor: '#d33'
+            });
+        </script>";
+    } else {
+        // Insert new appointment if date is available
+        $query = "INSERT INTO appoinmentrequest (appoinment_user, email, phone, date, state, city, additional_detail) 
+                  VALUES ('$name', '$email', '$phone', '$date', '$state', '$city', '$additional_detail')";
+
+        if (mysqli_query($con, $query)) {
+            echo "<script>
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success!',
+                    text: 'Appointment request submitted successfully!',
+                    background: 'rgb(99, 21, 73)',
+                    color:'white',
+                    confirmButtonColor: '#3085d6'
+                });
+            </script>";
+        } else {
+            echo "<script>
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error!',
+                    text: 'Something went wrong. Please try again.',
+                    confirmButtonColor: '#d33'
+                });
+            </script>";
+        }
+    }
+}
+
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -482,7 +539,6 @@ if (!$userid) {
                             Weddings</span>
                         <span class="icon_description_p2_sp1">₹ 25 Lacks Cash paid back</span>
                     </p>
-                    <button class="booking_detail_btn">SIGN UP</button>
                 </div>
             </div>
             <div class=" booking_from">
@@ -490,17 +546,17 @@ if (!$userid) {
                     <p class="hadding_form">BOOK YOUR APPOIMENT</p>
                     <div class="booking_form_backimage_form">
 
-                        <form action="">
-                            <input name="" type="text" class="input" placeholder="name">
-                            <input name="" type="text" class="input" placeholder="phone">
-                            <input name="" type="text" class="input" placeholder="email">
-                            <input name="" type="text" class="input" placeholder="state">
-                            <input name="" type="text" class="input" placeholder="city">
-                            <input name="" type="date" class="input" placeholder="appoiment-date">
+                        <form action="" method="POST">
+                            <input name="name" type="text" class="input" placeholder="name">
+                            <input name="phone" type="text" class="input" placeholder="phone">
+                            <input name="email" type="text" class="input" placeholder="email">
+                            <input name="state" type="text" class="input" placeholder="state">
+                            <input name="city" type="text" class="input" placeholder="city">
+                            <input name="date" id="date" type="date" class="input" placeholder="appoiment-date">
 
-                            <textarea name="" id="" class="textarea"
+                            <textarea name="textarea" id="" class="textarea"
                                 placeholder="any specific store or brand preferences"></textarea>
-                            <button class="submit_btn">SUBMIT</button>
+                            <button class="submit_btn" type="submit">SUBMIT</button>
 
                         </form>
 
@@ -609,6 +665,12 @@ if (!$userid) {
             </div>
         </div>
     </section>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            let today = new Date().toISOString().split("T")[0];
+            document.getElementById("date").setAttribute("min", today);
+        });
+    </script>
     <?php
     include 'footer/footer.php';
     ?>

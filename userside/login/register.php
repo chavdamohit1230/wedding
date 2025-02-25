@@ -110,7 +110,7 @@ if (isset($_POST["verify"])) {
     $phone = $_SESSION['phone'];
 
     if ($_SESSION['otp'] == $inputOtp) {
-        $res = "INSERT INTO userregistration (username, email, password, city, phone) VALUES ('$name','$email','$password','$city','$phone')";
+        $res = "INSERT INTO userregistration VALUES ('$name','$email','$password','$city','$phone')";
         $result = mysqli_query($con, $res);
 
         if (!$result) {
