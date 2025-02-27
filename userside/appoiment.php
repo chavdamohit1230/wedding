@@ -39,8 +39,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </script>";
     } else {
         // Insert new appointment if date is available
-        $query = "INSERT INTO appoinmentrequest (appoinment_user, email, phone, date, state, city, additional_detail) 
-                  VALUES ('$name', '$email', '$phone', '$date', '$state', '$city', '$additional_detail')";
+        $query = "INSERT INTO appoinmentrequest (appoinment_user, email, phone, date, state, city, additional_detail,status) 
+                  VALUES ('$name', '$email', '$phone', '$date', '$state', '$city', '$additional_detail','Pending')";
 
         if (mysqli_query($con, $query)) {
             echo "<script>
@@ -268,7 +268,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             margin-left: 5.5%;
             border-radius: 7px;
             margin-top: 3%;
-            font-size: 17px;
+            font-size: 13px;
             letter-spacing: 0.1em;
             padding-left: 2%;
             border: none;
@@ -547,9 +547,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <div class="booking_form_backimage_form">
 
                         <form action="" method="POST">
-                            <input name="name" type="text" class="input" placeholder="name">
-                            <input name="phone" type="text" class="input" placeholder="phone">
-                            <input name="email" type="text" class="input" placeholder="email">
+                            <input name="name" type="text" class="input" placeholder="name"
+                                value="<?php echo isset($_SESSION['name']) ? $_SESSION['name'] : '' ?>">
+                            <input name="phone" type="text" class="input" placeholder="phone"
+                                value="<?php echo isset($_SESSION['phone']) ? $_SESSION['phone'] : ''; ?>">
+                            <input name="email" type="text" class="input" placeholder="email"
+                                value="<?php echo isset($_SESSION['useremail']) ? $_SESSION['useremail'] : ''; ?>">
                             <input name="state" type="text" class="input" placeholder="state">
                             <input name="city" type="text" class="input" placeholder="city">
                             <input name="date" id="date" type="date" class="input" placeholder="appoiment-date">
