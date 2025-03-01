@@ -549,8 +549,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <form action="" method="POST">
                             <input name="name" type="text" class="input" placeholder="name"
                                 value="<?php echo isset($_SESSION['name']) ? $_SESSION['name'] : '' ?>">
-                            <input name="phone" type="text" class="input" placeholder="phone"
-                                value="<?php echo isset($_SESSION['phone']) ? $_SESSION['phone'] : ''; ?>">
+                            <input name="phone" type="text" class="input" placeholder="phone">
                             <input name="email" type="text" class="input" placeholder="email"
                                 value="<?php echo isset($_SESSION['useremail']) ? $_SESSION['useremail'] : ''; ?>">
                             <input name="state" type="text" class="input" placeholder="state">

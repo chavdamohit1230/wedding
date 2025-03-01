@@ -11,6 +11,26 @@ $result = mysqli_query($con, $select);
 $row = mysqli_fetch_array($result);
 
 $image = explode(",", string: $row['subserviceimage']);
+
+if (isset($_POST["booking"])) {
+
+    $user_name = $_POST["user_name"];
+    $user_email = $_POST["user_email"];
+    $user_phone = $_POST["user_phone"];
+    $booking_name = $_POST["booking_name"];
+    $fun_date = $_POST["fun_date"];
+    $guest_no = $_POST["guest_no"];
+    $booking_price = $_POST["booking_price"];
+    $additional_detail = $_POST["additional_detail"];
+
+    $query = "insert into bookingrequest values('','$user_name','$user_email','$user_phone','$booking_name','$fun_date','$guest_no','$booking_price','$additional_detail','pending')";
+
+    $result = mysqli_query($con, $query);
+
+    if (!$result) {
+        echo "not";
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -158,18 +178,25 @@ $image = explode(",", string: $row['subserviceimage']);
             width: 100%;
             height: 100%;
             background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
         }
+
 
         .modal-content {
             background-color: white;
-            margin: 10% auto;
+            margin: 5% auto;
             padding: 30px 20px;
             width: 30%;
-            height: 75%;
+            height: 90%;
+
+            /* Increased height */
             border-radius: 10px;
             text-align: center;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            overflow-y: auto;
+            /* Add scrolling if needed */
         }
+
 
         .close {
             float: right;
@@ -323,37 +350,45 @@ $image = explode(",", string: $row['subserviceimage']);
                 <form action="" method="POST">
 
                     <div class="input-group">
-                        <input type="text" id="name" name="name" required>
+                        <input type="text" id="name" name="user_name" required>
                         <label for="name">Full Name</label>
                     </div>
 
                     <div class="input-group">
-                        <input type="email" id="email" name="email" required>
+                        <input type="email" id="email" name="user_email" required>
                         <label for="email">Email</label>
                     </div>
 
                     <div class="input-group">
 
-                        <input type="text" name="service" id="service">
-                        <label for="service">your Service</label>
+                        <input type="text" name="user_phone" id="service">
+                        <label for="service">contect no</label>
                     </div>
                     <div class="input-group">
-                        <input type="date" id="date" name="date" required>
+                        <input type="text" id="name" name="booking_name" required>
+                        <label for="name">Booking name</label>
+                    </div>
+                    <div class="input-group">
+                        <input type="date" id="date" name="fun_date" required>
                         <label for="date">Event Date</label>
+                    </div>,
+
+                    <div class="input-group">
+                        <input type="text" id="name" name="guest_no" required>
+                        <label for="name">No_of_Guest</label>
                     </div>
 
                     <div class="input-group">
-                        <input type="text" id="name" name="name" required>
-                        <label for="name">Full Name</label>
+                        <input type="text" id="name" name="booking_price" required>
+                        <label for="name">Booking_price</label>
                     </div>
-
 
                     <div class="input-group textarea-group">
-                        <textarea id="message" name="message"></textarea>
+                        <textarea id="message" name="additional_detail"></textarea>
                         <label for="message">Additional Requests</label>
                     </div>
 
-                    <button type="submit">Submit Booking</button>
+                    <button type="submit" name="booking">Submit Booking</button>
                 </form>
             </div>
         </div>

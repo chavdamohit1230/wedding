@@ -4,12 +4,8 @@ include 'navbar.php';
 
 session_start();
 
-$userid = $_SESSION["useremail"];
+$userid = $_SESSION["useremail"] ?? null;
 
-if (!$userid) {
-  header("location:login.php");
-  exit;
-}
 
 ?>
 <!DOCTYPE html>
@@ -380,35 +376,31 @@ if (!$userid) {
         sometimes overwhelming.
         We can help!</h1>
     </div>
+
+
     <div class="card_container">
-
       <?php
-      $query = "select * from servicetable ";
-
+      $query = "SELECT * FROM servicetable";
       $res = mysqli_query($con, $query);
 
-      while ($row = mysqli_fetch_assoc($res)) {
-        ?>
+      while ($row = mysqli_fetch_assoc($res)) { ?>
         <div class="card" data-aos="fade-up" data-aos-duration="1000" data-aos-offset="100"
           data-aos-anchor-placement="center-bottom">
-          <a href="service-entertenment.php?serviceid=<?php echo $row['serviceid']; ?>">
+          <a
+            href="<?php echo $userid ? "service-entertenment.php?serviceid=" . $row['serviceid'] : "javascript:loginRequired();"; ?>">
             <img src="../admine side/serviceimage/<?php echo $row['serviceimage']; ?>" alt="" class="img">
             <h1 class="card_header"><?php echo $row['servicename']; ?></h1>
             <img src="images/service/menu-line.png" alt="" class="card_line">
             <p class="card_summury">
-              Our wedding agency offers a full range of ceremonies to choose from,<br><span
-                card="card_summry_sp">regardless
-                of your design</span>
-              preferences
-              and religious background</p>
-
-            <button class="btn"> LERN MORE </button>
+              Our wedding agency offers a full range of ceremonies to choose from,<br>
+              <span class="card_summry_sp">regardless of your design</span> preferences and religious background.
+            </p>
+            <button class="btn">LEARN MORE</button>
+          </a>
         </div>
-        </a>
       <?php } ?>
-
-
     </div>
+
   </section>
 
   <section>
@@ -484,6 +476,12 @@ if (!$userid) {
 
   </script>
 
+  <script>
+    function loginRequired() {
+      alert("Please login to view this service.");
+      window.location.href = "login.php";
+    }
+  </script>
 
 </body>
 

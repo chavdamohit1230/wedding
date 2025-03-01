@@ -2,6 +2,7 @@
 session_start();
 include("connection/connection.php");
 
+// Check if user is logged in
 if (!isset($_SESSION["useremail"])) {
     header("Location: index.php");
     exit();
@@ -9,47 +10,70 @@ if (!isset($_SESSION["useremail"])) {
 
 $email = $_SESSION["useremail"];
 
-// **User details fetch karna**
+// Fetch user details
 $query = "SELECT * FROM userregistration WHERE email='$email'";
 $result = mysqli_query($con, $query);
-$row = mysqli_fetch_assoc($result);
+$user = mysqli_fetch_assoc($result);
 
+// Logout Logic
 if (isset($_POST["logout"])) {
     session_destroy();
-    header("location:index.php");
+    header("Location: index.php");
     exit();
 }
 
-$user_id = $_SESSION["useremail"];
+// Fetch Appointments
+$requestQuery = "SELECT * FROM appoinmentrequest WHERE email='$email'";
+$bookedQuery = "SELECT * FROM bookedappoinment WHERE email='$email'";
 
-// **First Table: `appoinmentrequest` fetch**
-$requesttb = "SELECT * FROM appoinmentrequest WHERE email='$user_id'";
-$query1 = mysqli_query($con, $requesttb);
+$requestResult = mysqli_query($con, $requestQuery);
+$bookedResult = mysqli_query($con, $bookedQuery);
 
-$requestdata = [];
-if ($query1 && mysqli_num_rows($query1) > 0) {
-    while ($data = mysqli_fetch_assoc($query1)) {
-        $requestdata[] = $data;
+$requests = mysqli_fetch_all($requestResult, MYSQLI_ASSOC);
+$bookings = mysqli_fetch_all($bookedResult, MYSQLI_ASSOC);
+
+// DELETE Appointment Logic (GET Method)
+if (isset($_GET["delete_id"])) {
+    $delete_id = $_GET["delete_id"];
+
+    // Check if appointment exists in pending requests
+    $checkRequest = "SELECT * FROM appoinmentrequest WHERE appoinment_id='$delete_id'";
+    $result1 = mysqli_query($con, $checkRequest);
+
+    if (mysqli_num_rows($result1) > 0) {
+        mysqli_query($con, "DELETE FROM appoinmentrequest WHERE appoinment_id='$delete_id'");
+        echo "<script>
+                Swal.fire('Deleted!', 'Appointment deleted from pending requests.', 'success')
+                .then(() => { window.location.href='index.php'; });
+              </script>";
+        exit();
     }
-}
 
-// **Second Table: `bookedappoinment` fetch**
-$approve = "SELECT * FROM bookedappoinment WHERE email='$user_id'";
-$query2 = mysqli_query($con, $approve);
-$approvedData = [];
+    // Check if appointment exists in booked records
+    $checkBooked = "SELECT * FROM bookedappoinment WHERE appoinment_id='$delete_id'";
+    $result2 = mysqli_query($con, $checkBooked);
 
-if ($query2 && mysqli_num_rows($query2) > 0) {
-    while ($data = mysqli_fetch_assoc($query2)) {
-        $approvedData[] = $data;
+    if (mysqli_num_rows($result2) > 0) {
+        mysqli_query($con, "DELETE FROM bookedappoinment WHERE appoinment_id='$delete_id'");
+        echo "<script>
+                Swal.fire('Deleted!', 'Appointment deleted from booked records.', 'success')
+                .then(() => { window.location.href='index.php'; });
+              </script>";
+        exit();
     }
-}
 
+    echo "<script>
+            Swal.fire('Error!', 'No matching appointment found.', 'error');
+          </script>";
+}
 ?>
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Profile</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/js/all.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -62,13 +86,8 @@ if ($query2 && mysqli_num_rows($query2) > 0) {
         }
 
         body {
-            width: 100%;
             background: #f8f9fa;
-        }
-
-        .profile-container {
             display: flex;
-            width: 100%;
             height: 100vh;
         }
 
@@ -124,6 +143,7 @@ if ($query2 && mysqli_num_rows($query2) > 0) {
             background: white;
             padding: 40px;
             overflow-y: auto;
+            text-align: center;
         }
 
         table {
@@ -148,31 +168,66 @@ if ($query2 && mysqli_num_rows($query2) > 0) {
             color: white;
         }
 
-        .icon-btn {
+        .actions {
+            display: flex;
+            justify-content: center;
+            /* Center align buttons */
+            align-items: center;
+            gap: 10px;
+            /* Space between edit and delete */
+        }
+
+        .edit,
+        .delete {
             display: inline-block;
-            padding: 8px;
+            padding: 8px 14px;
+            border-radius: 5px;
+            text-decoration: none;
             font-size: 16px;
-            margin: 2px;
+            font-weight: bold;
+            transition: background 0.3s, transform 0.2s;
+        }
+
+        .edit {
+            background: #007bff;
+            color: white;
+            border: 1px solid #007bff;
+        }
+
+        .edit:hover {
+            background: #0056b3;
+            transform: scale(1.05);
+        }
+
+        .delete {
+            background: #dc3545;
+            color: white;
+            border: 1px solid #dc3545;
+        }
+
+        .delete:hover {
+            background: #a71d2a;
+            transform: scale(1.05);
         }
     </style>
 </head>
 
 <body>
-    <div class="profile-container">
-        <div class="sidebar">
-            <h2>Profile Name: <?php echo $row['username']; ?></h2>
-            <div class="info-box">Email: <?php echo $row['email']; ?></div>
-            <div class="info-box">City: <?php echo $row['city']; ?></div>
-            <div class="info-box">Phone: +91 <?php echo $row['phone']; ?></div>
-            <div class="button-container">
-                <form action="" method="POST">
-                    <button class="btn edit-btn">Edit Profile</button>
-                    <button type="submit" name="logout" class="btn logout-btn">Logout</button>
-                </form>
-            </div>
+    <div class="sidebar">
+        <h2>Profile Name: <?php echo htmlspecialchars($user['username']); ?></h2>
+        <div class="info-box">Email: <?php echo htmlspecialchars($user['email']); ?></div>
+        <div class="info-box">City: <?php echo htmlspecialchars($user['city']); ?></div>
+        <div class="info-box">Phone: +91 <?php echo htmlspecialchars($user['phone']); ?></div>
+        <div class="button-container">
+            <form method="POST">
+                <button class="btn edit-btn">Edit Profile</button>
+                <button type="submit" name="logout" class="btn logout-btn">Logout</button>
+            </form>
         </div>
+    </div>
 
-        <div class="content-container">
+    <div class="content-container">
+        <?php if (!empty($requests) || !empty($bookings)) { ?>
             <table>
                 <thead>
                     <tr>
@@ -189,61 +244,31 @@ if ($query2 && mysqli_num_rows($query2) > 0) {
                     </tr>
                 </thead>
                 <tbody>
-                    <?php
-                    if (!empty($requestdata)) {
-                        foreach ($requestdata as $row) { ?>
-                            <tr>
-                                <td><?php echo $row['appoinment_id']; ?></td>
-                                <td><?php echo $row['appoinment_user']; ?></td>
-                                <td><?php echo $row['email']; ?></td>
-                                <td><?php echo $row['phone']; ?></td>
-                                <td><?php echo $row['date']; ?></td>
-                                <td><?php echo $row['state']; ?></td>
-                                <td><?php echo $row['city']; ?></td>
-                                <td><?php echo $row['additional_detail']; ?></td>
-                                <td><?php echo $row['status']; ?></td>
-                                <td>
-                                    <button class="icon-btn edit">
-                                        <i class="fa-solid fa-pen-to-square"></i>
-                                    </button>
-                                    <button class="icon-btn delete">
-                                        <i class="fa-solid fa-trash"></i>
-                                    </button>
-                                </td>
-                            </tr>
-                        <?php }
-                    } elseif (!empty($approvedData)) {
-                        foreach ($approvedData as $row) { ?>
-                            <tr>
-                                <td><?php echo $row['appoinment_id']; ?></td>
-                                <td><?php echo $row['appoinment_user']; ?></td>
-                                <td><?php echo $row['email']; ?></td>
-                                <td><?php echo $row['phone']; ?></td>
-                                <td><?php echo $row['date']; ?></td>
-                                <td><?php echo $row['state']; ?></td>
-                                <td><?php echo $row['city']; ?></td>
-                                <td><?php echo $row['additional_detail']; ?></td>
-                                <td><?php echo $row['status']; ?></td>
-                                <td>
-                                    <button class="icon-btn edit">
-                                        <i class="fa-solid fa-pen-to-square"></i>
-                                    </button>
-                                    <button class="icon-btn delete">
-                                        <i class="fa-solid fa-trash"></i>
-                                    </button>
-                                </td>
-                            </tr>
-                        <?php }
-                    } else { ?>
+                    <?php foreach (array_merge($requests, $bookings) as $row) { ?>
                         <tr>
-                            <td colspan="10" style="text-align:center; color:red;">
-                                No appointment requests or bookings found.
+                            <td><?php echo htmlspecialchars($row['appoinment_id']); ?></td>
+                            <td><?php echo htmlspecialchars($row['appoinment_user']); ?></td>
+                            <td><?php echo htmlspecialchars($row['email']); ?></td>
+                            <td><?php echo htmlspecialchars($row['phone']); ?></td>
+                            <td><?php echo htmlspecialchars($row['date']); ?></td>
+                            <td><?php echo htmlspecialchars($row['state']); ?></td>
+                            <td><?php echo htmlspecialchars($row['city']); ?></td>
+                            <td><?php echo htmlspecialchars($row['additional_detail']); ?></td>
+                            <td><?php echo htmlspecialchars($row['status']); ?></td>
+                            <td class="actions">
+                                <a href="profile_edit.php?edit_id=<?php echo $row['appoinment_id']; ?>" class="edit">
+                                    <i class="fa-solid fa-pen"></i>
+                                </a>
+                                <a href="?delete_id=<?php echo $row['appoinment_id']; ?>" class="delete">
+                                    <i class="fa-solid fa-trash"></i>
+                                </a>
                             </td>
+
                         </tr>
                     <?php } ?>
                 </tbody>
             </table>
-        </div>
+        <?php } ?>
     </div>
 </body>
 
