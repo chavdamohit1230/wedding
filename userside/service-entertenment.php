@@ -1,12 +1,21 @@
 <?php
 include("navbar.php");
+session_start();
 include("connection/connection.php");
 
-$mm = $_GET['serviceid'];
+$mm = isset($_GET['serviceid']) ? mysqli_real_escape_string($con, $_GET['serviceid']) : '';
 
-// Correct Query: Fetch only relevant subservices
 $query1 = "SELECT * FROM subservice WHERE serviceid='$mm'";
 $result = mysqli_query($con, $query1);
+
+// Store the first row in session
+if ($row = mysqli_fetch_assoc($result)) {
+    $_SESSION['subservicename'] = $row['subservicename'];
+    $_SESSION['price'] = $row['price'];
+    $_SESSION['location'] = $row['location'];
+
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -15,7 +24,7 @@ $result = mysqli_query($con, $query1);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Book Amazing Artists</title>
+    <title>Book Amazing Catering Services</title>
     <style>
         .body_Class {
             font-family: Arial, sans-serif;
@@ -43,7 +52,7 @@ $result = mysqli_query($con, $query1);
             margin-top: 20px;
         }
 
-        .artists {
+        .services {
             display: flex;
             justify-content: center;
             gap: 20px;
@@ -51,7 +60,7 @@ $result = mysqli_query($con, $query1);
             margin-top: 20px;
         }
 
-        .artist-card {
+        .service-card {
             background: white;
             border-radius: 10px;
             box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
@@ -61,7 +70,7 @@ $result = mysqli_query($con, $query1);
             transition: transform 0.3s ease;
         }
 
-        .artist-card:hover {
+        .service-card:hover {
             transform: scale(1.05);
         }
 
@@ -86,18 +95,18 @@ $result = mysqli_query($con, $query1);
             font-size: 14px;
         }
 
-        .artist-info {
+        .service-info {
             padding: 15px;
         }
 
-        .artist-info h3 {
+        .service-info h3 {
             font-size: 20px;
             color: #A6206A;
             margin-bottom: 5px;
         }
 
         .location,
-        .rating {
+        .price {
             font-size: 14px;
             color: #666;
             margin-bottom: 10px;
@@ -129,29 +138,29 @@ $result = mysqli_query($con, $query1);
 <body>
     <div class="body_Class">
         <div class="service-sub_container">
-            <h1 class="title">Book Amazing Artists for Your Event</h1>
-            <p class="subtitle">Find and book the perfect entertainment for any occasion</p>
+            <h1 class="title">Book Delicious Catering Services</h1>
+            <p class="subtitle">Find the best multi-cuisine catering for your wedding</p>
 
-            <!-- Featured Artists -->
-            <h2 class="section-title" style="margin-top:20px;">Featured Artists</h2>
-            <div class="artists">
+            <h2 class="section-title" style="margin-top:20px;">Our Top Catering Services</h2>
+            <div class="services">
                 <?php
+                // Reset result pointer and loop through all results
+                mysqli_data_seek($result, 0);
                 while ($row = mysqli_fetch_assoc($result)) {
-                    // Extract first image from comma-separated images
                     $imageArray = explode(",", $row['subserviceimage']);
                     $firstImage = trim($imageArray[0]);
                     ?>
-                    <div class="artist-card">
-                        <a href="servicebooking.php?serviceid=<?php echo $row['subserviceid']; ?>">
+                    <div class="service-card">
+                        <a href="servicebooking.php?serviceid=<?php echo htmlspecialchars($row['subserviceid']); ?>">
                             <div class="image-container">
-                                <img src="../admine side/serviceimage/subserviceimage/<?php echo $firstImage; ?>"
-                                    alt="<?php echo $row['subservicename']; ?>">
-                                <div class="badge"><?php echo $row['subservicename']; ?></div>
+                                <img src="../admine side/serviceimage/subserviceimage/<?php echo htmlspecialchars($firstImage); ?>"
+                                    alt="<?php echo htmlspecialchars($row['subservicename']); ?>">
+                                <div class="badge"><?php echo htmlspecialchars($row['subservicename']); ?></div>
                             </div>
-                            <div class="artist-info">
-                                <h3><?php echo $row['subservicename']; ?></h3>
-                                <p class="location">📍<?php echo $row['location']; ?></p>
-                                <p class="rating">⭐ Price: <?php echo $row['price']; ?> Lakhs</p>
+                            <div class="service-info">
+                                <h3><?php echo htmlspecialchars($row['subservicename']); ?></h3>
+                                <p class="location">📍<?php echo htmlspecialchars($row['location']); ?></p>
+                                <p class="price">💰 Price: <?php echo htmlspecialchars($row['price']); ?> Lakhs</p>
                                 <a class="btn">Get Offers</a>
                             </div>
                         </a>

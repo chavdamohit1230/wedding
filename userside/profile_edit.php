@@ -2,7 +2,7 @@
 include("connection/connection.php");
 
 // Get the appointment ID from URL
-$mm = $_GET['edit_id'] ?? '';
+$mm = $_GET['id'] ?? '';
 
 // Check in `appoinmentrequest` table first
 $query1 = "SELECT * FROM appoinmentrequest WHERE appoinment_id='$mm'";
@@ -45,7 +45,7 @@ if (isset($_POST['update'])) {
     if (mysqli_query($con, $updatequery)) {
         echo "<script>
                 alert('Record updated successfully in $table!');
-                window.location.href='index.php'; // Redirect to the appropriate page
+                window.location.href='profile.php'; // Redirect to the appropriate page
               </script>";
     } else {
         echo "Error updating record: " . mysqli_error($con);

@@ -2,18 +2,26 @@
 include("connection/connection.php");
 include('navbar.php');
 
+$userid = $_SESSION["useremail"];
+$query = "SELECT * FROM userregistration WHERE email='$userid'";
+$result = mysqli_query($con, $query);
+$row = mysqli_fetch_assoc($result);
+
+$_SESSION['username'] = $row['username'];
+$_SESSION['email'] = $row['email'];
+$_SESSION['phone'] = $row['phone'];
+
 $serviceid = $_GET['serviceid'];
-
-$select = "select * from  subservice where subserviceid='$serviceid'";
-
+$select = "SELECT * FROM subservice WHERE subserviceid='$serviceid'";
 $result = mysqli_query($con, $select);
-
 $row = mysqli_fetch_array($result);
 
-$image = explode(",", string: $row['subserviceimage']);
+$servicename = $row['subservicename'];
+$price = $row['price'];
+$location = $row['location'];
+$image = explode(",", $row['subserviceimage']);
 
 if (isset($_POST["booking"])) {
-
     $user_name = $_POST["user_name"];
     $user_email = $_POST["user_email"];
     $user_phone = $_POST["user_phone"];
@@ -23,15 +31,52 @@ if (isset($_POST["booking"])) {
     $booking_price = $_POST["booking_price"];
     $additional_detail = $_POST["additional_detail"];
 
-    $query = "insert into bookingrequest values('','$user_name','$user_email','$user_phone','$booking_name','$fun_date','$guest_no','$booking_price','$additional_detail','pending')";
+    // Check if the service is already booked on the same date
+    $check_query = "SELECT * FROM bookingrequest WHERE booking_name='$booking_name' AND fun_date='$fun_date'";
+    $check_result = mysqli_query($con, $check_query);
 
-    $result = mysqli_query($con, $query);
+    if (mysqli_num_rows($check_result) > 0) {
+        echo "<script>
+            document.addEventListener('DOMContentLoaded', function() {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Already Booked',
+                    text: 'This service is already booked on this date!',
+                });
+            });
+        </script>";
+    } else {
+        $query = "INSERT INTO bookingrequest VALUES('', '$user_name', '$user_email', '$user_phone', '$booking_name', '$fun_date', '$guest_no', '$booking_price', '$additional_detail', 'pending')";
+        $result = mysqli_query($con, $query);
 
-    if (!$result) {
-        echo "not";
+        if ($result) {
+            echo "<script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Booking Confirmed',
+                        text: 'Your booking has been successfully placed!'
+                    }).then(() => {
+                        window.location.href = 'index.php';
+                    });
+                });
+            </script>";
+        } else {
+            echo "<script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Booking Failed',
+                        text: 'Something went wrong. Please try again later.'
+                    });
+                });
+            </script>";
+        }
     }
 }
 ?>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -321,20 +366,20 @@ if (isset($_POST["booking"])) {
 
             </tr>
             <tr>
-                <td>Catering</td>
-                <td>Delicious Multi-Cuisine Menu</td>
+                <td>Name</td>
+                <td><?php echo !empty($servicename) ? $servicename : ''; ?></td>
             </tr>
             <tr>
-                <td>Venue & Decor</td>
-                <td>Exclusive Wedding Themes</td>
+                <td>Price</td>
+                <td><?php echo !empty($price) ? $price : ''; ?> Lakhs</td>
             </tr>
             <tr>
-                <td>Entertainment</td>
-                <td>Live Music, DJ & Performers</td>
+                <td>location</td>
+                <td><?php echo !empty($location) ? $location : ''; ?></td>
             </tr>
             <tr>
-                <td>Photography</td>
-                <td>Professional Wedding Shoot</td>
+                <td>No of Guest</td>
+                <td>Specify which you want</td>
 
             </tr>
         </table>
@@ -350,28 +395,32 @@ if (isset($_POST["booking"])) {
                 <form action="" method="POST">
 
                     <div class="input-group">
-                        <input type="text" id="name" name="user_name" required>
+                        <input type="text" id="name" name="user_name"
+                            value="<?php echo isset($_SESSION['username']) ? $_SESSION['username'] : '' ?>" required>
                         <label for="name">Full Name</label>
                     </div>
 
                     <div class="input-group">
-                        <input type="email" id="email" name="user_email" required>
+                        <input type="email" id="email" name="user_email"
+                            value="<?php echo isset($_SESSION['email']) ? $_SESSION['email'] : '' ?>" required>
                         <label for="email">Email</label>
                     </div>
 
                     <div class="input-group">
 
-                        <input type="text" name="user_phone" id="service">
+                        <input type="text" name="user_phone" id="service"
+                            value="<?php echo isset($_SESSION['phone']) ? $_SESSION['phone'] : '' ?>">
                         <label for="service">contect no</label>
                     </div>
                     <div class="input-group">
-                        <input type="text" id="name" name="booking_name" required>
+                        <input type="text" id="name" name="booking_name"
+                            value="<?php echo !empty($servicename) ? $servicename : ''; ?>" required>
                         <label for="name">Booking name</label>
                     </div>
                     <div class="input-group">
                         <input type="date" id="date" name="fun_date" required>
                         <label for="date">Event Date</label>
-                    </div>,
+                    </div>
 
                     <div class="input-group">
                         <input type="text" id="name" name="guest_no" required>
@@ -379,7 +428,8 @@ if (isset($_POST["booking"])) {
                     </div>
 
                     <div class="input-group">
-                        <input type="text" id="name" name="booking_price" required>
+                        <input type="text" id="name" name="booking_price"
+                            value=" Lakhs<?php echo !empty($price) ? $price : ''; ?>" required>
                         <label for="name">Booking_price</label>
                     </div>
 
