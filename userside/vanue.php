@@ -328,32 +328,36 @@ if (!$userid) {
       // Handle error if needed
     }
     while ($row = mysqli_fetch_array($result)) {
+      $image = explode(",", string: $row['vanueimage']);
+
       ?>
-      <div class="card_container" data-aos="fade-up" data-aos-duration="1000" data-aos-mirror="true">
-        <div class="card_img">
-          <img src="../admine side/vanueimage/<?php echo $row['vanueimage']; ?>" alt="" class="card_img1">
-        </div>
-        <div class="card_header">
-          <h2><?php echo $row['vanuename']; ?></h2>
-          <p>From <?php echo $row['location']; ?></p>
-        </div>
-        <div class="card_body">
-          <div class="card_info">
-            <div class="info_item"><i class="fa-solid fa-location-dot fa-bounce"></i>
-              <span><?php echo $row['location']; ?></span>
+      <a href="vanuesub.php?gid=<?php echo $row['vanueid']; ?> ">
+        <div class="card_container" data-aos="fade-up" data-aos-duration="1000" data-aos-mirror="true">
+          <div class="card_img">
+            <img src="../admine side/vanueimage/<?php echo $image[0]; ?>" alt="" class="card_img1">
+          </div>
+          <div class="card_header">
+            <h2><?php echo $row['vanuename']; ?></h2>
+            <p>From <?php echo $row['location']; ?></p>
+          </div>
+          <div class="card_body">
+            <div class="card_info">
+              <div class="info_item"><i class="fa-solid fa-location-dot fa-bounce"></i>
+                <span><?php echo $row['location']; ?></span>
+              </div>
+              <div class="info_item"><i class="fa-regular fa-star fa-shake"></i> <span><?php echo $row['rating']; ?>
+                  (reviws)</span></div>
+              <div class="info_item"><i class="fa-solid fa-indian-rupee-sign fa-beat"></i>
+                <span><?php echo $row['price']; ?> Lakhs</span>
+              </div>
             </div>
-            <div class="info_item"><i class="fa-regular fa-star fa-shake"></i> <span><?php echo $row['rating']; ?>
-                (reviws)</span></div>
-            <div class="info_item"><i class="fa-solid fa-indian-rupee-sign fa-beat"></i>
-              <span><?php echo $row['price']; ?> Lakhs</span>
+            <div class="card_buttons">
+              <button class="massage"><i class="fa-solid fa-envelope mail"></i>Send Massage</button>
+              <button class="contect"><i class="fa-solid fa-phone phone-i"></i> view contect</button>
             </div>
           </div>
-          <div class="card_buttons">
-            <button class="massage"><i class="fa-solid fa-envelope mail"></i>Send Massage</button>
-            <button class="contect"><i class="fa-solid fa-phone phone-i"></i> view contect</button>
-          </div>
         </div>
-      </div>
+      </a>
     <?php } ?>
     <div class="space"></div>
   </div>
