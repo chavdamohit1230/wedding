@@ -136,7 +136,7 @@
             </div>
 
             <a href="appoinment_Request.php" target="content-frame">appoinment_Request</a>
-            <a href="services.html" target="content-frame">Services</a>
+            <a href="vanuetablerequest.php" target="content-frame">vanue_request</a>
             <a href="gallery.html" target="content-frame">Gallery</a>
             <a href="upload_photos.html" target="content-frame">Upload Photos</a>
             <a href="user_management.html" target="content-frame">User Management</a>

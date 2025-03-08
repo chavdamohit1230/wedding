@@ -8,17 +8,13 @@ if (!isset($_SESSION["useremail"])) {
 
 $email = $_SESSION["useremail"];
 
-// पहले appoinmentrequest से डेटा लाने की कोशिश करें
+// पहले appoinmentrequest से डेटा लाएं
 $query = "SELECT * FROM appoinmentrequest WHERE email = '$email'";
 $result = mysqli_query($con, $query);
-$row = mysqli_fetch_assoc($result);
 
 // अगर appoinmentrequest में डेटा नहीं है, तो bookedappoinment से डेटा लाएं
-if (!$row) {
-    $query1 = "SELECT * FROM bookedappoinment WHERE email = '$email'";
-    $result1 = mysqli_query($con, $query1);
-    $row = mysqli_fetch_assoc($result1);
-}
+$query1 = "SELECT * FROM bookedappoinment WHERE email = '$email'";
+$result1 = mysqli_query($con, $query1);
 
 // 🔹 अगर डिलीट का बटन प्रेस किया गया हो तो
 if (isset($_GET["delete"])) {
@@ -123,7 +119,12 @@ if (isset($_GET["delete"])) {
             </tr>
         </thead>
         <tbody>
-            <?php if (!empty($row)) { ?>
+            <?php
+            $found = false;
+
+            // Appointment request से डेटा दिखाएं
+            while ($row = mysqli_fetch_assoc($result)) {
+                $found = true; ?>
                 <tr>
                     <td><?php echo htmlspecialchars($row["appoinment_id"]); ?></td>
                     <td><?php echo htmlspecialchars($row["appoinment_user"]); ?></td>
@@ -144,7 +145,34 @@ if (isset($_GET["delete"])) {
                         </a>
                     </td>
                 </tr>
-            <?php } else { ?>
+            <?php }
+
+            // Booked appointments से डेटा दिखाएं
+            while ($row = mysqli_fetch_assoc($result1)) {
+                $found = true; ?>
+                <tr>
+                    <td><?php echo htmlspecialchars($row["appoinment_id"]); ?></td>
+                    <td><?php echo htmlspecialchars($row["appoinment_user"]); ?></td>
+                    <td><?php echo htmlspecialchars($row["email"]); ?></td>
+                    <td><?php echo htmlspecialchars($row["phone"]); ?></td>
+                    <td><?php echo htmlspecialchars($row["date"]); ?></td>
+                    <td><?php echo htmlspecialchars($row["state"]); ?></td>
+                    <td><?php echo htmlspecialchars($row["city"]); ?></td>
+                    <td><?php echo htmlspecialchars($row["additional_detail"]); ?></td>
+                    <td><?php echo htmlspecialchars($row["status"]); ?></td>
+                    <td>
+                        <a href="profile_edit.php?id=<?php echo urlencode($row['appoinment_id']); ?>">
+                            <button class="action-btn update" type="button">Update</button>
+                        </a>
+                        <a href="?delete=<?php echo urlencode($row["appoinment_id"]); ?>"
+                            onclick="return confirm('Are you sure you want to delete this appointment?');">
+                            <button class="action-btn delete" type="button">Delete</button>
+                        </a>
+                    </td>
+                </tr>
+            <?php }
+
+            if (!$found) { ?>
                 <tr>
                     <td colspan="10">No appointment found.</td>
                 </tr>

@@ -5,53 +5,56 @@ include("connection/connection.php");
 $mm = $_GET['id'] ?? '';
 
 // Check in `appoinmentrequest` table first
-$query1 = "SELECT * FROM appoinmentrequest WHERE appoinment_id='$mm'";
+$query1 = "SELECT * FROM vanuerequest WHERE vanueid='$mm'";
 $result1 = mysqli_query($con, $query1);
 $row = mysqli_fetch_assoc($result1);
 
 // If not found in `appoinmentrequest`, check in `bookedappoinment`
 if (!$row) {
-    $query2 = "SELECT * FROM bookedappoinment WHERE appoinment_id='$mm'";
+    $query2 = "SELECT * FROM vanuebooked WHERE vanueid='$mm'";
     $result2 = mysqli_query($con, $query2);
     $row = mysqli_fetch_assoc($result2);
-    $table = "bookedappoinment"; // Set table name
+    $table = "vanuebooked"; // Set table name
 } else {
-    $table = "appoinmentrequest"; // Set table name
+    $table = "vanuerequest"; // Set table name
 }
 
-// Update logic
 if (isset($_POST['update'])) {
-    $appoinment_id = $_POST["appoinmentid"];
-    $appoinment_user = $_POST["appoinment_user"];
+    $vanueid = $_POST["vanueid"]; // ✅ Fix: Fetching vanueid from form
+    $username = $_POST["username"];
     $email = $_POST["email"];
     $phone = $_POST["phone"];
-    $date = $_POST["date"];
-    $state = $_POST["state"];
-    $city = $_POST["city"];
-    $additional_detail = $_POST["additional_detail"];
+    $fun_date = $_POST["fun_date"];
+    $vanuename = $_POST["vanuename"];
+    $price = $_POST["price"];
+    $location = $_POST["location"];
+    $guestno = $_POST["guestno"];
 
     // Corrected SQL Query to update the correct table
     $updatequery = "UPDATE $table 
-        SET appoinment_user='$appoinment_user', 
-            email='$email', 
-            phone='$phone', 
-            date='$date', 
-            state='$state', 
-            city='$city', 
-            additional_detail='$additional_detail' 
-        WHERE appoinment_id='$appoinment_id'";
+        SET username=?, 
+            email=?, 
+            phone=?, 
+            fun_date=?, 
+            vanuename=?, 
+            price=?, 
+            location=?, 
+            guestno=? 
+        WHERE vanueid=?";
 
-    // Execute Query and Show Result
-    if (mysqli_query($con, $updatequery)) {
+    $stmt = mysqli_prepare($con, $updatequery);
+    mysqli_stmt_bind_param($stmt, "ssssssssi", $username, $email, $phone, $fun_date, $vanuename, $price, $location, $guestno, $vanueid);
+
+    if (mysqli_stmt_execute($stmt)) {
         echo "<script>
                 alert('Record updated successfully in $table!');
-                window.location.href=''; // Redirect to the appropriate page
+                window.location.href='bookings.php'; // Redirect to the bookings page
               </script>";
-
     } else {
         echo "Error updating record: " . mysqli_error($con);
     }
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -164,19 +167,19 @@ if (isset($_POST['update'])) {
 <body>
 
     <div class="form-container">
-        <div class="form-title">Update your appoinment</div>
+        <div class="form-title">Update your vanue</div>
         <form action="" method="post" enctype="multipart/form-data">
 
             <div class="input-group">
-                <input type="text" id="textbox" name="appoinmentid" placeholder=""
-                    value="<?php echo !empty($row['appoinment_id']) ? $row['appoinment_id'] : '' ?>">
-                <label for="textbox">appoinment_id</label>
+                <input type="text" id="textbox" name="vanueid" placeholder=""
+                    value="<?php echo !empty($row['vanueid']) ? $row['vanueid'] : '' ?>">
+                <label for="textbox">vanueid</label>
             </div>
 
             <div class="input-group">
-                <input type="text" id="textbox" name="appoinment_user" placeholder=""
-                    value="<?php echo !empty($row['appoinment_user']) ? $row['appoinment_user'] : '' ?>">
-                <label for="textbox">appoinment_user</label>
+                <input type="text" id="textbox" name="username" placeholder=""
+                    value="<?php echo !empty($row['username']) ? $row['username'] : '' ?>">
+                <label for="textbox">username</label>
             </div>
 
             <div class="input-group">
@@ -190,26 +193,31 @@ if (isset($_POST['update'])) {
                 <label for="textbox">phone</label>
             </div>
             <div class="input-group">
-                <input type="date" id="textbox" name="date" placeholder=""
-                    value="<?php echo !empty($row['date']) ? $row['date'] : '' ?>">
-                <label for="textbox">date</label>
+                <input type="date" id="textbox" name="fun_date" placeholder=""
+                    value="<?php echo !empty($row['fun_date']) ? $row['fun_date'] : '' ?>">
+                <label for="textbox">fun_date</label>
             </div>
             <div class="input-group">
-                <input type="text" id="textbox" name="state" placeholder=""
-                    value="<?php echo !empty($row['state']) ? $row['state'] : '' ?>">
-                <label for="textbox">state</label>
-            </div>
-
-            <div class="input-group">
-                <input type="text" id="textbox" name="city" placeholder="" accept=""
-                    value="<?php echo !empty($row['city']) ? $row['city'] : '' ?>">
-                <label for="textbox">city</label>
+                <input type="text" id="textbox" name="vanuename" placeholder=""
+                    value="<?php echo !empty($row['vanuename']) ? $row['vanuename'] : '' ?>">
+                <label for="textbox">vanuename</label>
             </div>
 
             <div class="input-group">
-                <textarea id="textbox" name="additional_detail"
-                    placeholder=""><?php echo !empty($row['additional_detail']) ? $row['additional_detail'] : '' ?></textarea>
-                <label for="textbox">additional_detail</label>
+                <input type="text" id="textbox" name="price" placeholder="" accept=""
+                    value="<?php echo !empty($row['price']) ? $row['price'] : '' ?>">
+                <label for="textbox">price</label>
+            </div>
+
+            <div class="input-group">
+                <input type="text" id="textbox" name="location" placeholder="" accept=""
+                    value="<?php echo !empty($row['location']) ? $row['location'] : '' ?>">
+                <label for="textbox">location</label>
+            </div>
+            <div class="input-group">
+                <input type="text" id="textbox" name="guestno" placeholder="" accept=""
+                    value="<?php echo !empty($row['guestno']) ? $row['guestno'] : '' ?>">
+                <label for="textbox">guestno</label>
             </div>
 
             <button type="submit" name="update">Update</button>

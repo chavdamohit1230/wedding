@@ -40,84 +40,59 @@ if (isset($_POST["logout"])) {
 
         body {
             display: flex;
+            flex-direction: column;
             height: 100vh;
             background: #f8f9fa;
             overflow: hidden;
         }
 
-        /* Sidebar */
-        .sidebar {
-            width: 25%;
+        /* User Info Header */
+        .user-info {
             background: #631549;
             color: white;
-            padding: 40px;
+            padding: 20px;
             text-align: center;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
+            position: relative;
+            z-index: 10;
         }
 
-        .sidebar h2 {
-            font-size: 22px;
-            margin-bottom: 20px;
+        .user-info h2 {
+            margin-bottom: 10px;
         }
 
         .info-box {
-            background: rgba(255, 255, 255, 0.2);
-            padding: 15px;
-            border-radius: 5px;
-            margin: 10px 0;
+            display: inline-block;
+            margin: 0 15px;
             font-size: 16px;
             font-weight: bold;
-        }
-
-        .button-container {
-            margin-top: 20px;
-        }
-
-        .btn {
-            display: block;
-            width: 100%;
-            padding: 12px;
-            margin: 10px 0;
-            border: none;
-            border-radius: 5px;
-            font-size: 18px;
-            cursor: pointer;
-            transition: 0.3s;
         }
 
         .logout-btn {
             background: #9b2172;
             color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-left: 20px;
         }
 
         .logout-btn:hover {
             background: #7d1458;
         }
 
-        /* Main Content */
-        .content {
-            width: 75%;
-            background: white;
-            display: flex;
-            flex-direction: column;
-            height: 100vh;
-        }
-
         /* Navbar */
         .navbar {
             background: #3D0124;
             color: white;
-            padding: 15px;
+            padding: 5px;
             display: flex;
             justify-content: space-around;
             align-items: center;
             font-size: 18px;
-            height: 60px;
-            /* Fixed height */
             position: relative;
-            z-index: 10;
+            z-index: 9;
         }
 
         .navbar a {
@@ -133,13 +108,13 @@ if (isset($_POST["logout"])) {
             border-radius: 5px;
         }
 
-        /* iFrame Container */
         .iframe-container {
             flex-grow: 1;
             width: 100%;
-            height: calc(100vh - 60px);
-            /* Navbar height adjust */
-            overflow: hidden;
+            height: calc(100vh - 120px);
+            /* 🔹 Header + Navbar की हाइट घटाकर iframe सेट करें */
+            overflow: auto;
+            /* 🔹 स्क्रॉलिंग की अनुमति देने के लिए */
             position: relative;
         }
 
@@ -152,54 +127,34 @@ if (isset($_POST["logout"])) {
 
     <script>
         function loadPage(url) {
-            let iframe = document.getElementById("contentFrame");
-            iframe.src = url;
-
-            iframe.onload = function () {
-                setTimeout(() => {
-                    let doc = iframe.contentDocument || iframe.contentWindow.document;
-                    if (doc) {
-                        let bodyHeight = doc.body.scrollHeight;
-                        let htmlHeight = doc.documentElement.scrollHeight;
-                        let finalHeight = Math.max(bodyHeight, htmlHeight) + "px";
-
-                        iframe.style.height = finalHeight; // Iframe ki height set karega
-                    }
-                }, 500);
-            };
+            document.getElementById("contentFrame").src = url;
         }
     </script>
-
 </head>
 
 <body>
-    <!-- Sidebar -->
-    <div class="sidebar">
-        <h2>Profile Name: <?php echo htmlspecialchars($user['username']); ?></h2>
-        <div class="info-box">Email: <?php echo htmlspecialchars($user['email']); ?></div>
-        <div class="info-box">City: <?php echo htmlspecialchars($user['city']); ?></div>
-        <div class="info-box">Phone: +91 <?php echo htmlspecialchars($user['phone']); ?></div>
-        <div class="button-container">
-            <form method="POST">
-                <button type="submit" name="logout" class="btn logout-btn">Logout</button>
-            </form>
-        </div>
+    <!-- User Info Header -->
+    <div class="user-info">
+        <h2>Profile: <?php echo htmlspecialchars($user['username']); ?></h2>
+        <span class="info-box">Email: <?php echo htmlspecialchars($user['email']); ?></span>
+        <span class="info-box">City: <?php echo htmlspecialchars($user['city']); ?></span>
+        <span class="info-box">Phone: +91 <?php echo htmlspecialchars($user['phone']); ?></span>
+        <form method="POST" style="display:inline;">
+            <button type="submit" name="logout" class="logout-btn">Logout</button>
+        </form>
     </div>
 
-    <!-- Main Content -->
-    <div class="content">
-        <!-- Navbar -->
-        <div class="navbar">
-            <a href="#" onclick="loadPage('servicebookview.php')">service Booking</a>
-            <a href="#" onclick="loadPage('appoinmenttable.php')">Bookings</a>
-            <a href="#" onclick="loadPage('appointments.php')">Appointments</a>
-            <a href="#" onclick="loadPage('settings.php')">Settings</a>
-        </div>
+    <!-- Navbar -->
+    <div class="navbar">
+        <a href="#" onclick="loadPage('servicebookview.php')">Service Booking</a>
+        <a href="#" onclick="loadPage('appoinmenttable.php')">Bookings</a>
+        <a href="#" onclick="loadPage('vanuetable.php')">vanue</a>
+        <a href="#" onclick="loadPage('settings.php')">Settings</a>
+    </div>
 
-        <!-- iFrame for Content -->
-        <div class="iframe-container">
-            <iframe id="contentFrame" src=""></iframe>
-        </div>
+    <!-- iFrame for Content -->
+    <div class="iframe-container">
+        <iframe id="contentFrame" src=""></iframe>
     </div>
 </body>
 

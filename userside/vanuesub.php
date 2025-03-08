@@ -4,9 +4,6 @@ include("navbar.php");
 session_start();
 
 $vanue_id = isset($_GET["gid"]) ? $_GET["gid"] : '';
-if (empty($vanue_id)) {
-    die("Venue ID is missing.");
-}
 
 $select1 = "SELECT * FROM vanue WHERE vanueid='$vanue_id'";
 $result = mysqli_query($con, $select1);
@@ -29,9 +26,66 @@ if (!$usertable1) {
 }
 
 $row = mysqli_fetch_assoc($usertable1);
+
+if (isset($_POST['book'])) {
+    $username = $_POST['username'];
+    $email = $_POST['email'];
+    $phone = $_POST['phone'];
+    $fun_date = $_POST['fun_date'];
+    $vanuename = $_POST['vanuename'];
+    $price = $_POST['price'];
+    $location = $_POST['location'];
+    $guestno = $_POST['guestno'];
+
+    // Check if the date is already booked
+    $check_query = "SELECT * FROM vanuerequest WHERE fun_date='$fun_date' AND vanuename='$vanuename'";
+    $check_result = mysqli_query($con, $check_query);
+
+    if (mysqli_num_rows($check_result) > 0) {
+        echo "<script>
+            document.addEventListener('DOMContentLoaded', function() {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'This date is already booked!',
+                });
+            });
+        </script>";
+    } else {
+        // Insert booking request if the date is available
+        $res = "INSERT INTO vanuerequest (username, email, phone, fun_date, vanuename, price, location, guestno, status) 
+                VALUES ('$username', '$email', '$phone', '$fun_date', '$vanuename', '$price', '$location', '$guestno', 'pending')";
+
+        $ress = mysqli_query($con, $res);
+
+        if ($ress) {
+            echo "<script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success!',
+                        text: 'Your booking request has been submitted.',
+                    });
+                });
+            </script>";
+        } else {
+            echo "<script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error!',
+                        text: 'Something went wrong, please try again.',
+                    });
+                });
+            </script>";
+        }
+    }
+}
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <head>
     <meta charset="UTF-8">
@@ -407,14 +461,14 @@ $row = mysqli_fetch_assoc($usertable1);
         <div class="booking-content">
             <span class="close-btn" onclick="closeBookingModal()">&times;</span>
             <h2>Booking Form</h2>
-            <form>
+            <form method="post">
                 <div class="input-group">
                     <input type="text" id="name" name="username"
                         value="<?php echo !empty($row['username']) ? $row['username'] : '' ?>" required>
                     <label for="name">Your Name</label>
                 </div>
                 <div class="input-group">
-                    <input type="email" id="email" name="emial"
+                    <input type="email" id="email" name="email"
                         value="<?php echo !empty($row['email']) ? $row['email'] : '' ?>" required>
                     <label for="email">Your Email</label>
                 </div>
@@ -422,7 +476,7 @@ $row = mysqli_fetch_assoc($usertable1);
                 <div class="input-group">
                     <input type="text" id="email" name="phone"
                         value="<?php echo !empty($row['phone']) ? $row['phone'] : '' ?>" required>
-                    <label for="email">contect_no</label>
+                    <label for="email">phone</label>
                 </div>
                 <div class="input-group">
                     <input type="date" id="date" name="fun_date" required>
@@ -449,7 +503,7 @@ $row = mysqli_fetch_assoc($usertable1);
                     <label for="email">guest_no</label>
                 </div>
 
-                <button type="submit">Submit</button>
+                <button type="submit" name="book">Submit</button>
             </form>
         </div>
     </div>
