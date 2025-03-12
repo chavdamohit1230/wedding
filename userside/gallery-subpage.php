@@ -10,7 +10,8 @@ $result = mysqli_query($con, $select);
 $row = mysqli_fetch_array($result);
 
 $image = explode(",", string: $row['studioimage']);
-
+$mm = $row["price"];
+$amount = $mm * 1000000;
 
 ?>
 
@@ -19,8 +20,8 @@ $image = explode(",", string: $row['studioimage']);
 require('vendor/autoload.php'); // If you're using Composer
 use Razorpay\Api\Api;
 
-$keyId = 'rzp_live_8tKlXBqiwVoirn'; // Replace with your Razorpay Key ID
-$keySecret = '0QgvmxcPL82yKGLsr1GnggZL'; // Replace with your Razorpay Key Secret
+$keyId = 'rzp_test_OFhD2PrF2o8lY4'; // Replace with your Razorpay Key ID
+$keySecret = '5Gd5L9iZwHlWpSx3oeFbyppv'; // Replace with your Razorpay Key Secret
 
 // Razorpay API object creation
 $api = new Api($keyId, $keySecret);
@@ -28,7 +29,7 @@ $api = new Api($keyId, $keySecret);
 // Order Data (Updated receipt as string)
 $orderData = [
     'receipt' => strval(rand(1000, 9999)), // Convert receipt to string
-    'amount' => '100', // Amount in paise (500 INR)
+    'amount' => $amount, // Amount in paise (500 INR)
     'currency' => 'INR',
     'payment_capture' => 1, // Automatic capture
 ];
@@ -321,34 +322,116 @@ $order = $api->order->create($orderData);
     </section>
     <?php include("footer/footer.php"); ?>
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <script>
         document.getElementById('pay-button').onclick = function (e) {
+            e.preventDefault(); // Form submit hone se roko
+
+            console.log("Pay Button Clicked!"); // ✅ Debugging ke liye
+
             var options = {
-                "key": "<?= $keyId; ?>", // Replace with your Razorpay Key ID
-                "amount": "100", // Amount in paise
+                "key": "<?= $keyId; ?>",
+                "amount": "100",
                 "currency": "INR",
                 "name": "saptapadi",
                 "description": "Payment for order",
-                "image": "https://example.com/logo.png", // Your logo URL
-                "order_id": "<?= $order->id; ?>", // Dynamic Order ID
+                "image": "https://example.com/logo.png",
+                "order_id": "<?= isset($order->id) ? $order->id : ''; ?>",
                 "handler": function (response) {
-                    alert("Payment successful. Razorpay Payment ID: " + response.razorpay_payment_id);
-                    // You can further process the response here
+                    console.log("Payment success:", response); // ✅ Debugging ke liye
+
+                    // Payment success hone par booking insert
+                    $.ajax({
+                        url: "insert_booking.php",
+                        type: "POST",
+                        data: {
+                            user_name: $("input[name='user_name']").val(),
+                            user_email: $("input[name='user_email']").val(),
+                            user_phone: $("input[name='user_phone']").val(),
+                            booking_name: $("input[name='booking_name']").val(),
+                            fun_date: $("input[name='fun_date']").val(),
+                            guest_no: $("input[name='guest_no']").val(),
+                            booking_price: $("input[name='booking_price']").val(),
+                            additional_detail: $("textarea[name='additional_detail']").val(),
+                            payment_id: response.razorpay_payment_id,
+                        },
+                        success: function (result) {
+                            console.log("AJAX Success Response:", result); // ✅ Debugging ke liye
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Payment Successful',
+                                text: 'Your booking has been confirmed!',
+                            }).then(() => {
+                                window.location.href = 'index.php';
+                            });
+                        },
+                        error: function () {
+                            console.log("AJAX Error Occurred!"); // ✅ Debugging ke liye
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Booking Failed',
+                                text: 'There was an error saving your booking. Contact support.',
+                            });
+                        }
+                    });
                 },
                 "prefill": {
-                    "name": "hiren",
-                    "email": "hiren@example.com",
-                    "contact": "9999999999"
+                    "name": "mm",
+                    "email": "chavda@1212",
+                    "contact": "9023022212"
                 },
                 "theme": {
                     "color": "#631549"
+                },
+                "modal": {
+                    "ondismiss": function () {
+                        console.log("Razorpay window closed by user!"); // ✅ Debugging ke liye
+                        localStorage.setItem("paymentCancelled", "true"); // Flag set karo
+                        location.reload(); // Page reload karo taki DOMContentLoaded alert show kare
+                    }
                 }
             };
+
+            if (options.order_id === "") {
+                alert("Order ID missing. Payment cannot proceed.");
+                console.error("Order ID is empty! Check PHP Razorpay order creation.");
+                return;
+            }
+
             var rzp1 = new Razorpay(options);
             rzp1.open();
-            e.preventDefault();
-        }
+        };
+
+        // ✅ Page Reload Hone Par SweetAlert2 Show Karega
+        document.addEventListener("DOMContentLoaded", function () {
+            if (localStorage.getItem("paymentCancelled") === "true") {
+                console.log("Payment cancelled detected! Showing alert."); // ✅ Debugging ke liye
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Payment Incomplete',
+                    text: 'You could not complete your payment process.',
+                    confirmButtonColor: '#631549'
+                });
+
+                localStorage.removeItem("paymentCancelled");
+            }
+        });
+
+        // ✅ SweetAlert2 ka manual test alert (check karo alert show ho raha hai ya nahi)
+        document.addEventListener("DOMContentLoaded", function () {
+            console.log("SweetAlert2 Test Running..."); // ✅ Debugging ke liye
+            Swal.fire({
+                icon: 'info',
+                title: 'Test Alert',
+                text: 'If you see this, SweetAlert2 is working!',
+            });
+        });
     </script>
+
+
 </body>
 
 </html>

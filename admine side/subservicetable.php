@@ -2,8 +2,8 @@
 include("connection.php");
 
 if (isset($_POST["delete"])) {
-    $subserviceid = $_POST["delete"];
-    $query = "DELETE FROM subservice WHERE subserviceid='$subserviceid'";
+    $vanueid = $_POST["delete"];
+    $query = "DELETE FROM vanue WHERE vanueid='$vanueid'";
     $result = mysqli_query($con, $query);
 
     echo "<script>
@@ -123,35 +123,35 @@ if (isset($_POST["delete"])) {
     <table>
         <thead>
             <tr>
-                <th>Service ID</th>
-                <th>Sub Service ID</th>
-                <th>Sub Service Name</th>
+                <th>vanueID</th>
+                <th>Vanue_Name</th>
                 <th>Location</th>
                 <th>Price</th>
-                <th>Sub Service Images</th>
+                <th>rating</th>
+                <th>Vanue_Images</th>
                 <th>Tools</th>
             </tr>
         </thead>
         <tbody>
             <?php
-            $query = "SELECT * FROM subservice";
+            $query = "SELECT * FROM ";
             $res = mysqli_query($con, $query);
 
             while ($row = mysqli_fetch_assoc($res)) {
                 ?>
                 <tr>
-                    <td><?php echo $row['serviceid']; ?></td>
-                    <td><?php echo $row['subserviceid']; ?></td>
-                    <td><?php echo $row['subservicename']; ?></td>
+                    <td><?php echo $row['vanueid']; ?></td>
+                    <td><?php echo $row['vanuename']; ?></td>
                     <td><?php echo $row['location']; ?></td>
                     <td><?php echo $row['price']; ?></td>
+                    <td><?php echo $row['rating']; ?></td>
 
                     <!-- Multiple images display -->
                     <td>
                         <?php
-                        $images = !empty($row['subserviceimage']) ? explode(",", $row['subserviceimage']) : ['default.jpg'];
+                        $images = !empty($row['vanueimages']) ? explode(",", $row['vanueimages']) : ['default.jpg'];
                         foreach ($images as $img) {
-                            echo '<img src="serviceimage/subserviceimage/' . trim($img) . '" alt="Service Image">';
+                            echo '<img src="vanueimages/' . trim($img) . '" alt="Service Image">';
                         }
                         ?>
                     </td>
@@ -163,7 +163,7 @@ if (isset($_POST["delete"])) {
                                 <i class="fa-solid fa-pen-to-square"></i>
                             </button>
 
-                            <button class="icon-btn delete" name="delete" value="<?php echo $row['subserviceid']; ?>">
+                            <button class="icon-btn delete" name="delete" value="<?php echo $row['vanueid']; ?>">
                                 <i class="fa-solid fa-trash"></i>
                             </button>
 

@@ -1,53 +1,6 @@
 <?php
 include("connection.php");
-
-// Confirm Appointment Logic
-if (isset($_POST["confirm"])) {
-    $sbooking_id = mysqli_real_escape_string($con, $_POST["confirm"]);
-
-    $query1 = "SELECT * FROM bookingrequest WHERE booking_id = '$sbooking_id'";
-    $query2 = mysqli_query($con, $query1);
-
-    if ($row = mysqli_fetch_assoc($query2)) {
-        $booking_id = $row["booking_id"];
-        $user_name = $row["user_name"];
-        $user_email = $row["user_email"];
-        $user_phone = $row["user_phone"];
-        $booking_name = $row["booking_name"];
-        $fun_Date = $row["fun_date"];
-        $guest_no = $row["guest_no"];
-        $booking_price = $row["booking_price"];
-        $ad_detail = $row["additional_detail"];
-
-        $insert = "INSERT INTO confbooking VALUES 
-                   ('$booking_id','$user_name', '$user_email', '$user_phone', '$booking_name', '$fun_Date', '$guest_no', '$booking_price','$ad_detail','Approve')";
-        $result = mysqli_query($con, $insert);
-
-        if ($result) {
-            $delete_query = "DELETE FROM bookingrequest WHERE booking_id = '$booking_id'";
-            mysqli_query($con, $delete_query);
-            echo "<script>alert('Appointment Confirmed & Moved to Booking!'); window.location.href='yourpage.php';</script>";
-        } else {
-            echo "Error: " . mysqli_error($con);
-        }
-    } else {
-        echo "Appointment ID Not Found!";
-    }
-}
-
-// Reject Appointment Logic
-if (isset($_POST["reject"])) {
-    $rbooking_id = mysqli_real_escape_string($con, $_POST["reject"]);
-
-    $delete_query = "DELETE FROM bookingrequest WHERE booking_id = '$rbooking_id'";
-    if (mysqli_query($con, $delete_query)) {
-        echo "<script>alert('Appointment Rejected Successfully!'); window.location.href='';</script>";
-    } else {
-        echo "Error: " . mysqli_error($con);
-    }
-}
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -125,12 +78,12 @@ if (isset($_POST["reject"])) {
                 <th>Price</th>
                 <th>Details</th>
                 <th>Status</th>
-                <th>Actions</th>
+
             </tr>
         </thead>
         <tbody>
             <?php
-            $query = "SELECT * FROM bookingrequest";
+            $query = "SELECT * FROM confbooking";
             $result = mysqli_query($con, $query);
 
             while ($row = mysqli_fetch_assoc($result)) {
@@ -146,16 +99,6 @@ if (isset($_POST["reject"])) {
                     <td><?php echo $row['booking_price']; ?></td>
                     <td><?php echo $row['additional_detail']; ?></td>
                     <td><?php echo $row['status']; ?></td>
-                    <td>
-                        <form action="" method="POST" style="display:inline;">
-                            <button class="action-btn confirm" name="confirm" type="submit"
-                                value="<?php echo $row['booking_id']; ?>">Confirm</button>
-                        </form>
-                        <form action="" method="POST" style="display:inline;">
-                            <button class="action-btn reject" name="reject" type="submit"
-                                value="<?php echo $row['booking_id']; ?>">Reject</button>
-                        </form>
-                    </td>
                 </tr>
             <?php } ?>
         </tbody>

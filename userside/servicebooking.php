@@ -75,6 +75,27 @@ if (isset($_POST["booking"])) {
     }
 }
 ?>
+<?php
+require('vendor/autoload.php'); // If you're using Composer
+use Razorpay\Api\Api;
+
+$keyId = 'rzp_test_OFhD2PrF2o8lY4'; // Replace with your Razorpay Key ID
+$keySecret = '5Gd5L9iZwHlWpSx3oeFbyppv'; // Replace with your Razorpay Key Secret
+
+// Razorpay API object creation
+$api = new Api($keyId, $keySecret);
+
+// Order Data (Updated receipt as string)
+$orderData = [
+    'receipt' => strval(rand(1000, 9999)), // Convert receipt to string
+    'amount' => '100', // Amount in paise (500 INR)
+    'currency' => 'INR',
+    'payment_capture' => 1, // Automatic capture
+];
+
+// Razorpay order creation
+$order = $api->order->create($orderData);
+?>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <!DOCTYPE html>
@@ -429,7 +450,7 @@ if (isset($_POST["booking"])) {
 
                     <div class="input-group">
                         <input type="text" id="name" name="booking_price"
-                            value=" Lakhs<?php echo !empty($price) ? $price : ''; ?>" required>
+                            value="<?php echo !empty($price) ? $price : ''; ?>" required>
                         <label for="name">Booking_price</label>
                     </div>
 
@@ -438,7 +459,7 @@ if (isset($_POST["booking"])) {
                         <label for="message">Additional Requests</label>
                     </div>
 
-                    <button type="submit" name="booking">Submit Booking</button>
+                    <button type="submit" id="pay-button" name="booking">Submit Booking</button>
                 </form>
             </div>
         </div>
@@ -458,6 +479,69 @@ if (isset($_POST["booking"])) {
             });
 
         </script>
+        <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+
+        <script>
+            document.getElementById('pay-button').onclick = function (e) {
+                e.preventDefault(); // फॉर्म सबमिट को रोकें
+
+                var formData = new FormData(document.querySelector('form')); // फ़ॉर्म डेटा प्राप्त करें
+
+                var options = {
+                    "key": "<?= $keyId; ?>",
+                    "amount": "100",
+                    "currency": "INR",
+                    "name": "saptapadi",
+                    "description": "Payment for order",
+                    "image": "https://example.com/logo.png",
+                    "order_id": "<?= isset($order->id) ? $order->id : ''; ?>",
+                    "handler": function (response) {
+                        // ✅ भुगतान सफल -> अब सर्वर पर डेटा भेजें
+                        formData.append("payment_id", response.razorpay_payment_id); // भुगतान आईडी जोड़ें
+                        fetch("process_booking.php", {
+                            method: "POST",
+                            body: formData
+                        })
+                            .then(response => response.json())
+                            .then(data => {
+                                if (data.status === "success") {
+                                    Swal.fire({
+                                        icon: 'success',
+                                        title: 'Booking Confirmed',
+                                        text: 'Your booking has been successfully placed!'
+                                    }).then(() => {
+                                        window.location.href = 'index.php';
+                                    });
+                                } else {
+                                    Swal.fire({
+                                        icon: 'error',
+                                        title: 'Booking Failed',
+                                        text: 'Something went wrong. Please try again later.'
+                                    });
+                                }
+                            });
+                    },
+                    "prefill": {
+                        "name": "mm",
+                        "email": "mohit@12341",
+                        "contact": "902302202"
+                    },
+                    "theme": {
+                        "color": "#631549"
+                    }
+                };
+
+                if (options.order_id === "") {
+                    alert("Order ID missing. Payment cannot proceed.");
+                    return;
+                }
+
+                var rzp1 = new Razorpay(options);
+                rzp1.open();
+            };
+        </script>
+
 
         <?php include("footer/footer.php") ?>
 </body>
