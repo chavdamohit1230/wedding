@@ -20,7 +20,7 @@ $servicename = $row['subservicename'];
 $price = $row['price'];
 $location = $row['location'];
 $image = explode(",", $row['subserviceimage']);
-
+$amount = $price * 1000000;
 if (isset($_POST["booking"])) {
     $user_name = $_POST["user_name"];
     $user_email = $_POST["user_email"];
@@ -88,7 +88,7 @@ $api = new Api($keyId, $keySecret);
 // Order Data (Updated receipt as string)
 $orderData = [
     'receipt' => strval(rand(1000, 9999)), // Convert receipt to string
-    'amount' => '100', // Amount in paise (500 INR)
+    'amount' => $amount, // Amount in paise (500 INR)
     'currency' => 'INR',
     'payment_capture' => 1, // Automatic capture
 ];
@@ -490,15 +490,15 @@ $order = $api->order->create($orderData);
 
                 var options = {
                     "key": "<?= $keyId; ?>",
-                    "amount": "100",
+                    "amount": "<?php $amount; ?>",
                     "currency": "INR",
                     "name": "saptapadi",
                     "description": "Payment for order",
                     "image": "https://example.com/logo.png",
                     "order_id": "<?= isset($order->id) ? $order->id : ''; ?>",
                     "handler": function (response) {
-                        // ✅ भुगतान सफल -> अब सर्वर पर डेटा भेजें
-                        formData.append("payment_id", response.razorpay_payment_id); // भुगतान आईडी जोड़ें
+                        formData.append("payment_id", response.razorpay_payment_id);
+
                         fetch("process_booking.php", {
                             method: "POST",
                             body: formData
@@ -520,7 +520,8 @@ $order = $api->order->create($orderData);
                                         text: 'Something went wrong. Please try again later.'
                                     });
                                 }
-                            });
+                            })
+                            .catch(error => console.error("Error:", error));
                     },
                     "prefill": {
                         "name": "mm",
@@ -529,17 +530,33 @@ $order = $api->order->create($orderData);
                     },
                     "theme": {
                         "color": "#631549"
+                    },
+                    "modal": { // ✅ सही तरह से modal जोड़ा गया
+                        "ondismiss": function () {
+                            console.log("Razorpay window closed by user!");
+                            Swal.fire({
+                                icon: 'warning',
+                                title: 'Payment Incomplete',
+                                text: 'You could not complete your payment process.',
+                                confirmButtonColor: '#631549'
+                            });
+                        }
                     }
                 };
 
-                if (options.order_id === "") {
+                if (!options.order_id) {
                     alert("Order ID missing. Payment cannot proceed.");
                     return;
                 }
 
-                var rzp1 = new Razorpay(options);
-                rzp1.open();
+                try {
+                    var rzp1 = new Razorpay(options);
+                    rzp1.open();
+                } catch (error) {
+                    console.error("Razorpay Error:", error);
+                }
             };
+
         </script>
 
 

@@ -328,9 +328,9 @@ $order = $api->order->create($orderData);
 
     <script>
         document.getElementById('pay-button').onclick = function (e) {
-            e.preventDefault(); // Form submit hone se roko
+            e.preventDefault();
 
-            console.log("Pay Button Clicked!"); // ✅ Debugging ke liye
+            console.log("Pay Button Clicked!");
 
             var options = {
                 "key": "<?= $keyId; ?>",
@@ -341,9 +341,8 @@ $order = $api->order->create($orderData);
                 "image": "https://example.com/logo.png",
                 "order_id": "<?= isset($order->id) ? $order->id : ''; ?>",
                 "handler": function (response) {
-                    console.log("Payment success:", response); // ✅ Debugging ke liye
+                    console.log("Payment success:", response);
 
-                    // Payment success hone par booking insert
                     $.ajax({
                         url: "insert_booking.php",
                         type: "POST",
@@ -359,7 +358,7 @@ $order = $api->order->create($orderData);
                             payment_id: response.razorpay_payment_id,
                         },
                         success: function (result) {
-                            console.log("AJAX Success Response:", result); // ✅ Debugging ke liye
+                            console.log("AJAX Success Response:", result);
                             Swal.fire({
                                 icon: 'success',
                                 title: 'Payment Successful',
@@ -369,7 +368,7 @@ $order = $api->order->create($orderData);
                             });
                         },
                         error: function () {
-                            console.log("AJAX Error Occurred!"); // ✅ Debugging ke liye
+                            console.log("AJAX Error Occurred!");
                             Swal.fire({
                                 icon: 'error',
                                 title: 'Booking Failed',
@@ -388,14 +387,18 @@ $order = $api->order->create($orderData);
                 },
                 "modal": {
                     "ondismiss": function () {
-                        console.log("Razorpay window closed by user!"); // ✅ Debugging ke liye
-                        localStorage.setItem("paymentCancelled", "true"); // Flag set karo
-                        location.reload(); // Page reload karo taki DOMContentLoaded alert show kare
+                        console.log("Razorpay window closed by user!");
+                        Swal.fire({
+                            icon: 'warning',
+                            title: 'Payment Incomplete',
+                            text: 'You could not complete your payment process.',
+                            confirmButtonColor: '#631549'
+                        });
                     }
                 }
             };
 
-            if (options.order_id === "") {
+            if (!options.order_id) {
                 alert("Order ID missing. Payment cannot proceed.");
                 console.error("Order ID is empty! Check PHP Razorpay order creation.");
                 return;
@@ -405,30 +408,8 @@ $order = $api->order->create($orderData);
             rzp1.open();
         };
 
-        // ✅ Page Reload Hone Par SweetAlert2 Show Karega
-        document.addEventListener("DOMContentLoaded", function () {
-            if (localStorage.getItem("paymentCancelled") === "true") {
-                console.log("Payment cancelled detected! Showing alert."); // ✅ Debugging ke liye
-                Swal.fire({
-                    icon: 'warning',
-                    title: 'Payment Incomplete',
-                    text: 'You could not complete your payment process.',
-                    confirmButtonColor: '#631549'
-                });
 
-                localStorage.removeItem("paymentCancelled");
-            }
-        });
 
-        // ✅ SweetAlert2 ka manual test alert (check karo alert show ho raha hai ya nahi)
-        document.addEventListener("DOMContentLoaded", function () {
-            console.log("SweetAlert2 Test Running..."); // ✅ Debugging ke liye
-            Swal.fire({
-                icon: 'info',
-                title: 'Test Alert',
-                text: 'If you see this, SweetAlert2 is working!',
-            });
-        });
     </script>
 
 
